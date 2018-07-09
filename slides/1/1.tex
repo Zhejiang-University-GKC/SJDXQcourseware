@@ -3,7 +3,14 @@
 %
 
 \documentclass[11pt]{beamer}
+%graphics
+\usepackage{graphicx}
+\usepackage{animate}
+%table
+\usepackage{colortbl}
+%beamer
 \usepackage{beamerthemesplit}
+%xeCJK
 \usepackage[BoldFont,SlantFont,CJKchecksingle]{xeCJK}
 \setCJKmainfont[BoldFont=SimHei,SlantedFont=KaiTi]{SimSun}
 \setCJKsansfont[BoldFont=SimHei,SlantedFont=KaiTi]{SimSun}
@@ -14,12 +21,13 @@
 %\setCJKfamilyfont{zhhei}{Adobe Heiti Std}
 \setCJKfamilyfont{zhkai}{KaiTi}
 \setCJKfamilyfont{zhfs}{FangSong}
+%theme
 \usetheme{berkeley}
 
-\parindent 1em
+\parindent 1.5em
 
 %title
-\title{科研和工程中的C++编程}
+\title{C++项目管理及工程实践}
 \author{袁昕}
 \date{\today}
 
@@ -31,30 +39,18 @@
 
 \section*{大纲}
 
-\frame{\tableofcontents}
-
-%
-
-frame{
-\centerline{\textbf{\Huge{}}}
+\frame{
+\centerline{\textbf{\Huge{\textcolor[rgb]{0.0, 0.0, 1.0}{C++的问题和团队协作开发}}}}
 }
 
-境界
+\frame{\tableofcontents}
 
+%sections
 
-单人和多人
+\input{topics/base.tex}
 
-markdown 在线协作
+\input{topics/team.tex}
 
-瀑布流程：需求-分析-概要设计-详细设计-编码实现-测试-发布-反馈
-敏捷流程：用户故事-场景-测试用例-迭代-反馈
-
-UML,系统时序图
-甘特图，燃尽图
-思维导图 规划系统和行动全景图
-用例图
-
-Appveyor
 %end
 
 \frame{\frametitle{结束}
