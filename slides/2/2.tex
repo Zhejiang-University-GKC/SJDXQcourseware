@@ -1,0 +1,64 @@
+﻿%
+% GNU courseware, XIN YUAN, 2018
+%
+
+\documentclass[11pt]{beamer}
+%graphics
+\usepackage{graphicx}
+%beamer
+\usepackage{beamerthemesplit}
+%xeCJK
+\usepackage[BoldFont,SlantFont,CJKchecksingle]{xeCJK}
+\setCJKmainfont[BoldFont=SimHei,SlantedFont=KaiTi]{SimSun}
+\setCJKsansfont[BoldFont=SimHei,SlantedFont=KaiTi]{SimSun}
+\setCJKmonofont[ItalicFont={Adobe Fangsong Std}]{SimSun}
+\setCJKfamilyfont{zhsong}{SimSun}
+%\setCJKfamilyfont{zhhei}{Adobe Song Std}
+\setCJKfamilyfont{zhhei}{SimHei}
+%\setCJKfamilyfont{zhhei}{Adobe Heiti Std}
+\setCJKfamilyfont{zhkai}{KaiTi}
+\setCJKfamilyfont{zhfs}{FangSong}
+%theme
+\usetheme{berkeley}
+
+\parindent 1.5em
+
+%title
+\title{C++项目管理及工程实践}
+\author{袁昕}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+
+%tables
+
+\section*{大纲}
+
+\frame{
+\centerline{\textbf{\Huge{\textcolor[rgb]{0.0, 0.0, 1.0}{程序框架}}}}
+}
+
+\frame{\tableofcontents}
+
+%sections
+
+\input{topics/process.tex}
+
+\input{topics/framework.tex}
+
+%end
+
+\frame{\frametitle{结束}
+\centerline{\textbf{\Huge{结束!}}}
+}
+
+\frame{\frametitle{版权申明}
+
+本作品采用知识共享 署名-非商业性使用-禁止演绎 3.0 中国大陆 许可协议进行许可。
+要查看该许可协议，可访问 http://creativecommons.org/licenses/by-nc-nd/3.0/cn/ 或者
+写信到 Creative Commons, PO Box 1866, Mountain View, CA 94042, USA。
+}
+
+\end{document}
