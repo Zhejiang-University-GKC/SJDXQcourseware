@@ -1,0 +1,35 @@
+# definitions
+
+SET(STRING_CXX_FLAGS "${STRING_CXX_FLAGS} -D_UNICODE /GR- /std:c++17")
+ADD_DEFINITIONS(${STRING_CXX_FLAGS})
+SET(STRING_LINK_FLAGS_TARGET_W "/SUBSYSTEM:WINDOWS")
+SET(STRING_LINK_FLAGS_TARGET_C "/SUBSYSTEM:CONSOLE")
+
+# targetType : "shared" or "exe"
+MACRO(SET_PCH targetType pchHeader pchSource SourceList)
+	SET(USE_PCH_SOURCES "${ARGN}")
+	LIST(APPEND USE_PCH_SOURCES ${SourceList})
+	STRING(COMPARE EQUAL ${targetType} "shared" IsShared)
+	#process
+	GET_FILENAME_COMPONENT(pchBaseName ${pchHeader} NAME_WE)
+	#get pch filename
+	SET(pchBinary "${CMAKE_CURRENT_BINARY_DIR}/${pchBaseName}.pch")
+	#set compile flags for creating pch
+	SET(src_compile_flags "/Fp\"${pchBinary}\"")
+	#check the shared library
+	IF(${IsShared})
+		SET(src_compile_flags "/D \"SHARED_LIBRARY\" ${src_compile_flags}")
+	ENDIF(${IsShared})
+	#set source files
+	SET_SOURCE_FILES_PROPERTIES(${pchSource} PROPERTIES
+		COMPILE_FLAGS "/Yc\"${pchHeader}\" ${src_compile_flags}"
+		OBJECT_OUTPUTS "${pchBinary}")
+	SET(Sources ${USE_PCH_SOURCES})
+	MESSAGE("using pch: ${pchBinary} for ${Sources}")
+	#set compile flags for using pch
+	SET_SOURCE_FILES_PROPERTIES(${Sources} PROPERTIES
+		COMPILE_FLAGS "/Yu\"${pchBinary}\" /FI\"${pchBinary}\" ${src_compile_flags}"
+		OBJECT_DEPENDS "${pchBinary}")
+ENDMACRO(SET_PCH)
+
+# end
