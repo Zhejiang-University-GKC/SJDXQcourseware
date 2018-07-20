@@ -2,7 +2,7 @@
 
 #include "etlbase.h"
 
-#include "../common/BusInfo.h"
+#include "common/BusInfo.h"
 
 class BusDataModel : public Proxy_PropertyNotification<BusDataModel>
 {

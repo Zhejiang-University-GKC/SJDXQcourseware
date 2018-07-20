@@ -6,8 +6,11 @@ INCLUDE_DIRECTORIES(
 	"${PROJECT_SOURCE_DIR}/utility"
 	)
 SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
-SET(SRC_LIST "common/BusInfo.cpp"
+SET(SRC_LIST "common/BusInfo.cpp" "common/parameters.cpp"
 	"model/BusDataModel.cpp"
+	"viewmodel/BusViewModel.cpp"
+	"viewmodel/sinks/BusViewModelSink.cpp"
+	"viewmodel/commands/QueryCommand.cpp"
 	)
 ADD_LIBRARY(utility STATIC ${SRC_LIST})
 SET_TARGET_PROPERTIES(utility PROPERTIES OUTPUT_NAME "utility"
