@@ -5,7 +5,7 @@ INCLUDE_DIRECTORIES(
 	"${PROJECT_SOURCE_DIR}/others/etl/include"
 	"${PROJECT_SOURCE_DIR}/utility"
 	)
-SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
+SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 SET(SRC_LIST "common/BusInfo.cpp" "common/parameters.cpp"
 	"model/BusDataModel.cpp"
 	"viewmodel/BusViewModel.cpp"
