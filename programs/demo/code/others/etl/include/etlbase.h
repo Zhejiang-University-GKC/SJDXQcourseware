@@ -61,12 +61,16 @@ public:
 	{
 		m_array.push_back(p);
 	}
-/*
 	void RemoveNotification(const std::shared_ptr<T>& p) throw()
 	{
-		...
+		auto iter(m_array.begin());
+		for( ; iter != m_array.end(); ++ iter ) {
+			if( (*iter).get() == p.get() ) {
+				m_array.erase(iter);
+				return ;
+			}
+		}
 	}
-*/
 
 protected:
 	std::vector<std::shared_ptr<T>> m_array;
@@ -94,6 +98,10 @@ public:
 	{
 		AddNotification(p);
 	}
+	void RemovePropertyNotification(const std::shared_ptr<IPropertyNotification>& p) throw()
+	{
+		RemoveNotification(p);
+	}
 	void Fire_OnPropertyChanged(const std::string& str)
 	{
 		auto iter(m_array.begin());
@@ -109,6 +117,10 @@ public:
 	void AddCommandNotification(const std::shared_ptr<ICommandNotification>& p)
 	{
 		AddNotification(p);
+	}
+	void RemoveCommandNotification(const std::shared_ptr<ICommandNotification>& p) throw()
+	{
+		RemoveNotification(p);
 	}
 	void Fire_OnCommandComplete(const std::string& str, bool bOK)
 	{
@@ -130,17 +142,21 @@ public:
 class StateManager
 {
 public:
-/*
-viud Add(int iState, const std::shared_ptr<IStateBase>& spState)
-{
-...
-}
-void Process(unsigned int uEvent, std::any& param)
-{
-...
-}
-...
-*/
+	viud Add(int iState, const std::shared_ptr<IStateBase>& spState)
+	{
+		m_map.insert(std::pair<int, std::shared_ptr<IStateBase>>(iState, spState));
+	}
+	void Process(unsigned int uEvent, std::any& param)
+	{
+		auto iter(m_map.find(m_iCurrentState));
+		if( iter != m_maap.end() )
+			m_iCurrentState = iter->second->Process(uEvent, param);
+	}
+	int GetCurrentState() const throw()
+	{
+		return m_iCurrentState;
+	}
+
 private:
 	int m_iCurrentState;
 	std::map<int, std::shared_ptr<IStateBase>> m_map;
