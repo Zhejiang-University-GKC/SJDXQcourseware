@@ -1,5 +1,7 @@
 #include "precomp.h"
 
+#include "app/BusApp.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 CAppModule _Module;
@@ -15,7 +17,22 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	bRet;
 	ATLASSERT(bRet);
 
-	int nRet = 0;
+	CMessageLoop theLoop;
+	HRESULT hRes = _Module.Init(NULL, hInstance);
+	_Module.AddMessageLoop(&theLoop);
+
+	//----------------------------------------------------
+	//my app class
+	BusApp app;
+	bool b = app.Init();
+	assert(b);
+	app.Show();
+	//----------------------------------------------------
+
+	int nRet = theLoop.Run();
+	_Module.RemoveMessageLoop();
+
+	_Module.Term();
 
 	return nRet;
 }

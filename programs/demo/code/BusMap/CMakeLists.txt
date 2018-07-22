@@ -12,6 +12,7 @@ SET(SRC_LIST "main.cpp"
 	"window/MainWindow.cpp"
 	"window/sinks/MainWindowPropertySink.cpp"
 	"window/sinks/MainWindowCommandSink.cpp"
+	"app/BusApp.cpp"
 	)
 ADD_EXECUTABLE(BusMap ${SRC_LIST})
 SET_TARGET_PROPERTIES(BusMap PROPERTIES OUTPUT_NAME "BusMap"

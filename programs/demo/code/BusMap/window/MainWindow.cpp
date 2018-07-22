@@ -91,7 +91,7 @@ LRESULT MainWindow::OnBtnQueryClicked(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /
 	m_editStop.GetWindowText(str2);
 	USES_CONVERSION;
 	std::any param(std::make_any<TwoStrings>());
-	TwoStrings& ts = std::any_cast<TwoStrings>(param);
+	TwoStrings& ts = std::any_cast<TwoStrings&>(param);
 	ts.set_S1(std::string(T2A(str1)));
 	ts.set_S2(std::string(T2A(str2)));
 	m_cmdQuery->SetParameter(param);
