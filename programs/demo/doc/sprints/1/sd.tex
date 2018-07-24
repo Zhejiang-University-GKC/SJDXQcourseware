@@ -1,0 +1,31 @@
+﻿\documentclass{article}
+\usepackage{pgf-umlsd}
+\usepackage{pdflscape}
+
+\begin{document}
+\thispagestyle{empty}
+\begin{landscape}
+\textbf{OnBnClickedBtnQuery}\\
+\begin{sequencediagram}
+\newthread{BQ}{CBusQueryDlg}
+\newinst{BE}{CBusEdit}
+\newinst{MW}{MainWindowSink<T>}
+\newinst{QC}{QueryCommand<BusViewModel>}
+\newinst{VM}{BusViewModel}
+\newinst{DM}{BusDataModel}
+
+\begin{call}{BQ}{Exec}{QC}{}
+ \begin{call}{QC}{Query}{VM}{}
+  \begin{call}{VM}{Query}{DM}{}\end{call}
+  \begin{call}{VM}{OnPropertyChange}{MW}{}
+   \begin{call}{MW}{SetWindowText}{BE}{}\end{call}
+  \end{call}
+ \end{call}
+ \begin{call}{QC}{Fire\_OnCommandComplete}{VM}{}
+  \begin{call}{VM}{OnCommandComplete}{MW}{}\end{call}
+ \end{call}
+\end{call}
+
+\end{sequencediagram}
+\end{landscape}
+\end{document}
