@@ -20,12 +20,12 @@
 \attribute{- Notification}
 \end{class}
 \begin{class}{MainWindowT<T>}{0,-5}
+\inherit{MainWindowSink<T>}
 \attribute{- StartEdit}
 \attribute{- EndEdit}
 \attribute{- ExecButton}
 \attribute{- BusGraph}
 \end{class}
-\unidirectionalAssociation{MainWindowT<T>}{}{}{MainWindowSink<T>}
 \end{tikzpicture}
 \newpage
 
@@ -47,6 +47,7 @@
 \begin{tikzpicture}
 \begin{class}{ICommandEx}{10,5}\end{class}
 \begin{class}{QueryCommand<T>}{10,0}
+\inherit{ICommandEx}
 \attribute{- T*}
 \operation{+ SetStartStop()}
 \operation{+ SetEndStop()}
@@ -54,6 +55,8 @@
 \end{class}
 \begin{class}[text width=7cm]{ProxyNotification<BusViewModel>}{0,0}\end{class}
 \begin{class}{BusViewModel}{0,-5}
+\inherit{ProxyNotification<BusViewModel>}
+\inherit{QueryCommand<T>}
 \attribute{+ StartStop}
 \attribute{+ EndStop}
 \attribute{+ BusModel}
@@ -61,9 +64,6 @@
 \attribute{+ yArray}
 \operation{+ Query()}
 \end{class}
-\unidirectionalAssociation{QueryCommand<T>}{}{}{ICommandEx}
-\unidirectionalAssociation{BusViewModel}{}{}{ProxyNotification<BusViewModel>}
-\unidirectionalAssociation{BusViewModel}{}{}{QueryCommand<T>}
 \end{tikzpicture}
 \newpage
 
@@ -95,9 +95,9 @@
 \operation{+ Load()}
 \operation{+ Save()}
 \end{class}
-\unidirectionalAssociation{BusRoute}{* -端2}{1 -端1}{Station}
-\unidirectionalAssociation{RouteSet}{* -端4}{1 -端3}{BusRoute}
-\unidirectionalAssociation{BusDataModel}{* -端6}{1 -端5}{RouteSet}
+\composition{BusRoute}{* -端2}{1 -端1}{Station}
+\composition{RouteSet}{* -端4}{1 -端3}{BusRoute}
+\composition{BusDataModel}{* -端6}{1 -端5}{RouteSet}
 \end{tikzpicture}
 \newpage
 
@@ -105,7 +105,7 @@
 \begin{tikzpicture}
 \begin{class}{RefPtr<T>}{0,0}\end{class}
 \begin{class}{RefPtrHelper}{10,0}\end{class}
-\begin{class}{NotificationImpl<T>}{0,-5}
+\begin{class}{NotificationImp1<T>}{0,-5}
 \attribute{- NotificationArray}
 \operation{+ AddNotification()}
 \end{class}
@@ -114,6 +114,7 @@
 \operation{+ OnCommandComplete()}
 \end{class}
 \begin{class}{ProxyNotification<T>}{0,-10}
+\inherit{NotificationImp1<T>}
 \operation{+ Fire\_OnPropertyChange()}
 \operation{+ Fire\_OnCommandComplete()}
 \end{class}
@@ -123,11 +124,10 @@
 \end{class}
 \begin{class}{ICommandParameter}{10,-10}\end{class}
 \begin{class}{TwoStringParameter}{10,-15}
+\inherit{ICommandParameter}
 \attribute{- S1}
 \attribute{- S2}
 \end{class}
-\unidirectionalAssociation{NotificationImpl<T>}{* 1}{-端2 -端1}{INotification}
-\unidirectionalAssociation{ProxyNotification<T>}{}{}{NotificationImpl<T>}
-\unidirectionalAssociation{TwoStringParameter}{}{}{ICommandParameter}
+\composition{NotificationImp1<T>}{*\hspace{1.5cm}1}{-端2\hspace{1cm}-端1}{INotification}
 \end{tikzpicture}
 \end{document}
