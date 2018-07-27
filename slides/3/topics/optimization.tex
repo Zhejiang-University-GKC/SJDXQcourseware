@@ -1,0 +1,78 @@
+﻿%
+% GNU courseware, XIN YUAN, 2018
+%
+
+\section{C++程序的优化}
+
+\frame{
+\centerline{\textbf{\Huge{C++程序的优化}}}
+}
+
+\frame{\frametitle{原则}
+\begin{itemize}
+\item<1-> \textbf{占用内存空间}，包括程序集文件大小、函数调用层次、
+局部变量栈的占用、堆的使用。
+\item<2-> \textbf{运行时间}，即程序的运算速度。
+\end{itemize}
+}
+
+\frame{\frametitle{面向空间}
+以空间换时间，就是把大量变化较小的数据预先算好存放在连续的内存中，随时取用，
+总体上减少了运算的指令数目。
+}
+
+\frame{\frametitle{面向空间}
+\begin{itemize}
+\item<1-> 对大量小对象，分配大块连续内存，并使用自定义分配策略。
+\item<2-> 使用free-list技术来写数据结构容器类。
+\item<3-> 内存池、对象池、线程池、任务池。
+\end{itemize}
+}
+
+\frame{\frametitle{面向空间}
+\begin{itemize}
+\item<1-> 预先计算的查找表技术。
+\item<2-> 生产者-消费者应用场景下，使用双缓冲技术，直接交换缓冲指针。
+\end{itemize}
+}
+
+\frame{\frametitle{面向时间}
+从算法本身入手，在总体上减少运算的指令数目。
+}
+
+\frame{\frametitle{面向时间}
+\begin{itemize}
+\item<1-> 变换问题空间。
+\item<2-> 把问题描述成具有启发性的几何形状。
+\item<3-> 递推和迭代方法。
+\end{itemize}
+}
+
+\frame{\frametitle{面向时间}
+\begin{itemize}
+\item<1-> 问题降解。
+\item<2-> 充分利用算法中存在的对称性。
+\item<3-> 分治和动态规划方法。
+\end{itemize}
+}
+
+\frame{\frametitle{面向时间}
+\begin{itemize}
+\item<1-> 挖掘硬件性能，使用多核CPU和GPU进行并行计算。
+\item<2-> 使用位运算加速某些整数的运算。
+\item<3-> 尽可能避免使用if语句和for语句，使用循环展开等技术。
+\end{itemize}
+}
+
+\frame{\frametitle{面向时间}
+\textbf{例：矩阵运算加速}
+
+~
+
+采分治和分解的思想，将矩阵分块，并调整循环变量先后执行的顺序，
+使得分块所在的连续内存能够缓存命中。
+同时将计算拆解成多次迭代，对矩阵同一位置的计算不是一次完成的，
+而是多轮迭代后完成，从而在整体上减少需要运算的指令总数。
+}
+
+%end

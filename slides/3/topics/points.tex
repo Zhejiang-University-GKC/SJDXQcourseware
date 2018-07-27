@@ -1,0 +1,75 @@
+﻿%
+% GNU courseware, XIN YUAN, 2018
+%
+
+\section{C++编程的注意点}
+
+\frame{
+\centerline{\textbf{\Huge{C++编程的注意点}}}
+}
+
+\frame{\frametitle{内存}
+大的对象不要定义成局部变量，可能会引起栈溢出。
+}
+
+\frame{\frametitle{二元操作}
+\begin{itemize}
+\item<1-> 分配内存和释放内存。
+\item<2-> 加锁和解锁。
+\item<3-> 申请系统资源和释放系统资源。
+\item<4-> 增加引用计数和减少引用计数。
+\end{itemize}
+}
+
+\frame{\frametitle{二元操作}
+利用析构方法在离开作用域时会自动调用的特性，将二元操作封装成类。
+}
+
+\frame{\frametitle{字节序}
+\begin{itemize}
+\item<1-> 对于需要交换的数据，如读取和写入文件的数据，网络数据包等，
+要注意数据类型的大端和小端字节序的问题。
+\item<2-> 需要明了装配件自身信息的字节序，以及装配件内数据常量的字节序。
+\end{itemize}
+}
+
+\frame{\frametitle{字符串编码}
+需要注意装配件内字符串常量的编码格式。
+}
+
+\frame{\frametitle{函数或方法}
+\begin{itemize}
+\item<1-> 函数或方法参数要指明是in，out还是in/out。
+\item<2-> 函数或方法体的开始用断言检查参数有效性。
+\item<3-> 函数或方法体的返回值要注意其生命周期。
+\item<4-> 函数或方法调用前检查参数的有效性，调用后检查其返回值。
+\item<5-> 尽量不设计和使用递归的函数或方法，因其可能栈溢出。
+\item<6-> 函数或方法体内返回错误或抛出异常时，尽量清理已完成的工作，
+尽量回复到函数或方法被调用前的状态。
+\end{itemize}
+}
+
+\frame{\frametitle{异常}
+\begin{itemize}
+\item<1-> 对于公共装配件，对外提供的函数或方法不抛异常，使用返回值指示错误。
+\item<2-> 对于同一个工程中的私有装配件，对外提供的函数或方法可以抛出异常，
+因为它们使用的是相同的编译器。
+\end{itemize}
+}
+
+\frame{\frametitle{同步}
+对于函数或方法体内静态局部变量初始化的多线程保护，
+可使用double-check的技术来避免重复初始化。
+对于某些形式的全局变量也可能需要使用该技术。
+}
+
+\frame{\frametitle{绑定}
+\begin{enumerate}
+\item<1-> 使用指针的优点和缺点。
+\item<2-> 两端使用shared\_ptr共享指针的优点和缺点。
+\item<3-> 两端分别使用shared\_ptr和weak\_ptr的优点和缺点。
+\item<4-> 思考多线程下也能安全调用的方法。
+\end{enumerate}
+}
+
+%end
