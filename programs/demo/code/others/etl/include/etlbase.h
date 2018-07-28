@@ -142,14 +142,14 @@ public:
 class StateManager
 {
 public:
-	viud Add(int iState, const std::shared_ptr<IStateBase>& spState)
+	void Add(int iState, const std::shared_ptr<IStateBase>& spState)
 	{
 		m_map.insert(std::pair<int, std::shared_ptr<IStateBase>>(iState, spState));
 	}
 	void Process(unsigned int uEvent, std::any& param)
 	{
 		auto iter(m_map.find(m_iCurrentState));
-		if( iter != m_maap.end() )
+		if( iter != m_map.end() )
 			m_iCurrentState = iter->second->Process(uEvent, param);
 	}
 	int GetCurrentState() const throw()
