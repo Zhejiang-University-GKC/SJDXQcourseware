@@ -13,6 +13,9 @@ SET(SRC_LIST "main.cpp"
 	"window/MainWindow.cpp"
 	"window/sinks/MainWindowPropertySink.cpp"
 	"window/sinks/MainWindowCommandSink.cpp"
+	"window/states/StartState.cpp"
+	"window/states/PopupState.cpp"
+	"window/states/CaptureState.cpp"
 	"app/BusApp.cpp"
 	)
 ADD_EXECUTABLE(BusMap ${SRC_PCH_LIST} ${SRC_LIST})
