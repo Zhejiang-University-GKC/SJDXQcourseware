@@ -9,11 +9,11 @@
 \tikzstyle{arrow} = [->, >=stealth]
 
 \node[state, draw, align=left](start){Start};
-\node[state, right of = start, xshift = 5cm, draw, align=left](state1){Capture};
-\node[state, below of = start, yshift = -5cm, draw, align=left](state2){Popup};
+\node[state, right of = start, xshift = 5cm, draw, align=left](state_Capture){Capture};
+\node[state, below of = start, yshift = -5cm, draw, align=left](state_Popup){Popup};
 
-\draw[arrow](start) -- node[above]{$EVT\_LEFT\_MOUSE$}(state1);
-\draw[arrow](start) -- node[right]{$EVT\_RIGHT\_MOUSE$}(state2);
+\draw[arrow](start) -- node[above]{$EVT\_LEFT\_MOUSE$}(state_Capture);
+\draw[arrow](start) -- node[right]{$EVT\_RIGHT\_MOUSE$}(state_Popup);
 
 \end{tikzpicture}
 \end{document}
