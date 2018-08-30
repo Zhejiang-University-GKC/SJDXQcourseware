@@ -7,15 +7,41 @@
 \begin{document}
 \section{Common Layer}
 \begin{tikzpicture}
-\begin{class}{TwoStrings}{0,0}
+\begin{class}{Station}{0,0}
+\attribute{- m\_name : string}
+\attribute{- m\_x : double}
+\attribute{- m\_y : double}
+\operation{+ set\_Name(name:string) : void}
+\operation{+ get\_Name() : string}
+\operation{+ set\_x(x:double) : void}
+\operation{+ get\_x() : double}
+\operation{+ set\_y(y:double) : void}
+\operation{+ get\_y() : double}
+\end{class}
+\begin{class}[text width=6cm]{BusRoute}{0,-7}
+\attribute{- m\_Number : int}
+\attribute{- m\_BusStops : vector<Station>}
+\operation{+ get\_BusRoute() : vector<Station>}
+\operation{+ Clear() : void}
+\operation{+ Add(s:Station) : void}
+\end{class}
+\begin{class}[text width=7cm]{RouteSet}{0,-12}
+\attribute{- m\_Number: int}
+\attribute{- m\_BusLines : vector<BusRoute>}
+\operation{+ get\_BusLine() : vector<BusRoute>}
+\operation{+ Add(b:BusRoute) : void}
+\operation{+ Clear() : void}
+\end{class}
+\composition{BusRoute}{}{}{Station}
+\composition{RouteSet}{}{}{BusRoute}
+\begin{class}{TwoStrings}{7,0}
 \attribute{- m\_s1 : string}
 \attribute{- m\_s2 : string}
 \operation{+ get\_S1() : string}
 \operation{+ get\_S2() : string}
-\operation{+ set\_S1() : void}
-\operation{+ set\_S2() : void}
+\operation{+ set\_S1(str:string) : void}
+\operation{+ set\_S2(str:string) : void}
 \end{class}
-\begin{class}{TwoStringParameter}{0,-5}\end{class}
 \end{tikzpicture}
 \newpage
 
@@ -44,7 +70,7 @@
 \attribute{- m\_cmdQuery : ICommandBase}
 \attribute{- m\_sinkProperty : MainWindowPropertySink}
 \attribute{- m\_sinkCommand : MainWindowCommandSink}
-\operation{+ set\_QueryCommand() : void}
+\operation{+ set\_QueryCommand(cmd:<ICommandBase>) : void}
 \operation{+ get\_PropertySink() : IPropertyNotification}
 \operation{+ get\_CommandSink() : ICommandNotification}
 \end{class}
@@ -57,7 +83,7 @@
 \begin{tikzpicture}
 \begin{class}{BusLabel}{0,0}
 \attribute{- m\_Name : string}
-\operation{+ set\_Name() : void}
+\operation{+ set\_Name(sp:<std::string>) : void}
 \operation{+ Update() :void}
 \end{class}
 \end{tikzpicture}
@@ -65,17 +91,17 @@
 
 \section{ViewModel Layer}
 \begin{tikzpicture}
-\begin{class}{BusViewModel}{0,0}
+\begin{class}[text width=7cm]{BusViewModel}{0,0}
 \attribute{- m\_BusModel : BusDataModel}
 \attribute{- m\_StopNumber : string}
 \attribute{- m\_cmdQuery : QueryCommand}
 \attribute{- m\_sink : BusViewModelSink}
-\operation{+ SetModel() : void}
+\operation{+ SetModel(model:<BusDataModel>) : void}
 \operation{+ get\_StopNumber() : string}
 \operation{+ get\_CityName() : string}
 \operation{+ get\_QueryCommand() : ICommandBase}
-\operation{+ SetStopNumber() : void}
-\operation{+ Query() : bool}
+\operation{+ SetStopNumber(number:int) : void}
+\operation{+ Query(ss:string,es:string) : bool}
 \end{class}
 \begin{class}{QueryCommand}{0,-10}\end{class}
 \begin{class}{BusViewModelSink}{0,-15}\end{class}
@@ -84,33 +110,6 @@
 
 \section{Model Layer}
 \begin{tikzpicture}
-\begin{class}{Station}{0,0}
-\attribute{- m\_name : string}
-\attribute{- m\_x : double}
-\attribute{- m\_y : double}
-\operation{+ set\_Name() : void}
-\operation{+ get\_Name() : string}
-\operation{+ set\_x() : void}
-\operation{+ get\_x() : double}
-\operation{+ set\_y() : void}
-\operation{+ get\_y() : double}
-\end{class}
-\begin{class}[text width=6cm]{BusRoute}{0,-7}
-\attribute{- m\_Number : int}
-\attribute{- m\_BusStops : vector<Station>}
-\operation{+ get\_BusRoute() : vector<Station>}
-\operation{+ Clear() : void}
-\operation{+ Add() : void}
-\end{class}
-\begin{class}[text width=7cm]{RouteSet}{0,-12}
-\attribute{- m\_Number: int}
-\attribute{- m\_BusLines : vector<BusRoute>}
-\operation{+ get\_BusLine() : vector<BusRoute>}
-\operation{+ Add() : void}
-\operation{+ Clear() : void}
-\end{class}
-\composition{BusRoute}{* -端2}{1 -端1}{Station}
-\composition{RouteSet}{* -端4}{1 -端3}{BusRoute}
-\begin{class}{BusDataModel}{10,0}\end{class}
+\begin{class}{BusDataModel}{0,0}\end{class}
 \end{tikzpicture}
 \end{document}
