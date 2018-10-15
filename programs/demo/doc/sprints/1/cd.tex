@@ -32,8 +32,8 @@
 \operation{+ Add(b:BusRoute) : void}
 \operation{+ Clear() : void}
 \end{class}
-\composition{BusRoute}{}{}{Station}
-\composition{RouteSet}{}{}{BusRoute}
+\composition{BusRoute}{1..*}{m\_BusStops}{Station}
+\composition{RouteSet}{1..*}{m\_BusLines}{BusRoute}
 \begin{class}{TwoStrings}{7,0}
 \attribute{- m\_s1 : string}
 \attribute{- m\_s2 : string}
