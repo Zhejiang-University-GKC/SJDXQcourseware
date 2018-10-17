@@ -45,6 +45,23 @@
 \end{tikzpicture}
 \newpage
 
+\section{Model Layer}
+\begin{tikzpicture}
+\begin{class}[text width=4cm]{RouteSet}{0,-10}\end{class}
+\begin{class}[text width=10cm]{ProxyPropertyNotification<BusDataModel>}{0,0}\end{class}
+\begin{class}[text width=6cm]{BusDataModel}{0,-4}
+\inherit{ProxyPropertyNotification<BusDataModel>}
+\attribute{- m\_RouteSet : RouteSet}
+\attribute{- m\_CityName : shared\_ptr<string>}
+\attribute{- m\_StopNumber : int}
+\operation{+ get\_CityName() : string}
+\operation{+ GetStopNumber() : int}
+\operation{+ Query(ss:string, es:string) : bool}
+\end{class}
+\composition{BusDataModel}{m\_RouteSet}{1..*}{RouteSet}
+\end{tikzpicture}
+\newpage
+
 \section{App Layer}
 \begin{tikzpicture}
 \begin{class}{BusApp}{0,0}
@@ -70,7 +87,7 @@
 \attribute{- m\_cmdQuery : ICommandBase}
 \attribute{- m\_sinkProperty : MainWindowPropertySink}
 \attribute{- m\_sinkCommand : MainWindowCommandSink}
-\operation{+ set\_QueryCommand(cmd:<ICommandBase>) : void}
+\operation{+ set\_QueryCommand(cmd:ICommandBase) : void}
 \operation{+ get\_PropertySink() : IPropertyNotification}
 \operation{+ get\_CommandSink() : ICommandNotification}
 \end{class}
@@ -83,8 +100,8 @@
 \begin{tikzpicture}
 \begin{class}{BusLabel}{0,0}
 \attribute{- m\_Name : string}
-\operation{+ set\_Name(sp:<std::string>) : void}
-\operation{+ Update() :void}
+\operation{+ set\_Name(sp:string) : void}
+\operation{+ Update() : void}
 \end{class}
 \end{tikzpicture}
 \newpage
@@ -96,20 +113,14 @@
 \attribute{- m\_StopNumber : string}
 \attribute{- m\_cmdQuery : QueryCommand}
 \attribute{- m\_sink : BusViewModelSink}
-\operation{+ SetModel(model:<BusDataModel>) : void}
+\operation{+ SetModel(model:BusDataModel) : void}
 \operation{+ get\_StopNumber() : string}
 \operation{+ get\_CityName() : string}
 \operation{+ get\_QueryCommand() : ICommandBase}
 \operation{+ SetStopNumber(number:int) : void}
-\operation{+ Query(ss:string,es:string) : bool}
+\operation{+ Query(ss:string, es:string) : bool}
 \end{class}
 \begin{class}{QueryCommand}{0,-10}\end{class}
 \begin{class}{BusViewModelSink}{0,-15}\end{class}
-\end{tikzpicture}
-\newpage
-
-\section{Model Layer}
-\begin{tikzpicture}
-\begin{class}{BusDataModel}{0,0}\end{class}
 \end{tikzpicture}
 \end{document}
