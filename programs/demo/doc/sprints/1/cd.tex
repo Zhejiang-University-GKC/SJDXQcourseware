@@ -62,13 +62,49 @@
 \end{tikzpicture}
 \newpage
 
-\section{App Layer}
+\section{ViewModel Layer}
 \begin{tikzpicture}
-\begin{class}{BusApp}{0,0}
-\attribute{- m\_wndMain : MainWindow}
-\attribute{- m\_spViewModel : BusViewModel}
-\operation{+ Init() : bool}
-\operation{+ Show() : void}
+\begin{class}{BusDataModel}{-3,-8}\end{class}
+\begin{class}[text width=9.5cm]{BusViewModel}{1,0}
+\attribute{- m\_BusModel : shared\_ptr<BusDataModel>}
+\attribute{- m\_StopNumber : shared\_ptr<string>}
+\attribute{- m\_cmdQuery : shared\_ptr<QueryCommand>}
+\attribute{- m\_sink : shared\_ptr<BusViewModelSink>}
+\operation{+ SetModel(model:shared\_ptr<BusDataModel>) : void}
+\operation{+ get\_StopNumber() : shared\_ptr<string>}
+\operation{+ get\_CityName() : shared\_ptr<string>}
+\operation{+ get\_QueryCommand() : shared\_ptr<ICommandBase>}
+\operation{+ SetStopNumber(number:int) : void}
+\operation{+ Query(ss:string, es:string) : bool}
+\end{class}
+\begin{class}{ICommandBase}{8,-16}\end{class}
+\begin{class}{TwoStrings}{1,-16}\end{class}
+\begin{class}[text width=6cm]{QueryCommand}{1,-11}
+\inherit{ICommandBase}
+\attribute{- m\_pVM : BusViewModel}
+\attribute{- m\_param : TwoStrings}
+\operation{+ SetParameter(param:any) : void}
+\operation{+ Exec() : void}
+\end{class}
+\begin{class}{IPropertyNotification}{8,-12}\end{class}
+\begin{class}[text width=6cm]{BusViewModelSink}{8,-8}
+\inherit{IPropertyNotification}
+\attribute{- m\_pVM : BusViewModel}
+\operation{+ OnPropertyChanged(str:string) : void}
+\end{class}
+\composition{BusViewModel}{1..1}{m\_cmdQuery}{QueryCommand}
+\composition{BusViewModel}{1..1}{m\_sink}{BusViewModelSink}
+\composition{BusViewModel}{1..1}{m\_BusModel}{BusDataModel}
+\composition{QueryCommand}{1..1}{m\_param}{TwoStrings}
+\end{tikzpicture}
+\newpage
+
+\section{View Layer}
+\begin{tikzpicture}
+\begin{class}{BusLabel}{0,0}
+\attribute{- m\_Name : string}
+\operation{+ set\_Name(sp:string) : void}
+\operation{+ Update() : void}
 \end{class}
 \end{tikzpicture}
 \newpage
@@ -96,31 +132,13 @@
 \end{tikzpicture}
 \newpage
 
-\section{View Layer}
+\section{App Layer}
 \begin{tikzpicture}
-\begin{class}{BusLabel}{0,0}
-\attribute{- m\_Name : string}
-\operation{+ set\_Name(sp:string) : void}
-\operation{+ Update() : void}
+\begin{class}{BusApp}{0,0}
+\attribute{- m\_wndMain : MainWindow}
+\attribute{- m\_spViewModel : BusViewModel}
+\operation{+ Init() : bool}
+\operation{+ Show() : void}
 \end{class}
-\end{tikzpicture}
-\newpage
-
-\section{ViewModel Layer}
-\begin{tikzpicture}
-\begin{class}[text width=7cm]{BusViewModel}{0,0}
-\attribute{- m\_BusModel : BusDataModel}
-\attribute{- m\_StopNumber : string}
-\attribute{- m\_cmdQuery : QueryCommand}
-\attribute{- m\_sink : BusViewModelSink}
-\operation{+ SetModel(model:BusDataModel) : void}
-\operation{+ get\_StopNumber() : string}
-\operation{+ get\_CityName() : string}
-\operation{+ get\_QueryCommand() : ICommandBase}
-\operation{+ SetStopNumber(number:int) : void}
-\operation{+ Query(ss:string, es:string) : bool}
-\end{class}
-\begin{class}{QueryCommand}{0,-10}\end{class}
-\begin{class}{BusViewModelSink}{0,-15}\end{class}
 \end{tikzpicture}
 \end{document}
