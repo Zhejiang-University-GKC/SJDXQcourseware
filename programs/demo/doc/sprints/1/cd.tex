@@ -86,8 +86,8 @@
 \operation{+ SetParameter(param:any) : void}
 \operation{+ Exec() : void}
 \end{class}
-\begin{class}{IPropertyNotification}{8,-12}\end{class}
-\begin{class}[text width=6cm]{BusViewModelSink}{8,-8}
+\begin{class}{IPropertyNotification}{7,-12}\end{class}
+\begin{class}[text width=6.5cm]{BusViewModelSink}{7,-8}
 \inherit{IPropertyNotification}
 \attribute{- m\_pVM : BusViewModel}
 \operation{+ OnPropertyChanged(str:string) : void}
@@ -103,7 +103,7 @@
 \begin{tikzpicture}
 \begin{class}{CWindowImpl}{0,0}
 \end{class}
-\begin{class}[text width=6cm]{BusLabel}{0,-5}
+\begin{class}[text width=7cm]{BusLabel}{0,-5}
 \inherit{CWindowImpl}
 \attribute{- m\_Name : shared\_ptr<string>}
 \operation{+ set\_Name(sp:shared\_ptr<string>) : void}
@@ -114,22 +114,22 @@
 
 \section{Window Layer}
 \begin{tikzpicture}
-\begin{class}{IStateBase}{4,-13}\end{class}
-\begin{class}[text width=4cm]{StartState}{-1,-16}
+\begin{class}{IStateBase}{2,-13}\end{class}
+\begin{class}[text width=6.5cm]{StartState}{-2,-15}
 \inherit{IStateBase}
 \operation{+ Process(uEvent:int, param:any) : int}
 \end{class}
-\begin{class}[text width=4cm]{PopupState}{4,-16}
+\begin{class}[text width=6.5cm]{PopupState}{2,-17}
 \inherit{IStateBase}
 \operation{+ Process(uEvent:int, param:any) : int}
 \end{class}
-\begin{class}[text width=4cm]{CaptureState}{9,-16}
+\begin{class}[text width=6.5cm]{CaptureState}{6,-15}
 \inherit{IStateBase}
 \operation{+ Process(uEvent:int, param:any) : int}
 \end{class}
-\begin{class}{CWindowImpl}{9,-2}
+\begin{class}[text width=4cm]{CWindowImpl}{9,-2}
 \end{class}
-\begin{class}[text width=10cm]{MainWindow}{0,0}
+\begin{class}[text width=10.5cm]{MainWindow}{0,0}
 \inherit{CWindowImpl}
 \attribute{+ m\_editStart : CEditT<CWindowEx>}
 \attribute{+ m\_editStop : CEditT<CWindowEx>}
@@ -144,13 +144,13 @@
 \operation{+ get\_CommandSink() : shared\_ptr<ICommandNotification>}
 \end{class}
 \begin{class}{IPropertyNotification}{-2,-11}\end{class}
-\begin{class}[text width=6cm]{MainWindowPropertySink}{-2,-8}
+\begin{class}[text width=6.5cm]{MainWindowPropertySink}{-2,-8}
 \inherit{IPropertyNotification}
 \attribute{- m\_pW : MainWindow}
 \operation{+ OnPropertyChanged(str:string) : void}
 \end{class}
-\begin{class}{ICommandNotification}{6,-11}\end{class}
-\begin{class}[text width=8cm]{MainWindowCommandSink}{6,-8}
+\begin{class}{ICommandNotification}{6.5,-11}\end{class}
+\begin{class}[text width=8cm]{MainWindowCommandSink}{6.5,-8}
 \inherit{ICommandNotification}
 \attribute{- m\_pW : MainWindow}
 \operation{OnCommandComplete(str:string, bOK:bool) : void}
@@ -170,7 +170,7 @@
 \operation{+ Init() : bool}
 \operation{+ Show(nCmdShow:int) : void}
 \end{class}
-\composition{BusApp}{1..*}{m\_spViewModel}{BusViewModel}
+\composition{BusApp}{1..1}{m\_spViewModel}{BusViewModel}
 \composition{BusApp}{1..1}{m\_wndMain}{MainWindow}
 \end{tikzpicture}
 \end{document}
