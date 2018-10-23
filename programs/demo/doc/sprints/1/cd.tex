@@ -49,7 +49,7 @@
 \begin{tikzpicture}
 \begin{class}[text width=4cm]{RouteSet}{0,-10}\end{class}
 \begin{class}[text width=10cm]{ProxyPropertyNotification<BusDataModel>}{0,0}\end{class}
-\begin{class}[text width=6cm]{BusDataModel}{0,-4}
+\begin{class}[text width=7cm]{BusDataModel}{0,-4}
 \inherit{ProxyPropertyNotification<BusDataModel>}
 \attribute{- m\_RouteSet : RouteSet}
 \attribute{- m\_CityName : shared\_ptr<string>}
@@ -58,7 +58,7 @@
 \operation{+ GetStopNumber() : int}
 \operation{+ Query(ss:string, es:string) : bool}
 \end{class}
-\composition{BusDataModel}{m\_RouteSet}{1..*}{RouteSet}
+\composition{BusDataModel}{m\_RouteSet}{1..1}{RouteSet}
 \end{tikzpicture}
 \newpage
 
@@ -101,9 +101,12 @@
 
 \section{View Layer}
 \begin{tikzpicture}
-\begin{class}{BusLabel}{0,0}
-\attribute{- m\_Name : string}
-\operation{+ set\_Name(sp:string) : void}
+\begin{class}{CWindowImpl}{0,0}
+\end{class}
+\begin{class}[text width=6cm]{BusLabel}{0,-5}
+\inherit{CWindowImpl}
+\attribute{- m\_Name : shared\_ptr<string>}
+\operation{+ set\_Name(sp:shared\_ptr<string>) : void}
 \operation{+ Update() : void}
 \end{class}
 \end{tikzpicture}
@@ -111,34 +114,63 @@
 
 \section{Window Layer}
 \begin{tikzpicture}
-\begin{class}{CWindowImpl}{0,0}
+\begin{class}{IStateBase}{4,-13}\end{class}
+\begin{class}[text width=4cm]{StartState}{-1,-16}
+\inherit{IStateBase}
+\operation{+ Process(uEvent:int, param:any) : int}
 \end{class}
-\begin{class}[text width=8cm]{MainWindow}{0,-5}
+\begin{class}[text width=4cm]{PopupState}{4,-16}
+\inherit{IStateBase}
+\operation{+ Process(uEvent:int, param:any) : int}
+\end{class}
+\begin{class}[text width=4cm]{CaptureState}{9,-16}
+\inherit{IStateBase}
+\operation{+ Process(uEvent:int, param:any) : int}
+\end{class}
+\begin{class}{CWindowImpl}{9,-2}
+\end{class}
+\begin{class}[text width=10cm]{MainWindow}{0,0}
 \inherit{CWindowImpl}
-\attribute{+ m\_editStart}
-\attribute{+ m\_editStop}
+\attribute{+ m\_editStart : CEditT<CWindowEx>}
+\attribute{+ m\_editStop : CEditT<CWindowEx>}
 \attribute{+ m\_btnQuery : CButton}
 \attribute{+ m\_lblCityName : BusLabel}
 \attribute{+ m\_lblStopNumber : BusLabel}
-\attribute{- m\_cmdQuery : ICommandBase}
-\attribute{- m\_sinkProperty : MainWindowPropertySink}
-\attribute{- m\_sinkCommand : MainWindowCommandSink}
-\operation{+ set\_QueryCommand(cmd:ICommandBase) : void}
-\operation{+ get\_PropertySink() : IPropertyNotification}
-\operation{+ get\_CommandSink() : ICommandNotification}
+\attribute{- m\_cmdQuery : shared\_ptr<ICommandBase>}
+\attribute{- m\_sinkProperty : shared\_ptr<MainWindowPropertySink>}
+\attribute{- m\_sinkCommand : shared\_ptr<MainWindowCommandSink>}
+\operation{+ set\_QueryCommand(cmd:shared\_ptr<ICommandBase>) : void}
+\operation{+ get\_PropertySink() : shared\_ptr<IPropertyNotification>}
+\operation{+ get\_CommandSink() : shared\_ptr<ICommandNotification>}
 \end{class}
-\begin{class}{MainWindowPropertySink}{0,-13}\end{class}
-\begin{class}{MainWindowCommandSink}{7,-13}\end{class}
+\begin{class}{IPropertyNotification}{-2,-11}\end{class}
+\begin{class}[text width=6cm]{MainWindowPropertySink}{-2,-8}
+\inherit{IPropertyNotification}
+\attribute{- m\_pW : MainWindow}
+\operation{+ OnPropertyChanged(str:string) : void}
+\end{class}
+\begin{class}{ICommandNotification}{6,-11}\end{class}
+\begin{class}[text width=8cm]{MainWindowCommandSink}{6,-8}
+\inherit{ICommandNotification}
+\attribute{- m\_pW : MainWindow}
+\operation{OnCommandComplete(str:string, bOK:bool) : void}
+\end{class}
+\composition{MainWindow}{1..1}{m\_sinkProperty}{MainWindowPropertySink}
+\composition{MainWindow}{1..1}{m\_sinkCommand}{MainWindowCommandSink}
 \end{tikzpicture}
 \newpage
 
 \section{App Layer}
 \begin{tikzpicture}
-\begin{class}{BusApp}{0,0}
+\begin{class}{MainWindow}{0,-7}\end{class}
+\begin{class}{BusViewModel}{9,-7}\end{class}
+\begin{class}[text width=8cm]{BusApp}{0,0}
 \attribute{- m\_wndMain : MainWindow}
-\attribute{- m\_spViewModel : BusViewModel}
+\attribute{- m\_spViewModel : shared\_ptr<BusViewModel>}
 \operation{+ Init() : bool}
-\operation{+ Show() : void}
+\operation{+ Show(nCmdShow:int) : void}
 \end{class}
+\composition{BusApp}{1..*}{m\_spViewModel}{BusViewModel}
+\composition{BusApp}{1..1}{m\_wndMain}{MainWindow}
 \end{tikzpicture}
 \end{document}
