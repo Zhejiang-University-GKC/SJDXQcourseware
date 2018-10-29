@@ -1,31 +1,39 @@
 ﻿\documentclass{article}
 \usepackage{pgf-umlsd}
+\usepackage{changepage}
 \usepackage{pdflscape}
 
 \begin{document}
 \thispagestyle{empty}
 \begin{landscape}
-\textbf{OnBnClickedBtnQuery}\\
+\begin{adjustwidth}{-2cm}{-2cm}
+\textbf{OnBtnQueryClicked}\\
 \begin{sequencediagram}
-\newthread{BQ}{CBusQueryDlg}
-\newinst{BE}{CBusEdit}
-\newinst{MW}{MainWindowSink<T>}
-\newinst{QC}{QueryCommand<BusViewModel>}
+\newthread{MW}{MainWindow}
+\newinst{MWCS}{MainWindowCommandSink}
+\newinst{MWPS}{MainWindowPropertySink}
+\newinst{BL}{BusLabel}
+\newinst{QC}{QueryCommand}
 \newinst{VM}{BusViewModel}
+\newinst{VMS}{BusViewModelSink}
 \newinst{DM}{BusDataModel}
 
-\begin{call}{BQ}{Exec}{QC}{}
+\begin{call}{MW}{Exec}{QC}{}
  \begin{call}{QC}{Query}{VM}{}
-  \begin{call}{VM}{Query}{DM}{}\end{call}
-  \begin{call}{VM}{OnPropertyChange}{MW}{}
-   \begin{call}{MW}{SetWindowText}{BE}{}\end{call}
+  \begin{call}{VM}{Query}{DM}{}
+   \begin{call}{DM}{OnPropertyChanged}{VMS}{}
+    \begin{call}{VMS}{OnPropertyChanged}{MWPS}{}
+     \begin{call}{MWPS}{Update}{BL}{}\end{call}
+    \end{call}
+   \end{call}
   \end{call}
  \end{call}
  \begin{call}{QC}{Fire\_OnCommandComplete}{VM}{}
-  \begin{call}{VM}{OnCommandComplete}{MW}{}\end{call}
+  \begin{call}{VM}{OnCommandComplete}{MWCS}{}\end{call}
  \end{call}
 \end{call}
 
 \end{sequencediagram}
+\end{adjustwidth}
 \end{landscape}
 \end{document}
