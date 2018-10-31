@@ -9,5 +9,5 @@ class PopupState : public IStateBase
 {
 public:
 	//IStateBase methods
-	virtual int Process(unsigned int uEvent, std::any& param);
+	virtual int Process(unsigned int uEvent, const std::any& param);
 };

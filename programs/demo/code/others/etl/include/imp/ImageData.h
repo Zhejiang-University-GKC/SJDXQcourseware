@@ -134,6 +134,19 @@ public:
 		m_iH = iH;
 	}
 
+	//copy
+	void CopyTo(ColorData& dest)
+	{
+		if( IsNull() ) {
+			dest.Clear();
+			return ;
+		}
+		dest.Allocate(m_iW, m_iH);
+		::memcpy(dest.GetAddressR(), GetAddressR(), m_iW * m_iH * sizeof(uchar));
+		::memcpy(dest.GetAddressG(), GetAddressG(), m_iW * m_iH * sizeof(uchar));
+		::memcpy(dest.GetAddressB(), GetAddressB(), m_iW * m_iH * sizeof(uchar));
+	}
+
 private:
 	std::vector<uchar> m_spR;
 	std::vector<uchar> m_spG;
@@ -207,6 +220,43 @@ public:
 				*pdr ++ = *psB ++;
 				*pdr ++ = *psG ++;
 				*pdr ++ = *psR ++;
+			}
+			pd += image.GetPitch();
+		} //end for
+	}
+	//ColorDataAndMask->CImage
+	static void ColorDataAndMaskToImage(const ColorData& cData, const GrayData& gData, CImage& image)
+	{
+		image.Destroy();
+		if( cData.IsNull() )
+			return ;
+		if( gData.IsNull() )
+			return ;
+		int iW = cData.GetWidth();
+		int iH = cData.GetHeight();
+		if( !image.Create(iW, iH, 24) )
+			return ;
+
+		const uchar* psR = cData.GetAddressR();
+		const uchar* psG = cData.GetAddressG();
+		const uchar* psB = cData.GetAddressB();
+		const uchar* ps = gData.GetAddress();
+		BYTE* pd = (BYTE*)image.GetBits();
+		for( int i = 0; i < iH; i ++ ) {
+			BYTE* pdr = pd;
+			for( int j = 0; j < iW; j ++ ) {
+				if (*ps ++ == (uchar)255) {
+					*pdr ++ = (uchar)0;
+					*pdr ++ = (uchar)150;
+					*pdr ++ = (uchar)0;
+				} else {
+					*pdr ++ = *psB;
+					*pdr ++ = *psG;
+					*pdr ++ = *psR;
+				}
+				psR ++;
+				psG ++;
+				psB ++;
 			}
 			pd += image.GetPitch();
 		} //end for

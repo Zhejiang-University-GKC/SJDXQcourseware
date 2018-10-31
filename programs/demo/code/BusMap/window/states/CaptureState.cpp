@@ -2,7 +2,7 @@
 
 #include "CaptureState.h"
 
-int CaptureState::Process(unsigned int uEvent, std::any& param)
+int CaptureState::Process(unsigned int uEvent, const std::any& param)
 {
 	//command
 

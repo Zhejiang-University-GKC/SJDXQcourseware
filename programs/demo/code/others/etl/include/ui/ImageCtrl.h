@@ -6,13 +6,14 @@
 
 struct NMIMAGEPIXEL
 {
-	NMHDR    nmh;
+	NMHDR    nmh;  // Contains information about a notification message.
 	int      x, y;
-	COLORREF rgb;
+	COLORREF rgb;  // The COLORREF value is used to specify an RGB color.
 };
 
-class ImageCtrl : public ATL::CWindowImpl<ImageCtrl, CWindowEx, ATL::CControlWinTraits>,
-				public CScrollImpl<ImageCtrl>
+template <class T>
+class ATL_NO_VTABLE ImageCtrlImpl : public ATL::CWindowImpl<T, CWindowEx, ATL::CControlWinTraits>,
+									public CScrollImpl<T>
 {
 public:
 	DECLARE_WND_CLASS(NULL)
@@ -22,7 +23,7 @@ public:
 
 	std::shared_ptr<CImage> m_spImage;
 
-	ImageCtrl() throw() : m_bEnter(false)
+	ImageCtrlImpl() throw() : m_bEnter(false)
 	{
 	}
 
@@ -52,12 +53,12 @@ public:
 
 //------------------------------------------------------------------------------
 //message handler
-	BEGIN_MSG_MAP(ImageCtrl)
+	BEGIN_MSG_MAP(ImageCtrlImpl)
 		MESSAGE_HANDLER(WM_ERASEBKGND, OnEraseBkgnd)
 		MESSAGE_HANDLER(WM_SETCURSOR, OnSetCursor)
 		MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
 		MESSAGE_HANDLER(WM_MOUSELEAVE, OnMouseLeave)
-		CHAIN_MSG_MAP(CScrollImpl<ImageCtrl>)
+		CHAIN_MSG_MAP(CScrollImpl<T>)
 	END_MSG_MAP()
 
 	LRESULT OnEraseBkgnd(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -98,7 +99,9 @@ public:
 		nm.nmh.hwndFrom = m_hWnd;
 		nm.x = x + pt.x;
 		nm.y = y + pt.y;
-		nm.rgb = m_spImage->GetPixel(nm.x, nm.y);
+		nm.rgb = CLR_INVALID;
+		if( (nm.x < m_spImage->GetWidth()) && (nm.y < m_spImage->GetHeight()) )
+			nm.rgb = m_spImage->GetPixel(nm.x, nm.y);
 		SendMessage(GetParent(), WM_NOTIFY, nm.nmh.idFrom, (LPARAM)&nm);
 		return 0;
 	}

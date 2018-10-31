@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////////
 #pragma once
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <stack>
+#include <array>
 
 //types
 typedef unsigned char     uchar;
@@ -136,7 +137,7 @@ public:
 class IStateBase
 {
 public:
-	virtual int Process(unsigned int uEvent, std::any& param) = 0;
+	virtual int Process(unsigned int uEvent, const std::any& param) = 0;
 };
 
 class StateManager
@@ -146,7 +147,11 @@ public:
 	{
 		m_map.insert(std::pair<int, std::shared_ptr<IStateBase>>(iState, spState));
 	}
-	void Process(unsigned int uEvent, std::any& param)
+	void SetStartState(int iStartState) throw()
+	{
+		m_iCurrentState = iStartState;
+	}
+	void Process(unsigned int uEvent, const std::any& param)
 	{
 		auto iter(m_map.find(m_iCurrentState));
 		if( iter != m_map.end() )

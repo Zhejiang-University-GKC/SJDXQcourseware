@@ -2,7 +2,7 @@
 
 #include "PopupState.h"
 
-int PopupState::Process(unsigned int uEvent, std::any& param)
+int PopupState::Process(unsigned int uEvent, const std::any& param)
 {
 	//command
 
