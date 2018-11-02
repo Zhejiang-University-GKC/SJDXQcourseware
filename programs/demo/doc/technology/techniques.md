@@ -1,18 +1,21 @@
-﻿# 开发语言
+﻿
+# 开发语言
 
 使用C++和WTL库进行开发。
 
 # 项目管理
 
-|      名称      |         工具         |
+|      名称     |         工具          |
 |:-------------:|:--------------------:|
-|    版本控制    |      Git, GitHub     |
+|    版本控制    | Git, GitHub, fossil  |
 |    持续集成    |   Jenkins,Appveyor   |
-|    构建工具    |     CMake,QMake     |
-|    规范检查    |       cpplint       |
-|    静态分析    |       cppcheck      |
-|   复杂度分析   |       cppncss       |
+|    构建工具    |     CMake,QMake      |
+|    规范检查    |       cpplint        |
+|    静态分析    |       cppcheck       |
+|   复杂度分析   |       cppncss        |
 | 单元测试覆盖率 | OpenCppCoverage,gcov |
+
+可考虑配置Phabricator。
 
 # 具体实现
 
