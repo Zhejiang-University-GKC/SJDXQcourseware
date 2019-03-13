@@ -34,7 +34,7 @@ ENDMACRO(SET_PCH)
 
 # The path of ETL library
 MACRO(SET_ETL_PATH strRoot)
-	INLUCDE_DIRECTORIES("${strRoot}/ATL/include"
+	INCLUDE_DIRECTORIES("${strRoot}/ATL/include"
 						"${strRoot}/WTL/include"
 						"${strRoot}/include"
 						)
