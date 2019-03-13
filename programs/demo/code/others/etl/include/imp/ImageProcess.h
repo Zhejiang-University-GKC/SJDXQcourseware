@@ -78,7 +78,7 @@ public:
 		return threshold;
 	}
 
-	static void Erode(GrayData& gDataSrc, GrayData& gDataDst)
+	static void ErodeBinary(GrayData& gDataSrc, uchar uFore, GrayData& gDataDst)
 	{
 		gDataDst.Clear();
 		if( gDataSrc.IsNull() )
@@ -114,12 +114,12 @@ public:
 						*(pd+i*iW+j) = 0;
 						continue;
 					}
-					*(pd+i*iW+j) = 255;
+					*(pd+i*iW+j) = uFore;
 				}
 			}
 		}
 	}
-	static void Dilate(GrayData& gDataSrc, GrayData& gDataDst)
+	static void DilateBinary(GrayData& gDataSrc, uchar uFore, GrayData& gDataDst)
 	{
 		gDataDst.Clear();
 		if( gDataSrc.IsNull() )
@@ -136,23 +136,23 @@ public:
 			for( int j = 0; j < iW; j ++ ) {
 				if (i > 0 && j > 0) {
 					// 左
-					if (*(ps+i*iW+j-1) == 255) {
-						*(pd+i*iW+j) = 255;
+					if (*(ps+i*iW+j-1) == uFore) {
+						*(pd+i*iW+j) = uFore;
 						continue;
 					}
 					// 右
-					if (*(ps+i*iW+j+1) == 255) {
-						*(pd+i*iW+j) = 255;
+					if (*(ps+i*iW+j+1) == uFore) {
+						*(pd+i*iW+j) = uFore;
 						continue;
 					}
 					// 上
-					if (*(ps+(i-1)*iW+j) == 255) {
-						*(pd+i*iW+j) = 255;
+					if (*(ps+(i-1)*iW+j) == uFore) {
+						*(pd+i*iW+j) = uFore;
 						continue;
 					}
 					// 下
-					if (*(ps+(i+1)*iW+j) == 255) {
-						*(pd+i*iW+j) = 255;
+					if (*(ps+(i+1)*iW+j) == uFore) {
+						*(pd+i*iW+j) = uFore;
 						continue;
 					}
 					*(pd+i*iW+j) = 0;
@@ -164,11 +164,12 @@ public:
 private:
 	//连通域标记算法,标记出连通域
 	//给出种子点的标记
-	static void label_one_growing(int iLabel, int x, int y, const GrayData& gData, std::vector<int>& matrix)
+	static int label_one_growing(int iLabel, int x, int y, const GrayData& gData, std::vector<int>& matrix)
 	{
 		const uchar* ps = gData.GetAddress();
 		int height = gData.GetHeight();
 		int width = gData.GetWidth();
+		int count = 0;
 
 		std::stack<std::pair<int, int>> coordinate_stack;
 		coordinate_stack.push(std::make_pair(y, x));
@@ -222,12 +223,16 @@ private:
 					coordinate_stack.push(std::make_pair(n_y, n_x));
 				}
 			}
+
+			count ++;
 		}
+
+		return count;
 	}
 
 public:
 	//所有都标记
-	static int Label(const GrayData& gData, std::vector<int>& matrix)
+	static int Label(const GrayData& gData, std::vector<int>& matrix, std::vector<int>& vecArea)
 	{
 		const uchar* ps = gData.GetAddress();
 		int height = gData.GetHeight();
@@ -241,6 +246,10 @@ public:
 			}
 		}
 
+		//面积表初始化
+		vecArea.clear();
+		vecArea.push_back(0);
+
 		int t_ps;
 		int label = 0;
 		//执行完成后，若matrix[i * width + j]的值为0，则表明这块区域是黑色，否则相同标号的为同一区域
@@ -250,7 +259,9 @@ public:
 				if( t_ps != 0 && matrix[i * width + j] == 0 ) {
 					label ++;
 					//获得一个种子点
-					label_one_growing(label, j, i, gData, matrix);
+					int count = label_one_growing(label, j, i, gData, matrix);
+					//记录面积表
+					vecArea.push_back(count);
 				}
 			}
 		}
@@ -258,11 +269,12 @@ public:
 	}
 
 	//extract border
-	static void ExtractBorder(GrayData& gData) throw()
+	static int ExtractBorder(uchar uBorderValue, GrayData& gData) throw()
 	{
 		const int c_coord_x[] = { -1,  0,  1, -1, 1, -1, 0, 1 };
 		const int c_coord_y[] = { -1, -1, -1,  0, 0,  1, 1, 1 };
 		const int c_num = 8;
+		int count = 0;
 		uchar* pd = gData.GetAddress();
 		uchar* p0 = pd;
 		int iW = gData.GetWidth();
@@ -275,7 +287,8 @@ public:
 						int y = i + c_coord_y[m];
 						if( x < 0 || x >= iW || y < 0 || y >= iH
 							|| p0[y * iW + x] == 0 ) {
-							*pd = 255; // Border Mask
+							*pd = uBorderValue; // Border Mask
+							count ++;
 							break;
 						}
 					}
@@ -283,53 +296,19 @@ public:
 				pd ++;
 			}
 		}
+		return count;
 	}
-
-	// SegmentByHSV
-	static void SegmentByHSV(float h_min, float s_min, float v_min,
-							float h_max, float s_max, float v_max,
-							ColorData& cData, GrayData& gData)
+	//cancel border
+	static void CancelBorder(uchar uBorderValue, uchar uForeValue, GrayData& gData) throw()
 	{
-		gData.Clear();
-		if( cData.IsNull() )
-			return ;
-
-		int iH = cData.GetHeight();
-		int iW = cData.GetWidth();
-		gData.Allocate(iW, iH);
-
-		const uchar* psR = cData.GetAddressR();
-		const uchar* psG = cData.GetAddressG();
-		const uchar* psB = cData.GetAddressB();
 		uchar* pd = gData.GetAddress();
-
+		int iW = gData.GetWidth();
+		int iH = gData.GetHeight();
 		for( int i = 0; i < iH; i ++ ) {
 			for( int j = 0; j < iW; j ++ ) {
-				double sR = (double)(*psR);
-				double sG = (double)(*psG);
-				double sB = (double)(*psB);
-				float h,s,v;
-				ImageColorHelper::Rgb2Hsv((float)sR/255, (float)sG/255, (float)sB/255, h, s, v);
-				if (h_max >= h_min) {
-					if (h >= h_min && h <= h_max &&
-						s >= s_min && s <= s_max &&
-						v >= v_min && v <= v_max)
-					{
-						*pd ++ = (uchar)128;  // Content Mask
-					} else {
-						pd++;
-					}
-				} else {
-					if ((h >= h_max || h <= h_min) &&
-						s >= s_min && s <= s_max &&
-						v >= v_min && v <= v_max)
-					{
-						*pd ++ = (uchar)128;  // Content Mask
-					} else {
-						pd++;
-					}
-				}
-				psR ++; psG ++; psB ++;
+				if( *pd == uBorderValue )
+					*pd = uForeValue;
+				pd ++;
 			}
 		}
 	}

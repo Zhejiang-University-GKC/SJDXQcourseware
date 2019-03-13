@@ -32,4 +32,13 @@ MACRO(SET_PCH targetType pchHeader pchSource SourceList)
 		OBJECT_DEPENDS "${pchBinary}")
 ENDMACRO(SET_PCH)
 
+# The path of ETL library
+MACRO(SET_ETL_PATH strRoot)
+	INLUCDE_DIRECTORIES("${strRoot}/ATL/include"
+						"${strRoot}/WTL/include"
+						"${strRoot}/include"
+						)
+	LINK_DIRECTORIES("${strRoot}/ATL/lib/x64")
+ENDMACRO(SET_ETL_PATH)
+
 # end

@@ -2,13 +2,19 @@
 #pragma once
 ////////////////////////////////////////////////////////////////////////////////
 
-#define ICN_PIXEL  (0x100)
+#define ICN_PIXEL   (0x100)
+#define ICN_SCROLL  (0x101)
 
 struct NMIMAGEPIXEL
 {
 	NMHDR    nmh;  // Contains information about a notification message.
 	int      x, y;
 	COLORREF rgb;  // The COLORREF value is used to specify an RGB color.
+};
+struct NMIMAGESCROLL
+{
+	NMHDR    nmh;  // Contains information about a notification message.
+	POINT    pt;
 };
 
 template <class T>
@@ -123,6 +129,17 @@ public:
 
 //------------------------------------------------------------------------------
 // Overrideables
+	void DoScroll(int nType, int nScrollCode, int& cxyOffset, int cxySizeAll, int cxySizePage, int cxySizeLine)
+	{
+		CScrollImpl<T>::DoScroll(nType, nScrollCode, cxyOffset, cxySizeAll, cxySizePage, cxySizeLine);
+		NMIMAGESCROLL nm;
+		nm.nmh.code = ICN_SCROLL;
+		nm.nmh.idFrom = GetDlgCtrlID();
+		nm.nmh.hwndFrom = m_hWnd;
+		GetScrollOffset(nm.pt);
+		SendMessage(GetParent(), WM_NOTIFY, nm.nmh.idFrom, (LPARAM)&nm);
+	}
+
 	void DoPaint(CDCHandle dc)
 	{
 		if( !is_image_null() ) {
@@ -131,6 +148,90 @@ public:
 			dc.SetStretchBltMode(nOldMode);
 		}
 	}
+};
+
+class ImageCtrl : public ImageCtrlImpl<ImageCtrl>
+{
+private:
+	typedef ImageCtrlImpl<ImageCtrl>  baseClass;
+
+public:
+//------------------------------------------------------------------------------
+//message handler
+	BEGIN_MSG_MAP(ImageCtrl)
+		CHAIN_MSG_MAP(baseClass)
+	END_MSG_MAP()
+};
+
+template <class T>
+class ATL_NO_VTABLE NoFlickerImageCtrlImpl : public ImageCtrlImpl<T>
+{
+private:
+	typedef ImageCtrlImpl<T>  baseClass;
+
+public:
+//------------------------------------------------------------------------------
+//message handler
+	BEGIN_MSG_MAP(NoFlickerImageCtrlImpl)
+		MESSAGE_HANDLER(WM_ERASEBKGND, OnEraseBkgnd)
+		CHAIN_MSG_MAP(baseClass)
+	END_MSG_MAP()
+
+	LRESULT OnEraseBkgnd(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		CDCHandle dc((HDC)wParam);
+		bHandled = TRUE;
+		return 1;
+	}
+
+//------------------------------------------------------------------------------
+//overriders
+	void DoPaint(CDCHandle dc)
+	{
+		POINT pt;
+		GetScrollOffset(pt);
+		_WTYPES_NS::CRect rcClient;
+		GetClientRect(&rcClient);
+		rcClient.OffsetRect(pt);
+		_WTYPES_NS::CRect rect(0, 0, 1, 1);
+		if( !is_image_null() ) {
+			rect.right = m_spImage->GetWidth();
+			rect.bottom = m_spImage->GetHeight();
+		}
+		CMemoryDC mdc(dc, rcClient);
+		//background
+		CBrush bsh;
+		bsh.CreateSolidBrush(RGB(64, 64, 64));
+		mdc.FillRect(&rcClient, bsh);
+		//image
+		if( !is_image_null() ) {
+			int nOldMode = mdc.SetStretchBltMode(COLORONCOLOR);
+			m_spImage->Draw(mdc, rect);
+			mdc.SetStretchBltMode(nOldMode);
+		}
+		//custom
+		T* pT = static_cast<T*>(this);
+		pT->DoImageCtrlPaint(mdc, rcClient);
+	}
+
+//------------------------------------------------------------------------------
+//overrideables
+	void DoImageCtrlPaint(CMemoryDC& mdc, const _WTYPES_NS::CRect& rcClient)
+	{
+	}
+};
+
+class NoFlickerImageCtrl : public NoFlickerImageCtrlImpl<NoFlickerImageCtrl>
+{
+private:
+	typedef NoFlickerImageCtrlImpl<NoFlickerImageCtrl>  baseClass;
+
+public:
+//------------------------------------------------------------------------------
+//message handler
+	BEGIN_MSG_MAP(NoFlickerImageCtrl)
+		CHAIN_MSG_MAP(baseClass)
+	END_MSG_MAP()
 };
 
 ////////////////////////////////////////////////////////////////////////////////
