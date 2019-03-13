@@ -2,6 +2,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 INCLUDE("others/etl/include/msvc.cmk")
 
 PROJECT(Demo)
+
+SET_ETL_PATH("${PROJECT_SOURCE_DIR}/others/ETL")
+
 ADD_SUBDIRECTORY(BusMap BusMap)
 ADD_SUBDIRECTORY(utility utility)
 ADD_SUBDIRECTORY(test test)

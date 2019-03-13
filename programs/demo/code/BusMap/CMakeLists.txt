@@ -1,8 +1,6 @@
 INCLUDE_DIRECTORIES(
 	"${CMAKE_CURRENT_BINARY_DIR}"
 	"${CMAKE_CURRENT_SOURCE_DIR}"
-	"${PROJECT_SOURCE_DIR}/others/wtl/include"
-	"${PROJECT_SOURCE_DIR}/others/etl/include"
 	"${PROJECT_SOURCE_DIR}/utility"
 	"${PROJECT_SOURCE_DIR}/BusMap"
 	)
@@ -30,7 +28,7 @@ INSTALL(TARGETS BusMap
 )
 
 
-INSTALL(DIRECTORY "${PROJECT_SOURCE_DIR}/others/redist/x64/Release/"
+INSTALL(DIRECTORY "${PROJECT_SOURCE_DIR}/others/ETL/redist/x64/Release/"
 
 	DESTINATION bin COMPONENT runtime
 
