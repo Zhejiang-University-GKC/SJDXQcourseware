@@ -4,9 +4,12 @@
 
 int main(int argc, char* argv[])
 {
+	unsigned int uFailed = 0;
+
 //---------------------------------------------------------------
-	BusViewModel_Test();
+	if( !BusViewModel_Test() )
+		uFailed ++;
 //---------------------------------------------------------------
 
-    return 0;
+    return uFailed != 0 ? 1 : 0;
 }

@@ -1,3 +1,3 @@
 #pragma once
 
-void BusViewModel_Test() throw();
+bool BusViewModel_Test() throw();

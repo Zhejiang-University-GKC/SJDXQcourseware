@@ -4,7 +4,7 @@
 #include "etlbase.h"
 #include "viewmodel/BusViewModel.h"
 
-void BusViewModel_Test() throw()
+bool BusViewModel_Test() throw()
 {
 	try {
 		std::shared_ptr<BusDataModel> model(std::make_shared<BusDataModel>());
@@ -24,8 +24,11 @@ void BusViewModel_Test() throw()
 	}
 	catch (int& v) {
 		printf("case %d error\n", v);
+		return false;
 	}
 	catch (...) {
 		printf("exception\n");
+		return false;
 	}
+	return true;
 }
