@@ -327,9 +327,67 @@ ViewModel中的属性命令也可以绑定到不同的View。
 
 \frame{\frametitle{界面库}
 \begin{itemize}
-\item<1-> MFC, WTL, QT, WxWidget, GTK, …
+\item<1-> MFC, WTL, QT, WxWidget, GTK, FLTK, …
 \item<2-> 3D绘制的底层API是DirectX和Vulkan，可以达到最高的绘制性能。
 \end{itemize}
+}
+
+\frame{\frametitle{两类界面}
+\begin{itemize}
+\item<1-> 桌面程序具有持续存在的界面，每次交互往往只有部分区域需要更新。
+\item<2-> Web应用的页面往往只存在当前的交互中，和本次要更新的数据是一致的。
+\end{itemize}
+}
+
+\frame{\frametitle{Web界面}
+Web应用，即动态网页，可以返回完整的html，也可以通过ajax技术返回部分页面内容，
+也可以只返回json数据。无论何种情况，对于服务端的应用程序而言，
+数据和界面是一一对应的。所以应用MVC模式就够了。
+}
+
+\frame{\frametitle{Web应用}
+\begin{itemize}
+\item<1-> CGI
+\item<2-> FastCGI
+\item<3-> Memcached
+\item<4-> SCGI
+\item<5-> uWSGI (Python)
+\end{itemize}
+}
+
+\frame{\frametitle{C++开发Web应用}
+\begin{itemize}
+\item<1-> SCGI
+\item<2-> libuv库
+\item<3-> MVC模式
+\end{itemize}
+}
+
+\frame{\frametitle{Web应用的MVC模式}
+\begin{itemize}
+\item<1-> App层 (绑定Controller对象集合)
+\item<2-> Controller层 (提供Controller类和内部的Command对象)
+\item<3-> Model层
+\item<4-> View层
+\item<5-> Command对象绑定Model对象和View对象
+\end{itemize}
+}
+
+\frame{\frametitle{C++开发Web应用的注意点}
+\begin{itemize}
+\item<1-> 捕获异常并处理。
+\item<2-> 函数必须可重入。
+\item<3-> 类成员对象要注意多线程访问的处理。
+\item<4-> 尽量使用临时产生的对象并传递。
+\end{itemize}
+}
+
+\frame{\frametitle{测试框架}
+\begin{enumerate}
+\item<1-> 可以尝试自行编写一套基于模板类的测试框架。
+\item<2-> 使用Lamba表达式作为测试代码体。
+\item<3-> 请自行思考：不建议在开发代码中使用Lamba表达式。
+\end{enumerate}
 }
 
 %end
