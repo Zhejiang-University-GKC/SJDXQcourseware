@@ -129,7 +129,7 @@ public:
 
 	void Allocate(int iW, int iH)
 	{
-		ATLASSERT( iW > 0 && iH > 0 );
+		assert( iW > 0 && iH > 0 );
 		Clear();
 		m_spR.resize(iW * iH);
 		m_spG.resize(iW * iH);

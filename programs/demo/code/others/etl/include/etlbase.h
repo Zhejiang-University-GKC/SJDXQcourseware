@@ -2,6 +2,9 @@
 #pragma once
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <cassert>
+#include <cstdint>
+
 #include <memory>
 #include <any>
 #include <vector>
@@ -10,11 +13,7 @@
 #include <array>
 
 //types
-typedef unsigned char     uchar;
-typedef unsigned short    ushort;
-typedef unsigned int      uint;
-typedef unsigned __int64  uint64;
-typedef __int64           int64;
+typedef unsigned char  uchar;
 
 //command
 
@@ -137,34 +136,34 @@ public:
 class IStateBase
 {
 public:
-	virtual int Process(unsigned int uEvent, const std::any& param) = 0;
+	virtual int32_t Process(uint32_t uEvent, const std::any& param) = 0;
 };
 
 class StateManager
 {
 public:
-	void Add(int iState, const std::shared_ptr<IStateBase>& spState)
+	void Add(int32_t iState, const std::shared_ptr<IStateBase>& spState)
 	{
-		m_map.insert(std::pair<int, std::shared_ptr<IStateBase>>(iState, spState));
+		m_map.insert(std::pair<int32_t, std::shared_ptr<IStateBase>>(iState, spState));
 	}
-	void SetStartState(int iStartState) throw()
+	void SetStartState(int32_t iStartState) throw()
 	{
 		m_iCurrentState = iStartState;
 	}
-	void Process(unsigned int uEvent, const std::any& param)
+	void Process(uint32_t uEvent, const std::any& param)
 	{
 		auto iter(m_map.find(m_iCurrentState));
 		if( iter != m_map.end() )
 			m_iCurrentState = iter->second->Process(uEvent, param);
 	}
-	int GetCurrentState() const throw()
+	int32_t GetCurrentState() const throw()
 	{
 		return m_iCurrentState;
 	}
 
 private:
-	int m_iCurrentState;
-	std::map<int, std::shared_ptr<IStateBase>> m_map;
+	int32_t m_iCurrentState;
+	std::map<int32_t, std::shared_ptr<IStateBase>> m_map;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
