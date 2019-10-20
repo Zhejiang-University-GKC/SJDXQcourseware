@@ -166,4 +166,56 @@ private:
 	std::map<int32_t, std::shared_ptr<IStateBase>> m_map;
 };
 
+/*
+# command:
+
+provider class: std::function<bool(...)> get_XXXCommand();
+binding class: void set_XXXCommand(std::function<bool(...)>&& cmd);
+
+# property notification
+
+// [](uint32_t)
+typedef std::function<void(uint32_t)>  PropertyNotification;
+
+class PropertyTrigger
+{
+public:
+	PropertyTrigger() noexcept;
+	PropertyTrigger(const PropertyTrigger&) = delete;
+	PropertyTrigger& operator=(const PropertyTrigger&) = delete;
+	~PropertyTrigger() noexcept;
+
+	void ClearNotifications() noexcept;
+	void AddNotification(PropertyNotification&& pn);
+
+	void Fire(uint32_t uID);
+
+private:
+	std::vector<PropertyNotification> m_vecPN;
+};
+
+# state machine
+
+typedef std::funtion<int32_t(uint32_t)>  StateFunc;
+provider class: StateFunc get_XXXStateFunc();
+
+class StateManager
+{
+public:
+	StateManager() noexcept;
+	StateManager(const StateManager&) = delete;
+	StateManager& operator=(const StateManager&) = delete;
+	~StateManager() noexcept;
+
+	void Add(int32_t iState, StateFunc&& sf);
+	void SetStartState(int32_t iStartState) noexcept;
+	void Process(uint32_t uEvent);
+	int32_t GetCurrentState() const noexcept;
+
+private:
+	int32_t m_iCurrentState;
+	std::map<int32_t, StateFunc> m_map;
+};
+*/
+
 ////////////////////////////////////////////////////////////////////////////////

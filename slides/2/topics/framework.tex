@@ -8,6 +8,17 @@
 \centerline{\textbf{\Huge{软件框架}}}
 }
 
+\frame{\frametitle{软件开发的基本原则}
+\begin{enumerate}
+\item<1-> 开闭原则
+\item<2-> 里氏代换原则
+\item<3-> 依赖倒转原则
+\item<4-> 接口隔离原则
+\item<5-> 迪米特法则-最少知道原则
+\item<6-> 合成复用原则
+\end{enumerate}
+}
+
 \frame{\frametitle{种类}
 \begin{enumerate}
 \item<1-> 驱动程序框架
@@ -306,6 +317,8 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \begin{enumerate}
 \item<1-> 命令模式和undo/redo管理器。
 \item<2-> 命令的通知是否有必要？
+\item<3-> 命令的参数设计为std::any是否合适？
+\item<4-> 对于单方法的接口，可否用Lambda表达式和函数绑定的类来实现？内存消耗和性能如何？
 \end{enumerate}
 }
 
@@ -371,9 +384,11 @@ Web应用，即动态网页，可以返回完整的html，也可以通过ajax技
 \begin{itemize}
 \item<1-> App层 (绑定Controller对象集合)
 \item<2-> Controller层 (提供Controller类和内部的Command对象)
-\item<3-> Model层
+\item<3-> Model层（含Database层和session层）
 \item<4-> View层
-\item<5-> Controller对象或者Command对象绑定Model对象和View对象
+\item<5-> Common层
+\item<6-> Controller对象或者Command对象绑定Model对象和View对象
+\item<7-> Command可考虑用std::function实现
 \end{itemize}
 }
 
@@ -390,7 +405,7 @@ Web应用，即动态网页，可以返回完整的html，也可以通过ajax技
 \begin{enumerate}
 \item<1-> 可以尝试自行编写一套基于模板类的测试框架。
 \item<2-> 使用Lamba表达式作为测试代码体。
-\item<3-> 请自行思考：不建议在开发代码中使用Lamba表达式。
+\item<3-> 请自行思考：在开发代码中使用Lamba表达式的合适场景是什么？
 \end{enumerate}
 }
 
