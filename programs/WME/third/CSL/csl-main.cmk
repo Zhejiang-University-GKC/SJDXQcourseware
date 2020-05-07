@@ -1,0 +1,20 @@
+#
+# Xin YUAN, 2020, BSD (2)
+# only for x64
+#
+
+# The path of CSL library
+
+# strRoot: tail is /
+MACRO(SET_CSL_PATH strRoot)
+	INCLUDE_DIRECTORIES("${strRoot}include")
+	IF(WIN32)
+		LINK_DIRECTORIES("${strRoot}lib/windows/x64/$<CONFIG>")
+	ELSE(WIN32)
+		LINK_DIRECTORIES("${strRoot}lib/linux/x64/$<CONFIG>")
+	ENDIF(WIN32)
+ENDMACRO(SET_CSL_PATH)
+
+SET(STRING_CSL_LIBS "CSL-Utility")
+
+# end

@@ -1,0 +1,31 @@
+#
+# Xin YUAN, 2020, BSD (2)
+#
+
+# The path of fltk library
+
+# strRoot: tail is /
+MACRO(SET_FLTK_PATH strRoot)
+	INCLUDE_DIRECTORIES("${strRoot}include")
+	IF(WIN32)
+		LINK_DIRECTORIES("${strRoot}lib/windows/x64/$<CONFIG>")
+	ELSE(WIN32)
+		LINK_DIRECTORIES("${strRoot}lib/linux/x64/$<CONFIG>")
+	ENDIF(WIN32)
+ENDMACRO(SET_FLTK_PATH)
+
+IF(NOT DEFINED CMAKE_BUILD_TYPE)
+	MESSAGE(FATAL_ERROR "FATAL: CMAKE_BUILD_TYPE should be defined!")
+ENDIF()
+
+SET(STRING_FLTK_LIBS "fltk" "fltk_forms" "fltk_images" "fltk_gl" "fltk_jpeg" "fltk_png" "fltk_z")
+IF(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+	IF(WIN32)
+		SET(STRING_FLTK_LIBS "fltkd" "fltk_formsd" "fltk_imagesd" "fltk_gld" "fltk_jpegd" "fltk_pngd" "fltk_zd")
+	ENDIF(WIN32)
+ENDIF()
+IF(NOT DEFINED WIN32)
+	SET(STRING_FLTK_LIBS ${STRING_FLTK_LIBS} X11 Xinerama Xext Xcursor Xfixes Xrender Xft fontconfig)
+ENDIF()
+
+# end

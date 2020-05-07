@@ -1,0 +1,36 @@
+﻿/*
+** XIN YUAN, 2020, BSD (2)
+*/
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include "precomp.h"
+
+#include "../../model/TextModel.h"
+#include "../../viewmodel/TextViewModel.h"
+#include "../../view/TextEditor.h"
+#include "../../window/MainWindow.h"
+#include "../../window/ReplaceDialog.h"
+#include "../TextPart.h"
+#include "../ReplacePart.h"
+#include "../TextApp.h"
+
+////////////////////////////////////////////////////////////////////////////////
+namespace CSL {
+////////////////////////////////////////////////////////////////////////////////
+
+// TextApp
+
+std::function<bool()> TextApp::get_ReplaceCommand()
+{
+	return [this]()->bool
+			{
+				this->m_upReplacePart = std::unique_ptr<ReplacePart>(new ReplacePart);
+				this->m_upReplacePart->Show();
+				return true;
+			};
+}
+
+////////////////////////////////////////////////////////////////////////////////
+}
+////////////////////////////////////////////////////////////////////////////////
