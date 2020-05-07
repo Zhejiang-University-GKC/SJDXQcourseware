@@ -72,4 +72,14 @@
 \end{enumerate}
 }
 
+\frame{\frametitle{指针}
+\begin{enumerate}
+\item<1-> 智能指针引用计数的同步(CPU指令锁)存在性能损耗。
+\item<2-> 参考Rust语言的内存管理，借鉴拥有者-借用者的概念。
+\item<3-> 拥有者使用类自身或者unique\_ptr对象实现，借用者可实现为一个纯指针的RefPtr<T>类。
+\item<4-> 静态生命周期判断暂时无法在C++语言层面做到，靠程序员自己的判断。
+\item<5-> 拥有-借用-归还可以看成是Attach/Detach方法的概念化。
+\end{enumerate}
+}
+
 %end

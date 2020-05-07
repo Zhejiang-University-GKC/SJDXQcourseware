@@ -281,18 +281,20 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \frame{\frametitle{ViewModel层}
 \begin{itemize}
 \item<1-> 根据系统中全程需要显示的数据，动态产生并需要显示的数据，
-按概念和功能分组，设计多个类。
+按概念和功能分组，可设计多个类。
 \item<2-> 聚合Model对象，提供可用来显示的数据类，暴露可用来绑定的数据属性，
 暴露可用来绑定的Command对象，提供事件通知(属性改变的通知和Command完成情况的通知)。
 \item<3-> 数据类中Command对象在执行体中委托数据类的方法来调用Model层对象的方法。
 \item<4-> 当属性发生改变时，触发通知；当命令完成时，触发成功与否的通知。
+\item<5-> 接收Model对象的数据改变通知，根据需要转换为可绘制的数据，再触发属性改变的通知；
+或者不做转换直接触发属性改变的通知。
 \end{itemize}
 }
 
 \frame{\frametitle{View层}
 \begin{itemize}
 \item<1-> 实现绘制数据的类和容器类。可以是控件树结构，也可以是场景树结构。
-\item<2-> 每个类提供供绑定的属性和命令对象及绑定属性和绑定Command的方法。
+\item<2-> 每个类提供可被绑定的属性和命令对象及绑定属性和绑定Command的方法。
 \end{itemize}
 }
 
@@ -300,6 +302,8 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \begin{itemize}
 \item<1-> 提供窗口类，聚合View容器对象。
 \item<2-> 处理窗口事件，系统输入事件，调用View容器对象的方法来触发Command。
+\item<3-> 可被绑定的命令对象也可以在本层提供。
+\item<4-> 接收ViewModel对象的数据改变通知，调用相应的重新绘制的方法。
 \end{itemize}
 }
 
@@ -310,15 +314,19 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \item<2-> 实现消息循环的方法。
 \item<3-> 实现Command对象，执行体中可以创建新的一套Window、View、ViewModel、Model各层的对象，
 并将其相互绑定。
+\item<4-> 一套Window、View、ViewModel、Model各层的对象可以封装为一个Part类的对象，
+方便应用类管理多个Part对象。
+\item<5-> 如有共用的ViewModel、Model对象，则由应用类直接管理。
 \end{itemize}
 }
 
 \frame{\frametitle{思考}
 \begin{enumerate}
 \item<1-> 命令模式和undo/redo管理器。
-\item<2-> 命令的通知是否有必要？
+\item<2-> 命令的完成通知是否有必要？
 \item<3-> 命令的参数设计为std::any是否合适？
 \item<4-> 对于单方法的接口，可否用Lambda表达式和函数绑定的类来实现？内存消耗和性能如何？
+\item<5-> 命令和通知的接收器可否用Lambda表达式和函数绑定的类来实现？
 \end{enumerate}
 }
 
@@ -404,8 +412,8 @@ Web应用，即动态网页，可以返回完整的html，也可以通过ajax技
 \frame{\frametitle{测试框架}
 \begin{enumerate}
 \item<1-> 可以尝试自行编写一套基于模板类的测试框架。
-\item<2-> 使用Lamba表达式作为测试代码体。
-\item<3-> 请自行思考：在开发代码中使用Lamba表达式的合适场景是什么？
+\item<2-> 使用Lambda表达式作为测试代码体。
+\item<3-> 请自行思考：在开发代码中使用Lambda表达式的合适场景是什么？
 \end{enumerate}
 }
 
