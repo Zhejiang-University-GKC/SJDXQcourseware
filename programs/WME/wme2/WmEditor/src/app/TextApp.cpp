@@ -25,13 +25,13 @@ TextApp::~TextApp() noexcept
 //methods
 bool TextApp::Init()
 {
-	m_textPart.attach_ReplaceCommand(get_ReplaceCommand());
+	m_textPart.GetMainWindow().attach_ReplaceCommand(get_ReplaceCommand());
 	return true;
 }
 
 int TextApp::Run()
 {
-	m_textPart.Show();
+	m_textPart.GetMainWindow().show();
 	return Fl::run();
 }
 

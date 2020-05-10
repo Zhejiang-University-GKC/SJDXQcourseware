@@ -34,18 +34,9 @@ TextPart::~TextPart() noexcept
 {
 }
 
-void TextPart::attach_ReplaceCommand(std::function<bool()>&& cf) noexcept
+MainWindow& TextPart::GetMainWindow() noexcept
 {
-	m_wndMain.attach_ReplaceCommand(std::move(cf));
-}
-std::function<bool()> TextPart::detach_ReplaceCommand() noexcept
-{
-	return m_wndMain.detach_ReplaceCommand();
-}
-
-void TextPart::Show()
-{
-	m_wndMain.show();
+	return m_wndMain;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

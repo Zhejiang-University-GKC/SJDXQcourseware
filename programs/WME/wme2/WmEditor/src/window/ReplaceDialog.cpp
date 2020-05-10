@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** Mei LiJuan, 2019
 */
 
@@ -23,6 +23,7 @@ ReplaceDialog::ReplaceDialog(int w, int h, const char* t) : Fl_Window(w, h, t),
 {
 	end();
 	set_non_modal();
+	callback((Fl_Callback*)&close_cb, &m_cmdClose);
     /*replace_find->align(FL_ALIGN_LEFT);
     replace_with->align(FL_ALIGN_LEFT);
     replace_all->callback((Fl_Callback *)replall_cb, this);
@@ -32,6 +33,33 @@ ReplaceDialog::ReplaceDialog(int w, int h, const char* t) : Fl_Window(w, h, t),
 
 ReplaceDialog::~ReplaceDialog() noexcept
 {
+}
+
+void ReplaceDialog::attach_CloseCommand(std::function<void()>&& cf) noexcept
+{
+	m_cmdClose = std::move(cf);
+}
+
+std::function<void()> ReplaceDialog::detach_CloseCommand() noexcept
+{
+	std::function<void()> ret = std::move(m_cmdClose);
+	return ret;
+}
+
+//callbacks
+
+void ReplaceDialog::close_cb(Fl_Window* pW, void* pD)
+{
+	Fl::add_idle(&close_idle_hd, pD);
+	default_callback(pW, pD);
+}
+
+void ReplaceDialog::close_idle_hd(void* pD)
+{
+	std::function<void()>& cmd = *((std::function<void()>*)pD);
+	if( cmd != nullptr )
+		cmd();
+	Fl::remove_idle(&close_idle_hd, pD);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

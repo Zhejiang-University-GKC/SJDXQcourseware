@@ -30,6 +30,7 @@ public:
 
 private:
 	std::function<bool()> get_ReplaceCommand();
+	std::function<void()> get_CloseReplaceCommand();
 
 private:
 	TextPart  m_textPart;

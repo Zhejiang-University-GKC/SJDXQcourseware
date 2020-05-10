@@ -22,9 +22,9 @@ ReplacePart::~ReplacePart() noexcept
 {
 }
 
-void ReplacePart::Show()
+ReplaceDialog& ReplacePart::GetReplaceDialog() noexcept
 {
-	m_dlgReplace.show();
+	return m_dlgReplace;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

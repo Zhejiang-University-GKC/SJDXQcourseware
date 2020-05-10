@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** Mei LiJuan, 2019
 */
 
@@ -16,13 +16,23 @@ class ReplaceDialog : public Fl_Window
 public:
 	ReplaceDialog(int w, int h, const char* t);
 	~ReplaceDialog() noexcept;
-	
+
+public:
+	void attach_CloseCommand(std::function<void()>&& cf) noexcept;
+	std::function<void()> detach_CloseCommand() noexcept;
+
+private:
+	static void close_cb(Fl_Window* pW, void* pD);
+	static void close_idle_hd(void* pD);
+
 private:
 	Fl_Input m_replaceFind;
     Fl_Input m_replaceWith;
     Fl_Button m_replaceAll;
     Fl_Return_Button m_replaceNext;
     Fl_Button m_replaceCancel;
+
+	std::function<void()> m_cmdClose;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -14,16 +14,12 @@ namespace CSL {
 
 // TextApp
 
-std::function<bool()> TextApp::get_ReplaceCommand()
+std::function<void()> TextApp::get_CloseReplaceCommand()
 {
-	return [this]()->bool
+	return [this]()
 			{
-				if( this->m_upReplacePart.get() == nullptr ) {
-					this->m_upReplacePart = std::unique_ptr<ReplacePart>(new ReplacePart);
-					this->m_upReplacePart->GetReplaceDialog().attach_CloseCommand(this->get_CloseReplaceCommand());
-				}
-				this->m_upReplacePart->GetReplaceDialog().show();
-				return true;
+				this->m_upReplacePart->GetReplaceDialog().detach_CloseCommand();
+				this->m_upReplacePart.reset();
 			};
 }
 

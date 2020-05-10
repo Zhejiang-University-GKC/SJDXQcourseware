@@ -27,10 +27,7 @@ public:
 	~TextPart() noexcept;
 
 public:
-	void attach_ReplaceCommand(std::function<bool()>&& cf) noexcept;
-	std::function<bool()> detach_ReplaceCommand() noexcept;
-
-	void Show();
+	MainWindow& GetMainWindow() noexcept;
 
 private:
 	TextModel      m_model;

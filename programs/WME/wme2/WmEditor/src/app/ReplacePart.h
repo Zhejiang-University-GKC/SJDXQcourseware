@@ -24,7 +24,7 @@ public:
 	~ReplacePart() noexcept;
 
 public:
-	void Show();
+	ReplaceDialog& GetReplaceDialog() noexcept;
 
 private:
 	ReplaceDialog  m_dlgReplace;
