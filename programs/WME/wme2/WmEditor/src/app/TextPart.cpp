@@ -18,9 +18,11 @@ TextPart::TextPart() : m_wndMain(500, 500, "WmEditor")
 {
 	//binding
 	m_textVM.attach_Model(RefPtr<TextModel>(m_model));
+	m_model.AddNotification(m_textVM.get_Notification());
 
 	//properties
 	m_wndMain.GetTextEditor().attach_TextBuffer(m_textVM.get_TextBuf());
+	m_wndMain.GetTextEditor().UpdateBuffer();
 
 	//commands
 	m_wndMain.attach_LoadCommand(m_textVM.get_LoadCommand());

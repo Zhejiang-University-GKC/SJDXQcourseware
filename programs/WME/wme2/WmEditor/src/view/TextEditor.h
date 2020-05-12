@@ -25,6 +25,9 @@ public:
 	void attach_TextBuffer(const RefPtr<Fl_Text_Buffer>& refBuffer);
 	RefPtr<Fl_Text_Buffer> detach_TextBuffer() noexcept;
 
+public:
+	void UpdateBuffer();
+
 private:
 	RefPtr<Fl_Text_Buffer>  m_refBuffer;
 };

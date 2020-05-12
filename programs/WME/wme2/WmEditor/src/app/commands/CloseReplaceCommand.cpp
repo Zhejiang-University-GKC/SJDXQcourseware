@@ -18,7 +18,6 @@ std::function<void()> TextApp::get_CloseReplaceCommand()
 {
 	return [this]()
 			{
-				this->m_upReplacePart->GetReplaceDialog().detach_CloseCommand();
 				this->m_upReplacePart.reset();
 			};
 }

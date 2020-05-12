@@ -26,13 +26,17 @@ TextEditor::~TextEditor() noexcept
 void TextEditor::attach_TextBuffer(const RefPtr<Fl_Text_Buffer>& refBuffer)
 {
 	m_refBuffer = refBuffer;
-	(*this).buffer(m_refBuffer.Get());
 }
 RefPtr<Fl_Text_Buffer> TextEditor::detach_TextBuffer() noexcept
 {
 	RefPtr<Fl_Text_Buffer> ret = m_refBuffer;
 	m_refBuffer = RefPtr<Fl_Text_Buffer>();
 	return ret;
+}
+
+void TextEditor::UpdateBuffer()
+{
+	this.buffer(m_refBuffer.Get());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

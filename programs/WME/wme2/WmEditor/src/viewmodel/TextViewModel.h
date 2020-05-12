@@ -32,12 +32,11 @@ public:
 	void attach_Model(const RefPtr<TextModel>& refModel);
 	RefPtr<TextModel> detach_Model() noexcept;
 
-private:
-	PropertyNotification get_notification();
+public:
+	PropertyNotification get_Notification();
 
 private:
 	RefPtr<TextModel>  m_refModel;
-	uintptr_t  m_uCookie;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

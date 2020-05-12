@@ -16,7 +16,7 @@ namespace CSL {
 
 // TextViewModel
 
-PropertyNotification TextViewModel::get_notification()
+PropertyNotification TextViewModel::get_Notification()
 {
 	return [this](uint32_t uID)
 			{
