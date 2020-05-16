@@ -1,35 +1,37 @@
 ﻿/*
-** Anxiu Li, 2019, BSD (2)
+** XIN YUAN, 2020, BSD (2)
 */
 
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef __TEXT_EDITOR_H__
-#define __TEXT_EDITOR_H__
+#ifndef __CFG_PART_H__
+#define __CFG_PART_H__
 ////////////////////////////////////////////////////////////////////////////////
+
+#include "../common/TextDef.h"
+#include "../model/CfgModel.h"
+#include "../viewmodel/CfgViewModel.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 namespace CSL {
 ////////////////////////////////////////////////////////////////////////////////
 
-// TextEditor
+// CfgPart
 
-class TextEditor : public Fl_Text_Editor
+class CfgPart
 {
 public:
-	TextEditor(int x, int y, int w, int h, const char* l = 0);
-	TextEditor(const TextEditor&) = delete;
-	TextEditor& operator=(const TextEditor&) = delete;
-	~TextEditor() noexcept;
-
-//properties
-	void attach_TextBuffer(const RefPtr<Fl_Text_Buffer>& refBuffer) noexcept;
-	RefPtr<Fl_Text_Buffer> detach_TextBuffer() noexcept;
+	CfgPart();
+	CfgPart(const CfgPart&) = delete;
+	CfgPart& operator=(const CfgPart&) = delete;
+	~CfgPart() noexcept;
 
 public:
-	void UpdateBuffer();
+	CfgModel& GetModel() noexcept;
+	CfgViewModel& GetViewModel() noexcept;
 
 private:
-	RefPtr<Fl_Text_Buffer>  m_refBuffer;
+	CfgModel      m_cfgModel;
+	CfgViewModel  m_cfgViewModel;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

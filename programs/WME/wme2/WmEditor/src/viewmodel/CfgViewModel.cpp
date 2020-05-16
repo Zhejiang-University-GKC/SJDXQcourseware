@@ -6,38 +6,39 @@
 
 #include "precomp.h"
 
-#include "../model/TextModel.h"
-#include "TextViewModel.h"
+#include "../common/TextDef.h"
+#include "../model/CfgModel.h"
+#include "CfgViewModel.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 namespace CSL {
 ////////////////////////////////////////////////////////////////////////////////
 
-// TextViewModel
+// CfgViewModel
 
-TextViewModel::TextViewModel() noexcept
+CfgViewModel::CfgViewModel() noexcept : m_clrBack(FL_BACKGROUND_COLOR)
 {
 }
-TextViewModel::~TextViewModel() noexcept
+CfgViewModel::~CfgViewModel() noexcept
 {
 }
 
 //properties
-RefPtr<Fl_Text_Buffer> TextViewModel::get_TextBuf() noexcept
+RefPtr<Fl_Color> CfgViewModel::get_BackColor() noexcept
 {
-	return m_refModel->get_TextBuf();
+	return RefPtr<Fl_Color>(m_clrBack);
 }
 
 //methods
-void TextViewModel::attach_Model(const RefPtr<TextModel>& refModel) noexcept
+void CfgViewModel::attach_Model(const RefPtr<CfgModel>& refModel) noexcept
 {
 	m_refModel = refModel;
 }
 
-RefPtr<TextModel> TextViewModel::detach_Model() noexcept
+RefPtr<CfgModel> CfgViewModel::detach_Model() noexcept
 {
-	RefPtr<TextModel> ret = m_refModel;
-	m_refModel = RefPtr<TextModel>();
+	RefPtr<CfgModel> ret = m_refModel;
+	m_refModel = RefPtr<CfgModel>();
 	return ret;
 }
 

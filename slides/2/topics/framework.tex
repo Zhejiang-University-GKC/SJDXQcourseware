@@ -302,7 +302,7 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \begin{itemize}
 \item<1-> 提供窗口类，聚合View容器对象。
 \item<2-> 处理窗口事件，系统输入事件，调用View容器对象的方法来触发Command。
-\item<3-> 可被绑定的命令对象也可以在本层提供。
+\item<3-> 可被绑定的属性和命令对象也可以在本层提供。
 \item<4-> 接收ViewModel对象的数据改变通知，调用相应的重新绘制的方法。
 \end{itemize}
 }
@@ -314,9 +314,10 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \item<2-> 实现消息循环的方法。
 \item<3-> 实现Command对象，执行体中可以创建新的一套Window、View、ViewModel、Model各层的对象，
 并将其相互绑定。
-\item<4-> 一套Window、View、ViewModel、Model各层的对象可以封装为一个Part类的对象，
-方便应用类管理多个Part对象。
-\item<5-> 如有共用的ViewModel、Model对象，则由应用类直接管理。
+\item<4-> 根据各层对象在应用的生命周期，以及相互绑定的关系，封装一个或多个Part类，方便应用类的管理。
+比如可以把一套Window、View、ViewModel、Model各层的对象封装为一个Part类的对象，
+也可以把有紧密关系的ViewModel、Model的对象封装为一个Part类的对象。
+\item<5-> 如有共用的各层对象，也可以由应用类直接管理。
 \end{itemize}
 }
 

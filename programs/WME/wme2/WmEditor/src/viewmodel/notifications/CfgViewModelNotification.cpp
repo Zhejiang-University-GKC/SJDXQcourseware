@@ -1,27 +1,30 @@
 ﻿/*
-** XIN YUAN, 2020, BSD (2)
+** Xin YUAN, 2019, BSD (2)
 */
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "precomp.h"
 
-#include "../TextApp.h"
+#include "../../common/TextDef.h"
+#include "../../model/CfgModel.h"
+#include "../CfgViewModel.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 namespace CSL {
 ////////////////////////////////////////////////////////////////////////////////
 
-// TextApp
+// CfgViewModel
 
-std::function<void()> TextApp::get_CloseReplaceCommand()
+PropertyNotification CfgViewModel::get_Notification()
 {
-	return [this]()
+	return [this](uint32_t uID)
 			{
-				//detach
-				this->m_cfgPart.GetViewModel().RemoveNotification(this->m_uBackColorCookie);
-				//destroy
-				this->m_upReplacePart.reset();
+				if( uID == PROPID_BACK_COLOR ) {
+					const RgbColor& clr = this->m_refModel->GetBackColor();
+					this->m_clrBack = fl_rgb_color(clr.r(), clr.g(), clr.b());
+					this->Fire(uID);
+				}
 			};
 }
 

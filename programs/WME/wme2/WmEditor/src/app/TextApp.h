@@ -9,6 +9,8 @@
 
 #include "TextPart.h"
 #include "ReplacePart.h"
+#include "CfgPart.h"
+#include "../window/CfgDialog.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 namespace CSL {
@@ -31,10 +33,14 @@ public:
 private:
 	std::function<bool()> get_ReplaceCommand();
 	std::function<void()> get_CloseReplaceCommand();
+	std::function<void()> get_ConfigCommand();
 
 private:
+	CfgPart   m_cfgPart;
 	TextPart  m_textPart;
 	std::unique_ptr<ReplacePart>  m_upReplacePart;
+
+	uintptr_t m_uBackColorCookie;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

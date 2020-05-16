@@ -23,6 +23,7 @@ MainWindow::MainWindow(int w, int h, const char* t) : Fl_Double_Window(w, h, t),
 	m_menuBar.add("Load...", 0, &load_cb, &m_cmdLoad);
 	m_menuBar.add("Save...", 0, &save_cb, &m_cmdSave);
 	m_menuBar.add("Replace...", 0, &replace_cb, &m_cmdReplace);
+	m_menuBar.add("Config...", 0, &config_cb, &m_cmdConfig);
 
 	this->resizable(m_textEditor);
 }
@@ -35,6 +36,18 @@ MainWindow::~MainWindow() noexcept
 TextEditor& MainWindow::GetTextEditor() noexcept
 {
 	return m_textEditor;
+}
+
+//properties
+void MainWindow::attach_BackColor(const RefPtr<Fl_Color>& refColor) noexcept
+{
+	m_refBackColor = refColor;
+}
+RefPtr<Fl_Color> MainWindow::detach_BackColor() noexcept
+{
+	RefPtr<Fl_Color> ret = m_refBackColor;
+	m_refBackColor = RefPtr<Fl_Color>();
+	return ret;
 }
 
 //commands
@@ -64,6 +77,21 @@ std::function<bool()> MainWindow::detach_ReplaceCommand() noexcept
 {
 	std::function<bool()> ret = std::move(m_cmdReplace);
 	return ret;
+}
+void MainWindow::attach_ConfigCommand(std::function<void()>&& cf) noexcept
+{
+	m_cmdConfig = std::move(cf);
+}
+std::function<void()> MainWindow::detach_ConfigCommand() noexcept
+{
+	std::function<void()> ret = std::move(m_cmdConfig);
+	return ret;
+}
+
+//methods
+void MainWindow::Update()
+{
+	this->color(*m_refBackColor);
 }
 
 //callbacks
@@ -100,6 +128,14 @@ void MainWindow::replace_cb(Fl_Widget*, void* v)
 	std::function<bool()>& cmdFunc = *((std::function<bool()>*)v);
 	if ( cmdFunc != nullptr && !cmdFunc() ) {
 		fl_alert("Error: Do not show replace dialog!");
+	}
+}
+
+void MainWindow::config_cb(Fl_Widget*, void* v)
+{
+	std::function<bool()>& cmdFunc = *((std::function<bool()>*)v);
+	if ( cmdFunc != nullptr ) {
+		cmdFunc();
 	}
 }
 

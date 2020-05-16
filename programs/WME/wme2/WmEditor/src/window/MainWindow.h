@@ -24,6 +24,10 @@ public:
 //widgets
 	TextEditor& GetTextEditor() noexcept;
 
+//properties
+	void attach_BackColor(const RefPtr<Fl_Color>& refColor) noexcept;
+	RefPtr<Fl_Color> detach_BackColor() noexcept;
+
 //commands
 	void attach_LoadCommand(std::function<bool(const std::string&)>&& cf) noexcept;
 	std::function<bool(const std::string&)> detach_LoadCommand() noexcept;
@@ -31,21 +35,31 @@ public:
 	std::function<bool(const std::string&)> detach_SaveCommand() noexcept;
 	void attach_ReplaceCommand(std::function<bool()>&& cf) noexcept;
 	std::function<bool()> detach_ReplaceCommand() noexcept;
+	void attach_ConfigCommand(std::function<void()>&& cf) noexcept;
+	std::function<void()> detach_ConfigCommand() noexcept;
 
 //notifications
 	PropertyNotification get_Notification();
+
+//methods
+	void Update();
 
 private:
 //callbacks
 	static void load_cb(Fl_Widget*, void* v);
 	static void save_cb(Fl_Widget*, void* v);
 	static void replace_cb(Fl_Widget*, void* v);
+	static void config_cb(Fl_Widget*, void* v);
 
 private:
+//properties
+	RefPtr<Fl_Color>  m_refBackColor;
+
 //commands
 	std::function<bool(const std::string&)> m_cmdLoad;
 	std::function<bool(const std::string&)> m_cmdSave;
 	std::function<bool()> m_cmdReplace;
+	std::function<void()> m_cmdConfig;
 
 //UI
 	TextEditor   m_textEditor;

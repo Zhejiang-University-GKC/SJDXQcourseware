@@ -6,23 +6,31 @@
 
 #include "precomp.h"
 
-#include "../TextApp.h"
+#include "CfgPart.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 namespace CSL {
 ////////////////////////////////////////////////////////////////////////////////
 
-// TextApp
+// CfgPart
 
-std::function<void()> TextApp::get_CloseReplaceCommand()
+CfgPart::CfgPart()
 {
-	return [this]()
-			{
-				//detach
-				this->m_cfgPart.GetViewModel().RemoveNotification(this->m_uBackColorCookie);
-				//destroy
-				this->m_upReplacePart.reset();
-			};
+	m_cfgViewModel.attach_Model(RefPtr<CfgModel>(m_cfgModel));
+	m_cfgModel.AddNotification(m_cfgViewModel.get_Notification());
+}
+
+CfgPart::~CfgPart() noexcept
+{
+}
+
+CfgModel& CfgPart::GetModel() noexcept
+{
+	return m_cfgModel;
+}
+CfgViewModel& CfgPart::GetViewModel() noexcept
+{
+	return m_cfgViewModel;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

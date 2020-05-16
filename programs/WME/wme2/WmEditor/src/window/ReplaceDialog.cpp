@@ -35,15 +35,33 @@ ReplaceDialog::~ReplaceDialog() noexcept
 {
 }
 
+//properties
+void ReplaceDialog::attach_BackColor(const RefPtr<Fl_Color>& refColor) noexcept
+{
+	m_refBackColor = refColor;
+}
+RefPtr<Fl_Color> ReplaceDialog::detach_BackColor() noexcept
+{
+	RefPtr<Fl_Color> ret = m_refBackColor;
+	m_refBackColor = RefPtr<Fl_Color>();
+	return ret;
+}
+
+//commands
 void ReplaceDialog::attach_CloseCommand(std::function<void()>&& cf) noexcept
 {
 	m_cmdClose = std::move(cf);
 }
-
 std::function<void()> ReplaceDialog::detach_CloseCommand() noexcept
 {
 	std::function<void()> ret = std::move(m_cmdClose);
 	return ret;
+}
+
+//methods
+void ReplaceDialog::Update()
+{
+	this->color(*m_refBackColor);
 }
 
 //callbacks

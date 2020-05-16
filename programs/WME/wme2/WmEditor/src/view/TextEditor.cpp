@@ -23,7 +23,7 @@ TextEditor::~TextEditor() noexcept
 }
 
 //properties
-void TextEditor::attach_TextBuffer(const RefPtr<Fl_Text_Buffer>& refBuffer)
+void TextEditor::attach_TextBuffer(const RefPtr<Fl_Text_Buffer>& refBuffer) noexcept
 {
 	m_refBuffer = refBuffer;
 }
@@ -36,7 +36,7 @@ RefPtr<Fl_Text_Buffer> TextEditor::detach_TextBuffer() noexcept
 
 void TextEditor::UpdateBuffer()
 {
-	this.buffer(m_refBuffer.Get());
+	this->buffer(m_refBuffer.Get());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

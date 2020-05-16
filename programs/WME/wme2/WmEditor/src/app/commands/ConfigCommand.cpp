@@ -14,14 +14,20 @@ namespace CSL {
 
 // TextApp
 
-std::function<void()> TextApp::get_CloseReplaceCommand()
+std::function<void()> TextApp::get_ConfigCommand()
 {
 	return [this]()
 			{
-				//detach
-				this->m_cfgPart.GetViewModel().RemoveNotification(this->m_uBackColorCookie);
-				//destroy
-				this->m_upReplacePart.reset();
+				CfgDialog dlg(200, 140, "Configuration");
+				//properties
+				dlg.attach_BackColor(this->m_cfgPart.GetViewModel().get_BackColor());
+				dlg.Update();
+				//commands
+				dlg.attach_SetBackColorCommand(this->m_cfgPart.GetViewModel().get_SetBackColorCommand());
+				dlg.show();
+				//modal
+				while ( dlg.shown() )
+					Fl::wait();
 			};
 }
 

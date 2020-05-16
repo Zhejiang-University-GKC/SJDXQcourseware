@@ -1,35 +1,42 @@
 ﻿/*
-** Anxiu Li, 2019, BSD (2)
+** Xin YUAN, 2019, BSD (2)
 */
 
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef __TEXT_EDITOR_H__
-#define __TEXT_EDITOR_H__
+#ifndef __CFG_VIEW_MODEL_H__
+#define __CFG_VIEW_MODEL_H__
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
 namespace CSL {
 ////////////////////////////////////////////////////////////////////////////////
 
-// TextEditor
+// CfgViewModel
 
-class TextEditor : public Fl_Text_Editor
+class CfgViewModel : public PropertyTrigger
 {
 public:
-	TextEditor(int x, int y, int w, int h, const char* l = 0);
-	TextEditor(const TextEditor&) = delete;
-	TextEditor& operator=(const TextEditor&) = delete;
-	~TextEditor() noexcept;
+	CfgViewModel() noexcept;
+	CfgViewModel(const CfgViewModel&) = delete;
+	CfgViewModel& operator=(const CfgViewModel&) = delete;
+	~CfgViewModel() noexcept;
 
 //properties
-	void attach_TextBuffer(const RefPtr<Fl_Text_Buffer>& refBuffer) noexcept;
-	RefPtr<Fl_Text_Buffer> detach_TextBuffer() noexcept;
+	RefPtr<Fl_Color> get_BackColor() noexcept;
+
+//commands
+	std::function<bool(Fl_Color)> get_SetBackColorCommand();
+
+//methods
+	void attach_Model(const RefPtr<CfgModel>& refModel) noexcept;
+	RefPtr<CfgModel> detach_Model() noexcept;
 
 public:
-	void UpdateBuffer();
+	PropertyNotification get_Notification();
 
 private:
-	RefPtr<Fl_Text_Buffer>  m_refBuffer;
+	RefPtr<CfgModel>  m_refModel;
+	Fl_Color  m_clrBack;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

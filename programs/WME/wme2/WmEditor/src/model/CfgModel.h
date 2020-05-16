@@ -1,35 +1,34 @@
 ﻿/*
-** Anxiu Li, 2019, BSD (2)
+** Xin YUAN, 2019, BSD (2)
 */
 
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef __TEXT_EDITOR_H__
-#define __TEXT_EDITOR_H__
+#ifndef __CFG_MODEL_H__
+#define __CFG_MODEL_H__
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
 namespace CSL {
 ////////////////////////////////////////////////////////////////////////////////
 
-// TextEditor
+// CfgModel
 
-class TextEditor : public Fl_Text_Editor
+class CfgModel : public PropertyTrigger
 {
 public:
-	TextEditor(int x, int y, int w, int h, const char* l = 0);
-	TextEditor(const TextEditor&) = delete;
-	TextEditor& operator=(const TextEditor&) = delete;
-	~TextEditor() noexcept;
+	CfgModel() noexcept;
+	CfgModel(const CfgModel&) = delete;
+	CfgModel& operator=(const CfgModel&) = delete;
+	~CfgModel() noexcept;
 
 //properties
-	void attach_TextBuffer(const RefPtr<Fl_Text_Buffer>& refBuffer) noexcept;
-	RefPtr<Fl_Text_Buffer> detach_TextBuffer() noexcept;
 
-public:
-	void UpdateBuffer();
+//methods
+	const RgbColor& GetBackColor() const noexcept;
+	void SetBackColor(const RgbColor& clr);
 
 private:
-	RefPtr<Fl_Text_Buffer>  m_refBuffer;
+	RgbColor  m_clrBack;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

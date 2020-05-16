@@ -3,19 +3,21 @@
 */
 
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef __REPLACE_DIALOG_H__
-#define __REPLACE_DIALOG_H__
+#ifndef __CFG_DIALOG_H__
+#define __CFG_DIALOG_H__
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
 namespace CSL {
 ////////////////////////////////////////////////////////////////////////////////
 
-class ReplaceDialog : public Fl_Window
+// CfgDialog
+
+class CfgDialog : public Fl_Window
 {
 public:
-	ReplaceDialog(int w, int h, const char* t);
-	~ReplaceDialog() noexcept;
+	CfgDialog(int w, int h, const char* t);
+	~CfgDialog() noexcept;
 
 public:
 //properties
@@ -23,31 +25,29 @@ public:
 	RefPtr<Fl_Color> detach_BackColor() noexcept;
 
 //commands
-	void attach_CloseCommand(std::function<void()>&& cf) noexcept;
-	std::function<void()> detach_CloseCommand() noexcept;
-
-//notifications
-	PropertyNotification get_Notification();
+	void attach_SetBackColorCommand(std::function<bool(Fl_Color)>&& cf) noexcept;
+	std::function<bool(Fl_Color)> detach_SetBackColorCommand() noexcept;
 
 //methods
 	void Update();
 
 private:
-	static void close_cb(Fl_Window* pW, void* pD);
-	static void close_idle_hd(void* pD);
+	static void back_color_cb(Fl_Widget* pW, void* pD);
+	static void ok_cb(Fl_Widget* pW, void* pD);
+	static void cancel_cb(Fl_Widget* pW, void* pD);
 
 private:
-	Fl_Input m_replaceFind;
-    Fl_Input m_replaceWith;
-    Fl_Button m_replaceAll;
-    Fl_Return_Button m_replaceNext;
-    Fl_Button m_replaceCancel;
+	Fl_Box    m_boxBackColor;
+	Fl_Button m_btnBackColor;
+
+	Fl_Button m_btnOK;
+	Fl_Return_Button m_btnCancel;
 
 //properties
 	RefPtr<Fl_Color>  m_refBackColor;
 
 //commands
-	std::function<void()> m_cmdClose;
+	std::function<bool(Fl_Color)> m_cmdSetBackColor;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

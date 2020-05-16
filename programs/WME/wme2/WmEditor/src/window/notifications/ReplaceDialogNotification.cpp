@@ -1,28 +1,29 @@
 ﻿/*
-** XIN YUAN, 2020, BSD (2)
+** Anxiu Li, 2019, BSD (2)
 */
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "precomp.h"
 
-#include "../TextApp.h"
+#include "../../common/TextDef.h"
+#include "../ReplaceDialog.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 namespace CSL {
 ////////////////////////////////////////////////////////////////////////////////
 
-// TextApp
+// ReplaceDialog
 
-std::function<void()> TextApp::get_CloseReplaceCommand()
+PropertyNotification ReplaceDialog::get_Notification()
 {
-	return [this]()
-			{
-				//detach
-				this->m_cfgPart.GetViewModel().RemoveNotification(this->m_uBackColorCookie);
-				//destroy
-				this->m_upReplacePart.reset();
-			};
+	return [this](uint32_t uID)
+				{
+					if ( uID == PROPID_BACK_COLOR ) {
+						this->color(*(this->m_refBackColor));
+						this->redraw();
+					}
+				};
 }
 
 ////////////////////////////////////////////////////////////////////////////////

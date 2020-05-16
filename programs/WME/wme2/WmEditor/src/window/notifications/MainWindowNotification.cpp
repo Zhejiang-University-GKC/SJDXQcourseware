@@ -23,6 +23,10 @@ PropertyNotification MainWindow::get_Notification()
 					if (uID == PROPID_TEXT) {
 
 					}
+					else if ( uID == PROPID_BACK_COLOR ) {
+						this->color(*(this->m_refBackColor));
+						this->redraw();
+					}
 				};
 }
 

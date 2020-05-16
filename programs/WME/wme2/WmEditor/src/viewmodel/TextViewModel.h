@@ -29,7 +29,7 @@ public:
 	std::function<bool(const std::string&)> get_SaveCommand();
 
 //methods
-	void attach_Model(const RefPtr<TextModel>& refModel);
+	void attach_Model(const RefPtr<TextModel>& refModel) noexcept;
 	RefPtr<TextModel> detach_Model() noexcept;
 
 public:
