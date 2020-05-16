@@ -75,6 +75,10 @@ public:
 	RefPtr(const RefPtr& src) noexcept : m_p(src.m_p)
 	{
 	}
+	RefPtr(RefPtr&& src) noexcept : m_p(src.m_p)
+	{
+		src.m_p = nullptr;
+	}
 	~RefPtr() noexcept
 	{
 	}
@@ -83,6 +87,17 @@ public:
 	{
 		m_p = src.m_p;
 		return *this;
+	}
+	RefPtr& operator=(RefPtr&& src) noexcept
+	{
+		m_p = src.m_p;
+		src.m_p = nullptr;
+		return *this;
+	}
+
+	void Reset() noexcept
+	{
+		m_p = nullptr;
 	}
 
 	bool IsNull() const noexcept

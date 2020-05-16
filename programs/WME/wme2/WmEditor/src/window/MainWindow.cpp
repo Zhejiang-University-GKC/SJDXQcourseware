@@ -20,10 +20,13 @@ MainWindow::MainWindow(int w, int h, const char* t) : Fl_Double_Window(w, h, t),
 	                                                  m_menuBar(0, 0, 500, 40)
 {
 	end();
+
 	m_menuBar.add("Load...", 0, &load_cb, &m_cmdLoad);
 	m_menuBar.add("Save...", 0, &save_cb, &m_cmdSave);
 	m_menuBar.add("Replace...", 0, &replace_cb, &m_cmdReplace);
 	m_menuBar.add("Config...", 0, &config_cb, &m_cmdConfig);
+
+	callback((Fl_Callback*)&close_cb, &m_cmdClose);
 
 	this->resizable(m_textEditor);
 }
@@ -45,9 +48,7 @@ void MainWindow::attach_BackColor(const RefPtr<Fl_Color>& refColor) noexcept
 }
 RefPtr<Fl_Color> MainWindow::detach_BackColor() noexcept
 {
-	RefPtr<Fl_Color> ret = m_refBackColor;
-	m_refBackColor = RefPtr<Fl_Color>();
-	return ret;
+	return RefPtr<Fl_Color>(std::move(m_refBackColor));
 }
 
 //commands
@@ -57,8 +58,7 @@ void MainWindow::attach_LoadCommand(std::function<bool(const std::string&)>&& cf
 }
 std::function<bool(const std::string&)> MainWindow::detach_LoadCommand() noexcept
 {
-	std::function<bool(const std::string&)> ret = std::move(m_cmdLoad);
-	return ret;
+	return std::function<bool(const std::string&)>(std::move(m_cmdLoad));
 }
 void MainWindow::attach_SaveCommand(std::function<bool(const std::string&)>&& cf) noexcept
 {
@@ -66,8 +66,7 @@ void MainWindow::attach_SaveCommand(std::function<bool(const std::string&)>&& cf
 }
 std::function<bool(const std::string&)> MainWindow::detach_SaveCommand() noexcept
 {
-	std::function<bool(const std::string&)> ret = std::move(m_cmdSave);
-	return ret;
+	return std::function<bool(const std::string&)>(std::move(m_cmdSave));
 }
 void MainWindow::attach_ReplaceCommand(std::function<bool()>&& cf) noexcept
 {
@@ -75,8 +74,7 @@ void MainWindow::attach_ReplaceCommand(std::function<bool()>&& cf) noexcept
 }
 std::function<bool()> MainWindow::detach_ReplaceCommand() noexcept
 {
-	std::function<bool()> ret = std::move(m_cmdReplace);
-	return ret;
+	return std::function<bool()>(std::move(m_cmdReplace));
 }
 void MainWindow::attach_ConfigCommand(std::function<void()>&& cf) noexcept
 {
@@ -84,8 +82,15 @@ void MainWindow::attach_ConfigCommand(std::function<void()>&& cf) noexcept
 }
 std::function<void()> MainWindow::detach_ConfigCommand() noexcept
 {
-	std::function<void()> ret = std::move(m_cmdConfig);
-	return ret;
+	return std::function<void()>(std::move(m_cmdConfig));
+}
+void MainWindow::attach_CloseCommand(std::function<void()>&& cf) noexcept
+{
+	m_cmdClose = std::move(cf);
+}
+std::function<void()> MainWindow::detach_CloseCommand() noexcept
+{
+	return std::function<void()>(std::move(m_cmdClose));
 }
 
 //methods
@@ -95,6 +100,7 @@ void MainWindow::Update()
 }
 
 //callbacks
+
 void MainWindow::load_cb(Fl_Widget*, void* v)
 {
 	Fl_Native_File_Chooser fc;
@@ -137,6 +143,14 @@ void MainWindow::config_cb(Fl_Widget*, void* v)
 	if ( cmdFunc != nullptr ) {
 		cmdFunc();
 	}
+}
+
+void MainWindow::close_cb(Fl_Window* pW, void* pD)
+{
+	std::function<void()>& cf = *((std::function<void()>*)pD);
+	if( cf != nullptr )
+		cf();
+	default_callback(pW, pD);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

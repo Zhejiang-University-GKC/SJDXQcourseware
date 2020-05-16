@@ -37,9 +37,7 @@ void CfgViewModel::attach_Model(const RefPtr<CfgModel>& refModel) noexcept
 
 RefPtr<CfgModel> CfgViewModel::detach_Model() noexcept
 {
-	RefPtr<CfgModel> ret = m_refModel;
-	m_refModel = RefPtr<CfgModel>();
-	return ret;
+	return RefPtr<CfgModel>(std::move(m_refModel));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

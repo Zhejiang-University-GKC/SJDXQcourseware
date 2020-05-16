@@ -22,6 +22,7 @@ ReplaceDialog::ReplaceDialog(int w, int h, const char* t) : Fl_Window(w, h, t),
 															m_replaceCancel(230, 70, 60, 25, "Cancel")
 {
 	end();
+
 	set_non_modal();
 	callback((Fl_Callback*)&close_cb, &m_cmdClose);
     /*replace_find->align(FL_ALIGN_LEFT);
@@ -42,9 +43,7 @@ void ReplaceDialog::attach_BackColor(const RefPtr<Fl_Color>& refColor) noexcept
 }
 RefPtr<Fl_Color> ReplaceDialog::detach_BackColor() noexcept
 {
-	RefPtr<Fl_Color> ret = m_refBackColor;
-	m_refBackColor = RefPtr<Fl_Color>();
-	return ret;
+	return RefPtr<Fl_Color>(std::move(m_refBackColor));
 }
 
 //commands
@@ -54,8 +53,7 @@ void ReplaceDialog::attach_CloseCommand(std::function<void()>&& cf) noexcept
 }
 std::function<void()> ReplaceDialog::detach_CloseCommand() noexcept
 {
-	std::function<void()> ret = std::move(m_cmdClose);
-	return ret;
+	return std::function<void()>(std::move(m_cmdClose));
 }
 
 //methods
@@ -74,9 +72,9 @@ void ReplaceDialog::close_cb(Fl_Window* pW, void* pD)
 
 void ReplaceDialog::close_idle_hd(void* pD)
 {
-	std::function<void()>& cmd = *((std::function<void()>*)pD);
-	if( cmd != nullptr )
-		cmd();
+	std::function<void()>& cf = *((std::function<void()>*)pD);
+	if( cf != nullptr )
+		cf();
 	Fl::remove_idle(&close_idle_hd, pD);
 }
 

@@ -18,10 +18,12 @@ std::function<void()> TextApp::get_CloseReplaceCommand()
 {
 	return [this]()
 			{
-				//detach
-				this->m_cfgPart.GetViewModel().RemoveNotification(this->m_uBackColorCookie);
-				//destroy
-				this->m_upReplacePart.reset();
+				if ( this->m_upReplacePart != nullptr ) {
+					//detach
+					this->m_cfgPart.GetViewModel().RemoveNotification(this->m_uBackColorCookie);
+					//destroy
+					this->m_upReplacePart.reset();
+				}
 			};
 }
 

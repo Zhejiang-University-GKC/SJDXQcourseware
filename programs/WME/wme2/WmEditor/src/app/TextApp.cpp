@@ -31,6 +31,7 @@ bool TextApp::Init()
 	//commands
 	m_textPart.GetMainWindow().attach_ReplaceCommand(get_ReplaceCommand());
 	m_textPart.GetMainWindow().attach_ConfigCommand(get_ConfigCommand());
+	m_textPart.GetMainWindow().attach_CloseCommand(get_CloseReplaceCommand());
 	//notifications
 	m_cfgPart.GetViewModel().AddNotification(m_textPart.GetMainWindow().get_Notification());
 	return true;

@@ -36,9 +36,7 @@ void TextViewModel::attach_Model(const RefPtr<TextModel>& refModel) noexcept
 
 RefPtr<TextModel> TextViewModel::detach_Model() noexcept
 {
-	RefPtr<TextModel> ret = m_refModel;
-	m_refModel = RefPtr<TextModel>();
-	return ret;
+	return RefPtr<TextModel>(std::move(m_refModel));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

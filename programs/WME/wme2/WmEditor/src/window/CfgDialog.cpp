@@ -39,9 +39,7 @@ void CfgDialog::attach_BackColor(const RefPtr<Fl_Color>& refColor) noexcept
 }
 RefPtr<Fl_Color> CfgDialog::detach_BackColor() noexcept
 {
-	RefPtr<Fl_Color> ret = m_refBackColor;
-	m_refBackColor = RefPtr<Fl_Color>();
-	return ret;
+	return RefPtr<Fl_Color>(std::move(m_refBackColor));
 }
 
 //commands
@@ -51,8 +49,7 @@ void CfgDialog::attach_SetBackColorCommand(std::function<bool(Fl_Color)>&& cf) n
 }
 std::function<bool(Fl_Color)> CfgDialog::detach_SetBackColorCommand() noexcept
 {
-	std::function<bool(Fl_Color)> ret = std::move(m_cmdSetBackColor);
-	return ret;
+	return std::function<bool(Fl_Color)>(std::move(m_cmdSetBackColor));
 }
 
 //methods

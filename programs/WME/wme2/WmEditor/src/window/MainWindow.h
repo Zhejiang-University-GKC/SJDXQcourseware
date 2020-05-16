@@ -37,6 +37,8 @@ public:
 	std::function<bool()> detach_ReplaceCommand() noexcept;
 	void attach_ConfigCommand(std::function<void()>&& cf) noexcept;
 	std::function<void()> detach_ConfigCommand() noexcept;
+	void attach_CloseCommand(std::function<void()>&& cf) noexcept;
+	std::function<void()> detach_CloseCommand() noexcept;
 
 //notifications
 	PropertyNotification get_Notification();
@@ -51,6 +53,8 @@ private:
 	static void replace_cb(Fl_Widget*, void* v);
 	static void config_cb(Fl_Widget*, void* v);
 
+	static void close_cb(Fl_Window* pW, void* pD);
+
 private:
 //properties
 	RefPtr<Fl_Color>  m_refBackColor;
@@ -60,6 +64,8 @@ private:
 	std::function<bool(const std::string&)> m_cmdSave;
 	std::function<bool()> m_cmdReplace;
 	std::function<void()> m_cmdConfig;
+
+	std::function<void()> m_cmdClose;
 
 //UI
 	TextEditor   m_textEditor;

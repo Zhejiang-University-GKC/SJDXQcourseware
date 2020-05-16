@@ -29,9 +29,7 @@ void TextEditor::attach_TextBuffer(const RefPtr<Fl_Text_Buffer>& refBuffer) noex
 }
 RefPtr<Fl_Text_Buffer> TextEditor::detach_TextBuffer() noexcept
 {
-	RefPtr<Fl_Text_Buffer> ret = m_refBuffer;
-	m_refBuffer = RefPtr<Fl_Text_Buffer>();
-	return ret;
+	return RefPtr<Fl_Text_Buffer>(std::move(m_refBuffer));
 }
 
 void TextEditor::UpdateBuffer()
