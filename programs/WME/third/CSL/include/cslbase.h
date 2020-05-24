@@ -90,8 +90,16 @@ public:
 	}
 	RefPtr& operator=(RefPtr&& src) noexcept
 	{
-		m_p = src.m_p;
-		src.m_p = nullptr;
+		if ( this != &src ) {
+			m_p = src.m_p;
+			src.m_p = nullptr;
+		}
+		return *this;
+	}
+
+	RefPtr<T>& operator=(T* p) noexcept
+	{
+		m_p = p;
 		return *this;
 	}
 
