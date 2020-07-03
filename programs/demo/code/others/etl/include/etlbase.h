@@ -11,6 +11,7 @@
 #include <map>
 #include <stack>
 #include <array>
+#include <string>
 
 //types
 typedef unsigned char  uchar;
