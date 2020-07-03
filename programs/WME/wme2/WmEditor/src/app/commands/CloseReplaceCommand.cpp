@@ -21,6 +21,7 @@ std::function<void()> TextApp::get_CloseReplaceCommand()
 				if ( this->m_upReplacePart != nullptr ) {
 					//detach
 					this->m_cfgPart.GetViewModel().RemoveNotification(this->m_uBackColorCookie);
+					this->m_uBackColorCookie = 0;
 					//destroy
 					this->m_upReplacePart.reset();
 				}
