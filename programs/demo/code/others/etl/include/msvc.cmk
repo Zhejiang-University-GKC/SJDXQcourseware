@@ -32,6 +32,26 @@ MACRO(SET_PCH targetType pchHeader pchSource SourceList)
 		OBJECT_DEPENDS "${pchBinary}")
 ENDMACRO(SET_PCH)
 
+#post build
+MACRO(SET_POSTBUILD_CMD targetName strCmd)
+	ADD_CUSTOM_COMMAND(TARGET ${targetName} POST_BUILD
+					COMMAND ${strCmd} ${ARGN})
+ENDMACRO(SET_POSTBUILD_CMD)
+
+MACRO(SET_POSTBUILD_MKDIR targetName strDir)
+	SET(_source "${strDir}")
+	STRING(REPLACE "/" "\\\\" _source ${_source})
+	SET_POSTBUILD_CMD(${targetName} mkdir ${_source})
+ENDMACRO(SET_POSTBUILD_MKDIR)
+
+MACRO(SET_POSTBUILD_COPY targetName strSrc strDest)
+	SET(_source "${strSrc}")
+	SET(_dest "${strDest}")
+	STRING(REPLACE "/" "\\\\" _source ${_source})
+	STRING(REPLACE "/" "\\\\" _dest ${_dest})
+	SET_POSTBUILD_CMD(${targetName} copy "/Y" ${_source} ${_dest})
+ENDMACRO(SET_POSTBUILD_COPY)
+
 # The path of ETL library
 MACRO(SET_ETL_PATH strRoot)
 	INCLUDE_DIRECTORIES("${strRoot}/ATL/include"

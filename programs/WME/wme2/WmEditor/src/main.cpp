@@ -12,7 +12,7 @@
 
 CSL_UI_MAIN_ENTRY()
 {
-	std::unique_ptr<CSL::TextApp> upApp(new CSL::TextApp);
+	auto upApp(std::make_unique<CSL::TextApp>());
 	bool t = upApp->Init();
 	return upApp->Run();
 }

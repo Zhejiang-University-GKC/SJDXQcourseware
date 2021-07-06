@@ -39,6 +39,7 @@ bool TextApp::Init()
 
 int TextApp::Run()
 {
+	Fl::visual(FL_DOUBLE | FL_RGB);
 	m_textPart.GetMainWindow().show();
 	return Fl::run();
 }

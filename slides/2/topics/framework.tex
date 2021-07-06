@@ -230,7 +230,7 @@ ViewModel与Model的连接：
 ViewModel中的属性命令也可以绑定到不同的View。
 \item<3-> \textbf{独立开发}。开发人员可以专注于业务逻辑和数据的开发 (ViewModel和Model)，
 设计人员可以专注于界面设计和View的开发。
-\item<4-> \textbf{可测试}。界面素来是比较难于测试的，而现在单元测试可以针对ViewModel来写。
+\item<4-> \textbf{可测试}。界面素来是比较难于测试的，而现在单元测试可以针对ViewModel或Model来写。
 \end{itemize}
 }
 
@@ -282,12 +282,12 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \begin{itemize}
 \item<1-> 根据系统中全程需要显示的数据，动态产生并需要显示的数据，
 按概念和功能分组，可设计多个类。
-\item<2-> 聚合Model对象，提供可用来显示的数据类，暴露可用来绑定的数据属性，
+\item<2-> 聚合一个或多个Model对象，提供可用来显示的数据类，暴露可用来绑定的数据属性，
 暴露可用来绑定的Command对象，提供事件通知(属性改变的通知和Command完成情况的通知)。
 \item<3-> 数据类中Command对象在执行体中委托数据类的方法来调用Model层对象的方法。
 \item<4-> 当属性发生改变时，触发通知；当命令完成时，触发成功与否的通知。
-\item<5-> 接收Model对象的数据改变通知，根据需要转换为可绘制的数据，再触发属性改变的通知；
-或者不做转换直接触发属性改变的通知。
+\item<5-> 接收来自一个或多个Model对象的数据改变通知，根据需要转换为可绘制的数据，再触发属性改变的通知；
+或者不做转换直接触发属性改变的通知。此外还可以调用其他Model对象的方法。
 \end{itemize}
 }
 
@@ -295,6 +295,7 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \begin{itemize}
 \item<1-> 实现绘制数据的类和容器类。可以是控件树结构，也可以是场景树结构。
 \item<2-> 每个类提供可被绑定的属性和命令对象及绑定属性和绑定Command的方法。
+\item<3-> 检查开发包提供的控件类是否自己持有数据，分析可绘制对象内存的占用。
 \end{itemize}
 }
 
@@ -303,7 +304,7 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \item<1-> 提供窗口类，聚合View容器对象。
 \item<2-> 处理窗口事件，系统输入事件，调用View容器对象的方法来触发Command。
 \item<3-> 可被绑定的属性和命令对象也可以在本层提供。
-\item<4-> 接收ViewModel对象的数据改变通知，调用相应的重新绘制的方法。
+\item<4-> 接收来自一个或多个ViewModel对象的数据改变通知，调用相应的重新绘制的方法。
 \end{itemize}
 }
 
@@ -317,7 +318,8 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \item<4-> 根据各层对象在应用的生命周期，以及相互绑定的关系，封装一个或多个Part类，方便应用类的管理。
 比如可以把一套Window、View、ViewModel、Model各层的对象封装为一个Part类的对象，
 也可以把有紧密关系的ViewModel、Model的对象封装为一个Part类的对象。
-\item<5-> 如有共用的各层对象，也可以由应用类直接管理。
+\item<5-> Window、View可以绑定来自一个或多个ViewModel对象的属性、命令。
+\item<6-> 如有共用的各层对象，也可以由应用类直接管理。
 \end{itemize}
 }
 
@@ -328,6 +330,18 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \item<3-> 命令的参数设计为std::any是否合适？
 \item<4-> 对于单方法的接口，可否用Lambda表达式和函数绑定的类来实现？内存消耗和性能如何？
 \item<5-> 命令和通知的接收器可否用Lambda表达式和函数绑定的类来实现？
+\end{enumerate}
+}
+
+\frame{\frametitle{思考}
+\begin{enumerate}
+\item<1-> Model持有数据；ViewModel和View可以持有数据，也可以依赖注入。
+\item<2-> View层可显示数据的改变，可以是View层持有的数据改变，也可以是ViewModel层持有的数据改变，或者Model层注入给ViewModel层的数据改变。
+\item<3-> View层可显示数据的改变，根据业务的需要，通过命令来调用ViewModel层的方法，并根据各层数据不同的持有情况来决定是否要携带改变后的数据参数。
+此时Model层或者ViewModel层不能再发出属性改变通知给发出命令的View对象。
+\item<4-> ViewModel是一个或多个Model的中介者，提供针对Model的事件接收器，调用一个或多个Model的方法。
+\item<5-> ViewModel是Model和View之间解开耦合的中间层。
+\item<6-> 根据数据在内存中的各层对象占用情况，以及运行时的使用情况，动态地释放ViewModel和Model里的属性数据。
 \end{enumerate}
 }
 
@@ -349,7 +363,7 @@ ViewModel中的属性命令也可以绑定到不同的View。
 
 \frame{\frametitle{界面库}
 \begin{itemize}
-\item<1-> MFC, WTL, QT, WxWidget, GTK, FLTK, …
+\item<1-> MFC, WTL, QT, WxWidget, GTK, FLTK, ImGui, …
 \item<2-> 3D绘制的底层API是DirectX和Vulkan，可以达到最高的绘制性能。
 \end{itemize}
 }
@@ -369,6 +383,10 @@ Web应用，即动态网页，可以返回完整的html，也可以通过ajax技
 ~
 
 最新的Web技术分为前台、中台和后台，可以类比前述的各种模式。
+
+~
+
+Web前端目前流行js开发，也正从MVC模式转向MVVM模式。
 }
 
 \frame{\frametitle{Web应用}
@@ -389,15 +407,38 @@ Web应用，即动态网页，可以返回完整的html，也可以通过ajax技
 \end{itemize}
 }
 
+\frame{\frametitle{Web应用基本数据}
+\begin{itemize}
+\item<1-> Per-handle Data
+\item<2-> Per-IO Data
+\item<3-> Per-session Data
+\end{itemize}
+}
+
+\frame{\frametitle{Web应用协议}
+\begin{itemize}
+\item<1-> 数据包的解析器
+\item<2-> 数据包的生成器
+\item<3-> 服务端协议处理和客户端协议处理的实现可能有不同。
+\end{itemize}
+}
+
 \frame{\frametitle{Web应用的MVC模式}
 \begin{itemize}
 \item<1-> App层 (绑定Controller对象集合)
-\item<2-> Controller层 (提供Controller类和内部的Command对象)
+\item<2-> Controller层 (提供Controller类和内部的Command对象集合)
 \item<3-> Model层（含Database层和session层）
 \item<4-> View层
 \item<5-> Common层
 \item<6-> Controller对象或者Command对象绑定Model对象和View对象
 \item<7-> Command可考虑用std::function实现
+\end{itemize}
+}
+
+\frame{\frametitle{Web应用的MVC模式}
+\begin{itemize}
+\item<1-> 有状态：App层的对象动态绑定其他各层对象，作为Per-handle data。
+\item<2-> 无状态：把各层实现为类的静态方法，将数据作为方法参数传递。
 \end{itemize}
 }
 

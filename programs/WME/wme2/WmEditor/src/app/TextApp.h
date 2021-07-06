@@ -10,7 +10,6 @@
 #include "TextPart.h"
 #include "ReplacePart.h"
 #include "CfgPart.h"
-#include "../window/CfgDialog.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 namespace CSL {

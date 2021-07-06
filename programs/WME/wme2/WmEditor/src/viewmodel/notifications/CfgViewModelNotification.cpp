@@ -7,7 +7,7 @@
 #include "precomp.h"
 
 #include "../../common/TextDef.h"
-#include "../../model/CfgModel.h"
+
 #include "../CfgViewModel.h"
 
 ////////////////////////////////////////////////////////////////////////////////

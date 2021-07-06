@@ -19,7 +19,7 @@ std::function<bool()> TextApp::get_ReplaceCommand()
 	return [this]()->bool
 			{
 				if( this->m_upReplacePart.get() == nullptr ) {
-					this->m_upReplacePart = std::unique_ptr<ReplacePart>(new ReplacePart);
+					this->m_upReplacePart = std::make_unique<ReplacePart>();
 					//properties
 					this->m_upReplacePart->GetReplaceDialog().attach_BackColor(this->m_cfgPart.GetViewModel().get_BackColor());
 					this->m_upReplacePart->GetReplaceDialog().Update();

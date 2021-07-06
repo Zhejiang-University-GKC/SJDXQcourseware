@@ -7,7 +7,6 @@
 #define __CFG_PART_H__
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "../common/TextDef.h"
 #include "../model/CfgModel.h"
 #include "../viewmodel/CfgViewModel.h"
 

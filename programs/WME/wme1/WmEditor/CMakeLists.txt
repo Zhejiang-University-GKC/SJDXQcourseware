@@ -10,7 +10,7 @@ INCLUDE_DIRECTORIES(
 	"${PROJECT_SOURCE_DIR}/WmarkEditor/src"
 	)
 
-SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
+SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 SET(SRC_PCH_LIST "precomp.cpp")
 SET(SRC_LIST "src/main.cpp"
 	"src/model/TextModel.cpp"

@@ -7,7 +7,7 @@
 #include "precomp.h"
 
 #include "../../common/TextDef.h"
-#include "../../view/TextEditor.h"
+
 #include "../MainWindow.h"
 
 ////////////////////////////////////////////////////////////////////////////////

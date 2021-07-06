@@ -77,8 +77,10 @@ void CfgDialog::ok_cb(Fl_Widget* pW, void* pD)
 {
 	CfgDialog* pThis = (CfgDialog*)pD;
 	std::function<bool(Fl_Color)>& cf = pThis->m_cmdSetBackColor;
-	if ( cf != nullptr )
-		cf(pThis->m_boxBackColor.color());
+	if ( cf != nullptr ) {
+		if ( !cf(pThis->m_boxBackColor.color()) )
+			fl_alert("Cannot set back color!");
+	}
 	pThis->hide();
 }
 void CfgDialog::cancel_cb(Fl_Widget* pW, void* pD)

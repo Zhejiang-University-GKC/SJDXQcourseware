@@ -9,7 +9,6 @@
 
 #include "../model/TextModel.h"
 #include "../viewmodel/TextViewModel.h"
-#include "../view/TextEditor.h"
 #include "../window/MainWindow.h"
 
 ////////////////////////////////////////////////////////////////////////////////
