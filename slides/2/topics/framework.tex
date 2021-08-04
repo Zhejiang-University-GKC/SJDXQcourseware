@@ -315,11 +315,18 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \item<2-> 实现消息循环的方法。
 \item<3-> 实现Command对象，执行体中可以创建新的一套Window、View、ViewModel、Model各层的对象，
 并将其相互绑定。
-\item<4-> 根据各层对象在应用的生命周期，以及相互绑定的关系，封装一个或多个Part类，方便应用类的管理。
+\item<4-> Window、View可以绑定来自一个或多个ViewModel对象的属性、命令。
+\end{itemize}
+}
+
+\frame{\frametitle{App层}
+\begin{itemize}
+\item<1-> 根据各层对象在应用的生命周期，以及相互绑定的关系，封装一个或多个Part类，方便应用类的管理。
 比如可以把一套Window、View、ViewModel、Model各层的对象封装为一个Part类的对象，
-也可以把有紧密关系的ViewModel、Model的对象封装为一个Part类的对象。
-\item<5-> Window、View可以绑定来自一个或多个ViewModel对象的属性、命令。
-\item<6-> 如有共用的各层对象，也可以由应用类直接管理。
+也可以把有紧密关系的ViewModel、Model的对象封装为一个Part类的对象，
+还可以只把三层中任意一个层或者任意两个层的对象组合封装为一个Part类的对象。
+\item<2-> 如有共用的各层对象，也可以由应用类直接管理。
+\item<3-> 应用类和Part类都可以根据需要实现并暴露Command对象。
 \end{itemize}
 }
 
@@ -334,15 +341,20 @@ ViewModel中的属性命令也可以绑定到不同的View。
 }
 
 \frame{\frametitle{思考}
-\begin{enumerate}
+\begin{itemize}
 \item<1-> Model持有数据；ViewModel和View可以持有数据，也可以依赖注入。
 \item<2-> View层可显示数据的改变，可以是View层持有的数据改变，也可以是ViewModel层持有的数据改变，或者Model层注入给ViewModel层的数据改变。
 \item<3-> View层可显示数据的改变，根据业务的需要，通过命令来调用ViewModel层的方法，并根据各层数据不同的持有情况来决定是否要携带改变后的数据参数。
 此时Model层或者ViewModel层不能再发出属性改变通知给发出命令的View对象。
-\item<4-> ViewModel是一个或多个Model的中介者，提供针对Model的事件接收器，调用一个或多个Model的方法。
-\item<5-> ViewModel是Model和View之间解开耦合的中间层。
-\item<6-> 根据数据在内存中的各层对象占用情况，以及运行时的使用情况，动态地释放ViewModel和Model里的属性数据。
-\end{enumerate}
+\end{itemize}
+}
+
+\frame{\frametitle{思考}
+\begin{itemize}
+\item<1-> ViewModel是一个或多个Model的中介者，提供针对Model的事件接收器，调用一个或多个Model的方法。
+\item<2-> ViewModel是Model和View之间解开耦合的中间层。
+\item<3-> 根据数据在内存中的各层对象占用情况，以及运行时的使用情况，动态地释放ViewModel和Model里的属性数据。
+\end{itemize}
 }
 
 \frame{\frametitle{源代码工程的组织}
