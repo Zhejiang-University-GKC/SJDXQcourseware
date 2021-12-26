@@ -1,5 +1,7 @@
 #include "precomp.h"
 
+#include "rc/resource.h"
+
 #include "common/parameters.h"
 
 #include "MainWindow.h"
@@ -41,6 +43,12 @@ LRESULT MainWindow::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHan
 	m_lblCityName.Create(m_hWnd, rcDefault, _T(""),
 						WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, 0,
 						IDC_LABEL_CITYNAME);
+
+	// set icons
+	HICON hIcon = AtlLoadIconImage(IDR_MAINFRAME, LR_DEFAULTCOLOR, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON));
+	SetIcon(hIcon, TRUE);
+	HICON hIconSmall = AtlLoadIconImage(IDR_MAINFRAME, LR_DEFAULTCOLOR, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON));
+	SetIcon(hIconSmall, FALSE);
 	//----------------------------------------------------------------------
 	return 0;
 }

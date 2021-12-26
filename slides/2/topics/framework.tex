@@ -15,7 +15,8 @@
 \item<3-> 依赖倒转原则
 \item<4-> 接口隔离原则
 \item<5-> 迪米特法则-最少知道原则
-\item<6-> 合成复用原则
+\item<6-> 单一职责原则
+\item<7-> 合成复用原则
 \end{enumerate}
 }
 
@@ -128,6 +129,11 @@ MVC—>MVP—>MVVM
 \centering
 \includegraphics[width=0.8\textwidth]{topics/framework-files/mvc2.png}
 \end{figure}
+}
+
+\frame{\frametitle{MVC模式}
+该模式的解耦发展到极端，出现了失血、贫血、充血、胀血模式之争。
+本质还是面向过程范式和面向对象范式之争。
 }
 
 \frame{\frametitle{MVC->MVP}
@@ -252,6 +258,7 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \item<3-> ViewModel部分可设计为一个或多个ViewModel及FunctionModel，
 它们之间可以并列，也可以具有层次性，可通过操纵-事件模式相互关联，
 也可通过中介者模式相连。
+\item<4-> 该思想来自领域模型。领域对象协调多个底层对象之间的协作。
 \end{enumerate}
 }
 
@@ -275,6 +282,7 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \item<1-> 提供应用需要的数据类和业务逻辑的类，提供处理数据的算法类。
 \item<2-> 数据类提供属性(用一对get/set方法模拟)，方法和事件通知。
 \item<3-> 当数据类内部数据发生改变时，发出通知。
+\item<4-> 可按领域模型的思想，进一步分出数据访问层、算法层等子层，模型对象协调子层对象间的协作。
 \end{itemize}
 }
 
@@ -287,7 +295,8 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \item<3-> 数据类中Command对象在执行体中委托数据类的方法来调用Model层对象的方法。
 \item<4-> 当属性发生改变时，触发通知；当命令完成时，触发成功与否的通知。
 \item<5-> 接收来自一个或多个Model对象的数据改变通知，根据需要转换为可绘制的数据，再触发属性改变的通知；
-或者不做转换直接触发属性改变的通知。此外还可以调用其他Model对象的方法。
+或者不做转换直接触发属性改变的通知。在通知接收器内还可以调用其他Model对象的方法，
+此即领域模型的思想，协调Model对象之间的协作。
 \end{itemize}
 }
 

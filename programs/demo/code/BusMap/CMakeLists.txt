@@ -16,7 +16,8 @@ SET(SRC_LIST "main.cpp"
 	"window/states/CaptureState.cpp"
 	"app/BusApp.cpp"
 	)
-ADD_EXECUTABLE(BusMap ${SRC_PCH_LIST} ${SRC_LIST})
+SET(RC_LIST "rc/BusMap.rc")
+ADD_EXECUTABLE(BusMap ${SRC_PCH_LIST} ${SRC_LIST} ${RC_LIST})
 SET_PCH("exe" "precomp.h" ${SRC_PCH_LIST} ${SRC_LIST})
 SET_TARGET_PROPERTIES(BusMap PROPERTIES OUTPUT_NAME "BusMap"
 	LINK_FLAGS "${STRING_LINK_FLAGS_TARGET_W}")
@@ -27,9 +28,6 @@ INSTALL(TARGETS BusMap
 	RUNTIME DESTINATION bin COMPONENT runtime
 )
 
-
 INSTALL(DIRECTORY "${PROJECT_SOURCE_DIR}/others/ETL/redist/x64/Release/"
-
 	DESTINATION bin COMPONENT runtime
-
 	CONFIGURATIONS Release)

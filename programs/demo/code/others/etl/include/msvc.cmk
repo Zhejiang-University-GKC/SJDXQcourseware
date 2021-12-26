@@ -61,4 +61,6 @@ MACRO(SET_ETL_PATH strRoot)
 	LINK_DIRECTORIES("${strRoot}/ATL/lib/x64")
 ENDMACRO(SET_ETL_PATH)
 
+# Resource File: The .rc files can be added in source-file-list without pre-compiling headers.
+
 # end
