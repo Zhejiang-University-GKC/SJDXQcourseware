@@ -530,7 +530,7 @@ public:
 			stackFrame.AddrPC.Offset     = context.Eip;
 			stackFrame.AddrStack.Offset  = context.Esp;
 			stackFrame.AddrFrame.Offset  = context.Ebp;
-#elif defined(_M_X64)
+#elif defined(_M_X64) || defined(_M_ARM64EC)
 			// only program counter
 			dwMachType                   = IMAGE_FILE_MACHINE_AMD64;
 			stackFrame.AddrPC.Offset     = context.Rip;

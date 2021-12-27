@@ -119,6 +119,8 @@
 // Include the delete() operator
 #if defined(_M_HYBRID)
 #pragma comment(linker, "/include:??3@$$hYAXPAX@Z")
+#elif defined _M_ARM64EC
+#pragma comment(linker, "/include:??3@$$hYAXPEAX@Z")
 #elif defined _M_IX86 || defined _M_ARM
 #pragma comment(linker, "/include:??3@YAXPAX@Z")
 #elif defined _M_X64 || defined _M_ARM64
@@ -507,7 +509,7 @@ this end
 #define offsetofclass(base, derived) ((DWORD_PTR)(static_cast<base*>((derived*)_ATL_PACKING))-_ATL_PACKING)
 
 /////////////////////////////////////////////////////////////////////////////
-// Master version numbers
+// Main version numbers
 
 #define _ATL     1      // Active Template Library
 #define _ATL_VER 0x0E00 // Active Template Library version 14.00
@@ -640,6 +642,10 @@ that we consider it dangerous to even throw an exception
 #define _ATL_DECLSPEC_ALLOCATOR
 #endif
 
+#ifndef ATL_IUNKNOWN_NOEXCEPT
+#define ATL_IUNKNOWN_NOEXCEPT
+#endif
+
 /*
  * Predefined Resource Types
  */
@@ -721,10 +727,11 @@ _Ret_z_ inline __declspec(noalias) T* SAL_Assume_notnull_for_opt_z_(_In_opt_z_ T
 #endif
 #include <Windows.h>
 
-#if !defined(_ATL_CUSTOM_THROW)
 namespace ATL
 {
+#ifndef _ATL_CUSTOM_THROW
 ATL_NOINLINE __declspec(noreturn) inline void WINAPI AtlThrowImpl(_In_ HRESULT hr);
+#endif // _ATL_CUSTOM_THROW
+
 ATL_NOINLINE __declspec(noreturn) inline void WINAPI AtlThrowLastWin32();
 }
-#endif

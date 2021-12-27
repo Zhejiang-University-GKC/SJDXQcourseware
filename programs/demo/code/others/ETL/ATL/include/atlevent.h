@@ -21,6 +21,7 @@
 
 #include <new.h>
 #include <atlwinverapi.h>
+#include <atlcom.h>
 
 struct __EventingCriticalSectionStub 
 {

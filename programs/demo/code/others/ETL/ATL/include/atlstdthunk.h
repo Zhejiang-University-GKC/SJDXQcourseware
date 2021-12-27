@@ -22,7 +22,7 @@
 #error This file is not compatible with the current WINAPI_FAMILY
 #endif
 
-#if !defined(USE_ATL_THUNK2) && (defined(_M_IX86) || defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64))
+#if !defined(USE_ATL_THUNK2) && !defined(USE_ATL_THUNK1) && (defined(_M_IX86) || defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64) || defined(_M_ARM64EC))
 #define USE_ATL_THUNK2
 #endif
 
@@ -74,7 +74,7 @@ struct _stdcallthunk
 };
 #pragma pack(pop)
 
-#elif defined(_M_X64)
+#elif defined(_M_X64) && !defined(_M_ARM64EC)
 PVOID __stdcall __AllocStdCallThunk(VOID);
 VOID  __stdcall __FreeStdCallThunk(PVOID);
 #pragma pack(push,2)
@@ -150,7 +150,7 @@ struct _stdcallthunk
 	}
 };
 #pragma pack(pop)
-#elif defined(_M_ARM64)
+#elif defined(_M_ARM64) || defined(_M_ARM64EC)
 PVOID __stdcall __AllocStdCallThunk(VOID);
 VOID  __stdcall __FreeStdCallThunk(PVOID);
 #pragma pack(push,4)

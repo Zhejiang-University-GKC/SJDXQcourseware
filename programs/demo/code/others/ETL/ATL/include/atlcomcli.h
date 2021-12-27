@@ -49,7 +49,7 @@ HRESULT AtlHresultFromWin32(_In_ DWORD nError) throw()
 // Smart Pointer helper
 
 ATLINLINE void AtlComQIPtrAssign2(
-    _Inout_opt_ IUnknown** pp,
+    _Inout_ IUnknown** pp,
     _In_opt_ IUnknown* lp,
     _In_ REFIID riid)
 {
@@ -212,14 +212,22 @@ public:
     {
         return p < pT;
     }
+#ifndef __cpp_impl_three_way_comparison
     bool operator!=(_In_opt_ T* pT) const
     {
         return !operator==(pT);
     }
+#endif // __cpp_impl_three_way_comparison
     bool operator==(_In_opt_ T* pT) const throw()
     {
         return p == pT;
     }
+#if _HAS_CXX20
+    bool operator==(const CComPtrBase& pT) const throw()
+    {
+        return p == pT;
+    }
+#endif // _HAS_CXX20
 
     // Release the interface and set to NULL
     void Release() throw()
@@ -324,7 +332,7 @@ public:
     }
     T* operator=(_Inout_opt_ T* lp) throw()
     {
-        if(*this!=lp)
+        if(this->p!=lp)
         {
             CComPtr(lp).Swap(*this);
         }
@@ -333,7 +341,7 @@ public:
     template <typename Q>
     T* operator=(_Inout_ const CComPtr<Q>& lp) throw()
     {
-        if( !this->IsEqualObject(lp) )
+        if(!this->IsEqualObject(lp) )
         {
             AtlComQIPtrAssign2((IUnknown**)&this->p, lp, __uuidof(T));
         }
@@ -341,7 +349,7 @@ public:
     }
     T* operator=(_Inout_ const CComPtr<T>& lp) throw()
     {
-        if(*this!=lp)
+        if(this->p!=lp.p)
         {
             CComPtr(lp).Swap(*this);
         }
@@ -354,7 +362,7 @@ public:
     }
     T* operator=(_Inout_ CComPtr<T>&& lp) throw()
     {
-        if (*this != lp)
+        if (this->p!=lp.p)
         {
             CComPtr(static_cast<CComPtr&&>(lp)).Swap(*this);
         }
@@ -381,7 +389,7 @@ public:
     }
     IDispatch* operator=(_Inout_opt_ IDispatch* lp) throw()
     {
-        if(*this!=lp)
+        if(this->p!=lp)
         {
             CComPtr(lp).Swap(*this);
         }
@@ -389,7 +397,7 @@ public:
     }
     IDispatch* operator=(_Inout_ const CComPtr<IDispatch>& lp) throw()
     {
-        if(*this!=lp)
+        if(this->p!=lp.p)
         {
             CComPtr(lp).Swap(*this);
         }
@@ -640,7 +648,7 @@ public:
     }
     T* operator=(_Inout_opt_ T* lp) throw()
     {
-        if(*this!=lp)
+        if(this->p!=lp)
         {
             CComQIPtr(lp).Swap(*this);
         }
@@ -648,7 +656,7 @@ public:
     }
     T* operator=(_Inout_ const CComQIPtr<T,piid>& lp) throw()
     {
-        if(*this!=lp)
+        if(this->p!=lp.p)
         {
             CComQIPtr(lp).Swap(*this);
         }
@@ -656,7 +664,7 @@ public:
     }
     T* operator=(_Inout_opt_ IUnknown* lp) throw()
     {
-        if(*this!=lp)
+        if(this->p!=lp)
         {
             AtlComQIPtrAssign2((IUnknown**)&this->p, lp, *piid);
         }
@@ -688,7 +696,7 @@ public:
     }
     IUnknown* operator=(_Inout_opt_ IUnknown* lp) throw()
     {
-        if(*this!=lp)
+        if(this->p!=lp)
         {
             //Actually do a QI to get identity
             AtlComQIPtrAssign2((IUnknown**)&this->p, lp, __uuidof(IUnknown));
@@ -698,7 +706,7 @@ public:
 
     IUnknown* operator=(_Inout_ const CComQIPtr<IUnknown,&IID_IUnknown>& lp) throw()
     {
-        if(*this!=lp)
+        if(this->p!=lp.p)
         {
             CComQIPtr(lp).Swap(*this);
         }

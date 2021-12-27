@@ -70,8 +70,8 @@ namespace ATL
 #endif
 
 #define _ATL_DEBUG_ADDREF_RELEASE_IMPL(className)\
-	virtual ULONG STDMETHODCALLTYPE AddRef(void) = 0;\
-	virtual ULONG STDMETHODCALLTYPE Release(void) = 0;
+	virtual ULONG STDMETHODCALLTYPE AddRef(void) ATL_IUNKNOWN_NOEXCEPT = 0;\
+	virtual ULONG STDMETHODCALLTYPE Release(void) ATL_IUNKNOWN_NOEXCEPT = 0;
 
 
 #ifdef _ATL_USE_WINAPI_FAMILY_DESKTOP_APP
@@ -2392,7 +2392,7 @@ struct AtlVerifyInheritance
 
 #if defined(_M_IX86)
 #define OBJECT_ENTRY_PRAGMA(class) __pragma(comment(linker, "/include:___pobjMap_" #class));
-#elif defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64)
+#elif defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64) || defined(_M_ARM64EC)
 #define OBJECT_ENTRY_PRAGMA(class) __pragma(comment(linker, "/include:__pobjMap_" #class));
 #else
 #error Unknown Platform. define OBJECT_ENTRY_PRAGMA
@@ -2918,11 +2918,11 @@ public:
 	}
 	//If InternalAddRef or InternalRelease is undefined then your class
 	//doesn't derive from CComObjectRoot
-	STDMETHOD_(ULONG, AddRef)()
+	STDMETHOD_(ULONG, AddRef)() ATL_IUNKNOWN_NOEXCEPT
 	{
 		return this->InternalAddRef();
 	}
-	STDMETHOD_(ULONG, Release)()
+	STDMETHOD_(ULONG, Release)() ATL_IUNKNOWN_NOEXCEPT
 	{
 		ULONG l = this->InternalRelease();
 		if (l == 0)
@@ -3305,7 +3305,7 @@ public:
 	}
 	template <class Q>
 	HRESULT STDMETHODCALLTYPE QueryInterface(
-		_COM_Outptr_ Q** pp)
+		_COM_Outptr_ Q** pp) ATL_IUNKNOWN_NOEXCEPT
 	{
 		return QueryInterface(__uuidof(Q), (void**)pp);
 	}
@@ -3373,11 +3373,11 @@ public:
 		_pAtlModule->Unlock();
 	}
 
-	STDMETHOD_(ULONG, AddRef)()
+	STDMETHOD_(ULONG, AddRef)() ATL_IUNKNOWN_NOEXCEPT
 	{
 		return this->InternalAddRef();
 	}
-	STDMETHOD_(ULONG, Release)()
+	STDMETHOD_(ULONG, Release)() ATL_IUNKNOWN_NOEXCEPT
 	{
 		ULONG l = this->InternalRelease();
 		if (l == 0)
@@ -3389,7 +3389,7 @@ public:
 	}
 	STDMETHOD(QueryInterface)(
 		_In_ REFIID iid,
-		_COM_Outptr_ void** ppvObject)
+		_COM_Outptr_ void** ppvObject) ATL_IUNKNOWN_NOEXCEPT
 	{
 		ATLASSERT(ppvObject != NULL);
 		if (ppvObject == NULL)
@@ -3410,7 +3410,7 @@ public:
 		return hRes;
 	}
 	template <class Q>
-	HRESULT STDMETHODCALLTYPE QueryInterface(_COM_Outptr_ Q** pp)
+	HRESULT STDMETHODCALLTYPE QueryInterface(_COM_Outptr_ Q** pp) ATL_IUNKNOWN_NOEXCEPT
 	{
 		return QueryInterface(__uuidof(Q), (void**)pp);
 	}
@@ -3503,11 +3503,11 @@ public:
 		_pAtlModule->Unlock();
 	}
 
-	STDMETHOD_(ULONG, AddRef)()
+	STDMETHOD_(ULONG, AddRef)() ATL_IUNKNOWN_NOEXCEPT
 	{
 		return this->InternalAddRef();
 	}
-	STDMETHOD_(ULONG, Release)()
+	STDMETHOD_(ULONG, Release)() ATL_IUNKNOWN_NOEXCEPT
 	{
 		ULONG l = this->InternalRelease();
 		if (l == 0)
@@ -3519,7 +3519,7 @@ public:
 	}
 	STDMETHOD(QueryInterface)(
 		REFIID iid,
-		_COM_Outptr_ void** ppvObject)
+		_COM_Outptr_ void** ppvObject) ATL_IUNKNOWN_NOEXCEPT
 	{
 #ifndef _ATL_OLEDB_CONFORMANCE_TESTS
 		ATLASSERT(ppvObject != NULL);
@@ -3542,7 +3542,7 @@ public:
 		return hRes;
 	}
 	template <class Q>
-	HRESULT STDMETHODCALLTYPE QueryInterface(_COM_Outptr_ Q** pp)
+	HRESULT STDMETHODCALLTYPE QueryInterface(_COM_Outptr_ Q** pp) ATL_IUNKNOWN_NOEXCEPT
 	{
 		return QueryInterface(__uuidof(Q), (void**)pp);
 	}
@@ -3672,11 +3672,11 @@ public:
 #endif
 	}
 
-	STDMETHOD_(ULONG, AddRef)()
+	STDMETHOD_(ULONG, AddRef)() ATL_IUNKNOWN_NOEXCEPT
 	{
 		return this->InternalAddRef();
 	}
-	STDMETHOD_(ULONG, Release)()
+	STDMETHOD_(ULONG, Release)() ATL_IUNKNOWN_NOEXCEPT
 	{
 		ULONG l = this->InternalRelease();
 		if (l == 0)
@@ -3685,7 +3685,7 @@ public:
 	}
 	STDMETHOD(QueryInterface)(
 		_In_ REFIID iid,
-		_COM_Outptr_ void** ppvObject)
+		_COM_Outptr_ void** ppvObject) ATL_IUNKNOWN_NOEXCEPT
 	{
 		ATLASSERT(ppvObject != NULL);
 		if (ppvObject == NULL)
@@ -4500,7 +4500,7 @@ ATLAPI AtlGetObjectSourceInterface(
 
 #ifdef _ATL_USE_WINAPI_FAMILY_DESKTOP_APP
 
-#if defined(_M_IX86) || defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64)
+#if defined(_M_IX86) || defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64) || defined(_M_ARM64EC)
 
 extern "C"
 {
@@ -4569,9 +4569,9 @@ public:
 	//this method needs a different name than QueryInterface
 	STDMETHOD(_LocDEQueryInterface)(
 		_In_ REFIID riid,
-		_COM_Outptr_ void** ppvObject) = 0;
-	virtual ULONG STDMETHODCALLTYPE AddRef(void) = 0;
-	virtual ULONG STDMETHODCALLTYPE Release(void) = 0;
+		_COM_Outptr_ void** ppvObject) ATL_IUNKNOWN_NOEXCEPT = 0;
+	virtual ULONG STDMETHODCALLTYPE AddRef(void) ATL_IUNKNOWN_NOEXCEPT = 0;
+	virtual ULONG STDMETHODCALLTYPE Release(void) ATL_IUNKNOWN_NOEXCEPT = 0;
 
 	GUID m_libid; // used for dynamic case
 	IID m_iid; // used for dynamic case
@@ -4624,7 +4624,7 @@ class ATL_NO_VTABLE IDispEventSimpleImpl :
 public:
 	STDMETHOD(_LocDEQueryInterface)(
 		_In_ REFIID riid,
-		_COM_Outptr_ void** ppvObject)
+		_COM_Outptr_ void** ppvObject) ATL_IUNKNOWN_NOEXCEPT
 	{
 		ATLASSERT(ppvObject != NULL);
 		if (ppvObject == NULL)
@@ -4651,11 +4651,11 @@ public:
 	}
 
 	// These are here only to support use in non-COM objects
-	virtual ULONG STDMETHODCALLTYPE AddRef()
+	virtual ULONG STDMETHODCALLTYPE AddRef() ATL_IUNKNOWN_NOEXCEPT
 	{
 		return 1;
 	}
-	virtual ULONG STDMETHODCALLTYPE Release()
+	virtual ULONG STDMETHODCALLTYPE Release() ATL_IUNKNOWN_NOEXCEPT
 	{
 		return 1;
 	}
@@ -5515,7 +5515,7 @@ CComEnumImpl<Base, piid, T, Copy>::~CComEnumImpl()
 }
 
 template <class Base, const IID* piid, class T, class Copy>
-_Success_(return == S_OK) STDMETHODIMP CComEnumImpl<Base, piid, T, Copy>::Next(
+_Success_(return == S_OK) COM_DECLSPEC_NOTHROW STDMETHODIMP CComEnumImpl<Base, piid, T, Copy>::Next(
 	_In_ ULONG celt,
 	_Out_writes_to_(celt, *pceltFetched) T* rgelt,
 	_Out_opt_ ULONG* pceltFetched)
@@ -5552,7 +5552,7 @@ _Success_(return == S_OK) STDMETHODIMP CComEnumImpl<Base, piid, T, Copy>::Next(
 }
 
 template <class Base, const IID* piid, class T, class Copy>
-STDMETHODIMP CComEnumImpl<Base, piid, T, Copy>::Skip(ULONG celt)
+COM_DECLSPEC_NOTHROW STDMETHODIMP CComEnumImpl<Base, piid, T, Copy>::Skip(ULONG celt)
 {
 	ULONG nRem = ULONG(m_end - m_iter);
 	ULONG nSkip = (celt > nRem) ? nRem : celt;
@@ -5561,7 +5561,7 @@ STDMETHODIMP CComEnumImpl<Base, piid, T, Copy>::Skip(ULONG celt)
 }
 
 template <class Base, const IID* piid, class T, class Copy>
-STDMETHODIMP CComEnumImpl<Base, piid, T, Copy>::Clone(
+COM_DECLSPEC_NOTHROW STDMETHODIMP CComEnumImpl<Base, piid, T, Copy>::Clone(
 	_COM_Outptr_ Base** ppEnum)
 {
 	typedef CComObject<CComEnum<Base, piid, T, Copy> > _class;
@@ -5677,7 +5677,7 @@ public:
 };
 
 template <class Base, const IID* piid, class T, class Copy, class CollType>
-STDMETHODIMP IEnumOnSTLImpl<Base, piid, T, Copy, CollType>::Next(
+COM_DECLSPEC_NOTHROW STDMETHODIMP IEnumOnSTLImpl<Base, piid, T, Copy, CollType>::Next(
 	_In_ ULONG celt,
 	_Out_writes_to_(celt, *pceltFetched) T* rgelt,
 	_Out_opt_ ULONG* pceltFetched)
@@ -5719,7 +5719,7 @@ STDMETHODIMP IEnumOnSTLImpl<Base, piid, T, Copy, CollType>::Next(
 }
 
 template <class Base, const IID* piid, class T, class Copy, class CollType>
-STDMETHODIMP IEnumOnSTLImpl<Base, piid, T, Copy, CollType>::Skip(_In_ ULONG celt)
+COM_DECLSPEC_NOTHROW STDMETHODIMP IEnumOnSTLImpl<Base, piid, T, Copy, CollType>::Skip(_In_ ULONG celt)
 {
 	HRESULT hr = S_OK;
 	while (celt--)
@@ -5736,7 +5736,7 @@ STDMETHODIMP IEnumOnSTLImpl<Base, piid, T, Copy, CollType>::Skip(_In_ ULONG celt
 }
 
 template <class Base, const IID* piid, class T, class Copy, class CollType>
-STDMETHODIMP IEnumOnSTLImpl<Base, piid, T, Copy, CollType>::Clone(
+COM_DECLSPEC_NOTHROW STDMETHODIMP IEnumOnSTLImpl<Base, piid, T, Copy, CollType>::Clone(
 	_Outptr_ Base** ppEnum)
 {
 	typedef CComObject<CComEnumOnSTL<Base, piid, T, Copy, CollType> > _class;
@@ -6258,9 +6258,9 @@ public:
 	//this method needs a different name than QueryInterface
 	STDMETHOD(_LocCPQueryInterface)(
 		_In_ REFIID riid,
-		_COM_Outptr_ void** ppvObject) = 0;
-	virtual ULONG STDMETHODCALLTYPE AddRef(void) = 0;
-	virtual ULONG STDMETHODCALLTYPE Release(void) = 0;
+		_COM_Outptr_ void** ppvObject) ATL_IUNKNOWN_NOEXCEPT = 0;
+	virtual ULONG STDMETHODCALLTYPE AddRef(void) ATL_IUNKNOWN_NOEXCEPT = 0;
+	virtual ULONG STDMETHODCALLTYPE Release(void) ATL_IUNKNOWN_NOEXCEPT = 0;
 };
 
 template <class T, const IID* piid, class CDV = CComDynamicUnkArray >
@@ -6332,7 +6332,7 @@ IConnectionPointImpl<T, piid, CDV>::~IConnectionPointImpl()
 }
 
 template <class T, const IID* piid, class CDV>
-STDMETHODIMP IConnectionPointImpl<T, piid, CDV>::Advise(
+COM_DECLSPEC_NOTHROW STDMETHODIMP IConnectionPointImpl<T, piid, CDV>::Advise(
 	_Inout_ IUnknown* pUnkSink,
 	_Out_ DWORD* pdwCookie)
 {
@@ -6363,7 +6363,7 @@ STDMETHODIMP IConnectionPointImpl<T, piid, CDV>::Advise(
 }
 
 template <class T, const IID* piid, class CDV>
-STDMETHODIMP IConnectionPointImpl<T, piid, CDV>::Unadvise(_In_ DWORD dwCookie)
+COM_DECLSPEC_NOTHROW STDMETHODIMP IConnectionPointImpl<T, piid, CDV>::Unadvise(_In_ DWORD dwCookie)
 {
 	T* pT = static_cast<T*>(this);
 	pT->Lock();
@@ -6377,7 +6377,7 @@ STDMETHODIMP IConnectionPointImpl<T, piid, CDV>::Unadvise(_In_ DWORD dwCookie)
 
 ATLPREFAST_SUPPRESS(6014 6211)
 template <class T, const IID* piid, class CDV>
-STDMETHODIMP IConnectionPointImpl<T, piid, CDV>::EnumConnections(
+COM_DECLSPEC_NOTHROW STDMETHODIMP IConnectionPointImpl<T, piid, CDV>::EnumConnections(
 	_COM_Outptr_ IEnumConnections** ppEnum)
 {
 	if (ppEnum == NULL)

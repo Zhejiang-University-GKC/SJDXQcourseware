@@ -600,7 +600,7 @@ namespace _ATL_SAFE_ALLOCA_IMPL
 #ifndef _ATL_STACK_MARGIN
 #if defined(_M_IX86)
 #define _ATL_STACK_MARGIN	0x2000	// Minimum stack available after call to _ATL_SAFE_ALLOCA
-#elif defined _M_X64 || defined _M_ARM64
+#elif defined _M_X64 || defined _M_ARM64 || defined _M_ARM64EC
 #define _ATL_STACK_MARGIN	0x4000
 #elif defined _M_ARM
 // ARMWORKITEM: Page size is the same as x86 so that should probably be the same value
@@ -637,9 +637,7 @@ __declspec(noinline) inline bool _AtlVerifyStackAvailable(_In_ SIZE_T Size)
                    EXCEPTION_CONTINUE_SEARCH)
     {
         bStackAvailable = false;
-#if defined( _ATL_USE_WINAPI_FAMILY_DESKTOP_APP)
         _resetstkoflw();
-#endif
     }
     return bStackAvailable;
 }
@@ -655,14 +653,14 @@ private :
 		CAtlSafeAllocBufferNode* m_pNext;
 #if defined(_M_IX86)
 		BYTE _pad[4];
-#elif defined(_M_X64)
+#elif defined(_M_X64) || defined(_M_ARM64EC)
 		BYTE _pad[8];
 #elif defined(_M_ARM)
 		BYTE _pad[4];
 #elif defined(_M_ARM64)
 		BYTE _pad[8];
 #else
-	#error Only supported for X86, X64, ARM, and ARM64
+	#error Only supported for X86, X64, ARM, ARM64, and ARM64EC
 #endif
 		void* GetData()
 		{

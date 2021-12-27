@@ -737,7 +737,7 @@ extern inline BOOL __cdecl _AtlInitializeCriticalSectionEx(_Out_ LPCRITICAL_SECT
 }
 #else // _ATL_STATIC_LIB_IMPL
 BOOL __cdecl _AtlInitializeCriticalSectionEx(_Out_ LPCRITICAL_SECTION lpCriticalSection, _In_ DWORD dwSpinCount, _In_ DWORD Flags);
-#endif  // _ATL_STATIC_LIB_IMPL
+#endif // _ATL_STATIC_LIB_IMPL
 #pragma managed(pop)
 
 }	// namespace ATL

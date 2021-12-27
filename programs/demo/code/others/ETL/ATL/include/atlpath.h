@@ -147,22 +147,22 @@ inline BOOL FileExists(_In_z_ const wchar_t* pszPath)
 	return ::PathFileExistsW( pszPath );
 }
 
-_Ret_z_ inline char* FindExtension(_In_z_ const char* pszPath)
+_Ret_z_ inline auto FindExtension(_In_z_ const char* pszPath)
 {
 	return ::PathFindExtensionA( pszPath );
 }
 
-_Ret_z_ inline wchar_t* FindExtension(_In_z_ const wchar_t* pszPath)
+_Ret_z_ inline auto FindExtension(_In_z_ const wchar_t* pszPath)
 {
 	return ::PathFindExtensionW( pszPath );
 }
 
-inline char* FindFileName(_In_z_ const char* pszPath)
+_Ret_z_ inline auto FindFileName(_In_z_ const char* pszPath)
 {
 	return ::PathFindFileNameA( pszPath );
 }
 
-inline wchar_t* FindFileName(_In_z_ const wchar_t* pszPath)
+_Ret_z_ inline auto FindFileName(_In_z_ const wchar_t* pszPath)
 {
 	return ::PathFindFileNameW( pszPath );
 }
@@ -393,12 +393,13 @@ inline BOOL RenameExtension(
 	return ::PathRenameExtensionW( pszPath, pszExt );
 }
 
-inline char* SkipRoot(_In_z_ const char* pszPath)
+_Ret_z_ inline auto SkipRoot(_In_z_ const char* pszPath)
 {
 	return ::PathSkipRootA( pszPath );
 }
 
-inline wchar_t* SkipRoot(_In_z_ const wchar_t* pszPath)
+
+_Ret_z_ inline auto SkipRoot(_In_z_ const wchar_t* pszPath)
 {
 	return ::PathSkipRootW( pszPath );
 }

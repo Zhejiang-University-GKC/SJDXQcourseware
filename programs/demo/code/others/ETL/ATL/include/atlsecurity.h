@@ -5249,6 +5249,8 @@ inline bool CAccessToken::ImpersonateLoggedOnUser() const
 	if(m_hToken && ::ImpersonateLoggedOnUser(m_hToken))
 	{
 		ATLASSERT(!m_pRevert);
+// None of CRevert's base classes need to run a destructor
+#pragma warning(suppress: 5205) // delete of an abstract class that has a non-virtual destructor results in undefined behavior
 		delete m_pRevert;
 		m_pRevert = _ATL_NEW CRevertToSelf;
 		if (!m_pRevert)
@@ -5279,6 +5281,8 @@ inline bool CAccessToken::Revert(
 		return 0 != ::SetThreadToken(hThread ? &hThread : NULL, NULL);
 
 	bool bRet = m_pRevert->Revert();
+// None of CRevert's base classes need to run a destructor
+#pragma warning(suppress: 5205) // delete of an abstract class that has a non-virtual destructor results in undefined behavior
 	delete m_pRevert;
 	m_pRevert = NULL;
 	return bRet;
@@ -5475,6 +5479,8 @@ inline void CAccessToken::Clear() throw()
 		::CloseHandle(m_hToken);
 		m_hToken = NULL;
 	}
+// None of CRevert's base classes need to run a destructor
+#pragma warning(suppress: 5205) // delete of an abstract class that has a non-virtual destructor results in undefined behavior
 	delete m_pRevert;
 	m_pRevert = NULL;
 }

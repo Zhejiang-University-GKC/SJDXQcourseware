@@ -40,7 +40,10 @@ public:
 	{
 		m_nil.SetManager( this );
 	}
-	virtual ~CAtlStringMgr() throw() = default;
+	virtual ~CAtlStringMgr() throw()
+	{
+		isInitialized = false;
+	}
 	void SetMemoryManager(_In_ IAtlMemMgr* pMemMgr) throw()
 	{
 		ATLASSUME( m_pMemMgr == NULL );
@@ -148,6 +151,8 @@ public:
 protected:
 	IAtlMemMgr* m_pMemMgr;
 	CNilStringData m_nil;
+private:
+	static bool isInitialized;
 };
 
 namespace ATLImplementationDetails
@@ -155,11 +160,22 @@ namespace ATLImplementationDetails
 struct CAtlStringMgrStaticInitializer
 {
 	CAtlStringMgrStaticInitializer() { (void)CAtlStringMgr::GetInstance(); }
+
+	// EnsureLinked's reference to 'this' forces InitializeCAtlStringMgr below to be constructed when called, and thus for 
+	// CAtlStringMgr to be initialized during static variable initialization, rather than at its first use (even when compiled with 
+	// /OPT:REF). Initialization at first use can produce potential mismatches in AppDomains when C++/CLI projects using ATL in
+	// non-default AppDomains (reference: VSO-1341830).
+	// ATL_NOINLINE expands to __declspec(noinline) but respects _ATL_DISABLE_NOINLINE and should be used in headers that need to 
+	// be used in applications registering with OLE. 
+	ATL_NOINLINE void* EnsureLinked() {
+		return this;
+	}
 };
 
 __declspec(selectany) CAtlStringMgrStaticInitializer InitializeCAtlStringMgr;
 }
 
+__declspec(selectany) bool CAtlStringMgr::isInitialized = ATLImplementationDetails::InitializeCAtlStringMgr.EnsureLinked() != nullptr;
 
 template <class ChTraits>
 inline typename ChTraits::PCXSTR strstrT(typename ChTraits::PCXSTR pStr,typename ChTraits::PCXSTR pCharSet);

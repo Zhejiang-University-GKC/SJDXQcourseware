@@ -2204,9 +2204,10 @@ public:
 		if (nAppendLength < 0)
 			AtlThrow(E_FAIL);
 
+		CStringT temp(pszFormat, this->GetManager());
 		PXSTR pszBuffer = this->GetBuffer( nCurrentLength+nAppendLength );
 		StringTraits::Format( pszBuffer+nCurrentLength,
-			nAppendLength+1, pszFormat, args );
+			nAppendLength+1, temp, args );
 		this->ReleaseBufferSetLength( nCurrentLength+nAppendLength );
 	}
 
@@ -2223,8 +2224,9 @@ public:
 		if (nLength < 0)
 			AtlThrow(E_FAIL);
 
+		CStringT temp(pszFormat, this->GetManager());
 		PXSTR pszBuffer = this->GetBuffer( nLength );
-		StringTraits::Format( pszBuffer, nLength+1, pszFormat, args );
+		StringTraits::Format( pszBuffer, nLength+1, temp, args );
 		this->ReleaseBufferSetLength( nLength );
 	}
 
@@ -2328,13 +2330,13 @@ public:
 	// Load the string from resource 'nID'
 	_Check_return_ BOOL LoadString(_In_ UINT nID)
 	{
-		HINSTANCE hInst = StringTraits::FindStringResourceInstance( nID );
-		if( hInst == NULL )
+		HINSTANCE hInstance = StringTraits::FindStringResourceInstance( nID );
+		if( hInstance == NULL )
 		{
 			return( FALSE );
 		}
 
-		return( LoadString( hInst, nID ) );
+		return( LoadString( hInstance, nID ) );
 	}
 
 	// Load the string from resource 'nID' in module 'hInstance'

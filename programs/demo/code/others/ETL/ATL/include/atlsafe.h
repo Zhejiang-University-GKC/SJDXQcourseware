@@ -604,7 +604,7 @@ public:
 };
 
 template<>
-HRESULT CComSafeArray<BSTR>::SetAt(
+HRESULT inline CComSafeArray<BSTR>::SetAt(
 	_In_ LONG lIndex,
 	_In_ const BSTR& strData,
 	_In_ BOOL bCopy)
@@ -638,7 +638,7 @@ HRESULT CComSafeArray<BSTR>::SetAt(
 	return S_OK;
 }
 template<>
-HRESULT CComSafeArray<VARIANT>::SetAt(
+HRESULT inline CComSafeArray<VARIANT>::SetAt(
 	_In_ LONG lIndex,
 	_In_ const VARIANT& varData,
 	_In_ BOOL bCopy)
@@ -663,7 +663,7 @@ HRESULT CComSafeArray<VARIANT>::SetAt(
 	}
 }
 template<>
-HRESULT CComSafeArray<LPUNKNOWN>::SetAt(
+HRESULT inline CComSafeArray<LPUNKNOWN>::SetAt(
 	_In_ LONG lIndex,
 	_In_ const LPUNKNOWN& pUnk,
 	_In_ BOOL bAddRef)
@@ -686,7 +686,7 @@ HRESULT CComSafeArray<LPUNKNOWN>::SetAt(
 	return S_OK;
 }
 template<>
-HRESULT CComSafeArray<LPDISPATCH>::SetAt(
+HRESULT inline CComSafeArray<LPDISPATCH>::SetAt(
 	_In_ LONG lIndex,
 	_In_ const LPDISPATCH& pDisp,
 	_In_ BOOL bAddRef)

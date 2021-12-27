@@ -23,6 +23,7 @@
 //Avoid using <atlstr.h> except in the registry templates (for circular dependencies).
 
 [
+	#pragma warning (suppress : 4467) //usage of ATL attributes is deprecated
 	provider(name="ATL4", uuid="BC6B4B8A-0E4A-4bc9-B319-9DC2ACFB61EE")
 ];
 
@@ -112,7 +113,7 @@ public:
 ATLPREFAST_SUPPRESS(6387)
 	HRESULT STDMETHODCALLTYPE QueryInterface(
 		const IID &riid,
-		_Outptr_ void** ppv)
+		_Outptr_ void** ppv) ATL_IUNKNOWN_NOEXCEPT
 	{
 		if (ppv == NULL)
 			return E_POINTER;
@@ -126,12 +127,12 @@ ATLPREFAST_SUPPRESS(6387)
 	}
 ATLPREFAST_UNSUPPRESS()
 	
-	ULONG STDMETHODCALLTYPE AddRef(void)
+	ULONG STDMETHODCALLTYPE AddRef(void) ATL_IUNKNOWN_NOEXCEPT
 	{
 		return 1L;
 	}
 
-	ULONG STDMETHODCALLTYPE Release(void)
+	ULONG STDMETHODCALLTYPE Release(void) ATL_IUNKNOWN_NOEXCEPT
 	{
 		return 1L;
 	}

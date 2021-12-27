@@ -823,21 +823,21 @@ inline bool COleDateTime::operator>=(_In_ const COleDateTime& date) const throw(
 inline COleDateTime COleDateTime::operator+(_In_ COleDateTimeSpan dateSpan) const throw()
 {
 	ATLASSERT(GetStatus() == valid);
-	ATLASSERT(dateSpan.GetStatus() == valid);
+	ATLASSERT(dateSpan.GetStatus() == COleDateTimeSpan::DateTimeSpanStatus::valid);
 	return( COleDateTime( DateFromDouble( DoubleFromDate( m_dt )+(double)dateSpan ) ) );
 }
 
 inline COleDateTime COleDateTime::operator-(_In_ COleDateTimeSpan dateSpan) const throw()
 {
 	ATLASSERT(GetStatus() == valid);
-	ATLASSERT(dateSpan.GetStatus() == valid);
+	ATLASSERT(dateSpan.GetStatus() == COleDateTimeSpan::DateTimeSpanStatus::valid);
 	return( COleDateTime( DateFromDouble( DoubleFromDate( m_dt )-(double)dateSpan ) ) );
 }
 
 inline COleDateTime& COleDateTime::operator+=(_In_ COleDateTimeSpan dateSpan) throw()
 {
 	ATLASSERT(GetStatus() == valid);
-	ATLASSERT(dateSpan.GetStatus() == valid);
+	ATLASSERT(dateSpan.GetStatus() == COleDateTimeSpan::DateTimeSpanStatus::valid);
 	m_dt = DateFromDouble( DoubleFromDate( m_dt )+(double)dateSpan );
 	return( *this );
 }
@@ -845,7 +845,7 @@ inline COleDateTime& COleDateTime::operator+=(_In_ COleDateTimeSpan dateSpan) th
 inline COleDateTime& COleDateTime::operator-=(_In_ COleDateTimeSpan dateSpan) throw()
 {
 	ATLASSERT(GetStatus() == valid);
-	ATLASSERT(dateSpan.GetStatus() == valid);
+	ATLASSERT(dateSpan.GetStatus() == COleDateTimeSpan::DateTimeSpanStatus::valid);
 	m_dt = DateFromDouble( DoubleFromDate( m_dt )-(double)dateSpan );
 	return( *this );
 }

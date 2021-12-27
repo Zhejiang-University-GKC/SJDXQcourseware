@@ -3160,6 +3160,18 @@ static ATL::CWndClassInfo& GetWndClassInfo() \
 	return wc; \
 }
 
+#define DECLARE_WND_SUPERCLASS2(WndClassName, EnclosingClass, OrigWndClassName) \
+static ATL::CWndClassInfo& GetWndClassInfo() \
+{ \
+	static ATL::CWndClassInfo wc = \
+	{ \
+		{ sizeof(WNDCLASSEX), 0, EnclosingClass::StartWindowProc, \
+		  0, 0, NULL, NULL, NULL, NULL, NULL, WndClassName, NULL }, \
+		OrigWndClassName, NULL, NULL, TRUE, 0, _T("") \
+	}; \
+	return wc; \
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // CWinTraits - Defines various default values for a window
 
@@ -4496,7 +4508,7 @@ public:
 	}
 
 	CContainedWindowT(
-			_In_z_ LPTSTR lpszClassName,
+			_In_z_ LPCTSTR lpszClassName,
 			_In_ CMessageMap* pObject,
 			_In_ DWORD dwMsgMapID = 0)
 		: m_lpszClassName(lpszClassName),

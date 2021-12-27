@@ -2582,8 +2582,8 @@ void CAtlMap< K, V, KTraits, VTraits >::SetOptimalLoad(
 template< typename K, typename V, class KTraits, class VTraits >
 void CAtlMap< K, V, KTraits, VTraits >::UpdateRehashThresholds() throw()
 {
-	m_nHiRehashThreshold = size_t( m_fHiThreshold*m_nBins );
-	m_nLoRehashThreshold = size_t( m_fLoThreshold*m_nBins );
+	m_nHiRehashThreshold = size_t( m_fHiThreshold*static_cast<float>(m_nBins) );
+	m_nLoRehashThreshold = size_t( m_fLoThreshold*static_cast<float>(m_nBins) );
 	if( m_nLoRehashThreshold < 17 )
 	{
 		m_nLoRehashThreshold = 0;

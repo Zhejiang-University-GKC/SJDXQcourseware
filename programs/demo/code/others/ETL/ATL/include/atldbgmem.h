@@ -18,7 +18,7 @@
 
 #ifndef _ATL_USE_WINAPI_FAMILY_DESKTOP_APP
 #ifdef WINAPI_FAMILY
-#include <winapifamily.h>  
+#include <winapifamily.h>
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 #define _ATL_USE_WINAPI_FAMILY_DESKTOP_APP
 #endif
@@ -39,8 +39,9 @@
 
 #pragma warning(push)
 
-#pragma warning(disable: 4273)
+#pragma warning(disable: 4273) // inconsistent DLL linkage
 #pragma warning(disable: 4127) // conditional expression is constant
+#pragma warning(disable: 4595) // non-member operator new or delete may not be declared inline
 
 #define _MFC_OVERRIDES_NEW
 #define _ATL_DISABLE_NOTHROW_NEW
@@ -105,7 +106,7 @@ extern __declspec(selectany) const _PNH _pfnUninitialized = (_PNH)-1;
 #pragma pack(pop)
 
 #pragma warning(push)
-#pragma warning(disable: 6387 28196 28251)
+#pragma warning(disable: 6387 28183 28196 28251)
 
 inline void* __cdecl operator new(size_t nSize)
 {

@@ -548,9 +548,9 @@ typedef CW2AEX<> CW2A;
 	#define USES_CONVERSION_EX int _convert_ex = 0; (_convert_ex); UINT _acp_ex = ATL::_AtlGetConversionACP(); (_acp_ex); LPCWSTR _lpw_ex = NULL; (_lpw_ex); LPCSTR _lpa_ex = NULL; (_lpa_ex); USES_ATL_SAFE_ALLOCA
 #endif
 
-#ifdef _WINGDI_
+#if defined(_WINGDI_) && !defined(NOGDI)
 	ATLAPI_(LPDEVMODEA) AtlDevModeW2A(_Inout_opt_ LPDEVMODEA lpDevModeA, _In_ const DEVMODEW* lpDevModeW);
-#endif
+#endif // defined(_WINGDI_) && !defined(NOGDI)
 
 /////////////////////////////////////////////////////////////////////////////
 // Global UNICODE<>ANSI translation helpers
@@ -1234,7 +1234,7 @@ _Ret_maybenull_z_ inline BSTR W2BSTR(_In_opt_z_ LPCWSTR lp)
 
 #endif // defined(_UNICODE)
 
-#ifdef _WINGDI_
+#if defined(_WINGDI_) && !defined(NOGDI)
 /////////////////////////////////////////////////////////////////////////////
 // Global UNICODE<>ANSI translation helpers
 inline LPDEVMODEW AtlDevModeA2W(
@@ -1464,13 +1464,13 @@ inline LPTEXTMETRICOLE TEXTMETRICT2OLE(_In_ LPTEXTMETRICW lp)
 
 #endif // defined(_UNICODE)
 
-#endif //_WINGDI_
+#endif // defined(_WINGDI_) && !defined(NOGDI)
 
 #pragma pack(pop)
 
 /////////////////////////////////////////////////////////////////////////////
 
-#ifdef _WINGDI_
+#if defined(_WINGDI_) && !defined(NOGDI)
 
 ATLINLINE ATLAPI_(LPDEVMODEA) AtlDevModeW2A(
 	_Inout_opt_ LPDEVMODEA lpDevModeA,
@@ -1513,7 +1513,7 @@ ATLINLINE ATLAPI_(LPDEVMODEA) AtlDevModeW2A(
 	return lpDevModeA;
 }
 
-#endif //_WINGDI
+#endif // defined(_WINGDI_) && !defined(NOGDI)
 
 #ifndef _ATL_NO_PRAGMA_WARNINGS
 #pragma warning (pop)

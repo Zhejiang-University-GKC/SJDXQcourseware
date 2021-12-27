@@ -1051,7 +1051,8 @@ inline BOOL CImage::Draw(
 	Gdiplus::Graphics dcDst(hDestDC);
 	dcDst.SetInterpolationMode(interpolationMode);
 
-	Gdiplus::Status status = dcDst.DrawImage(&bm, rectDest.left, rectDest.top, rectDest.right - rectDest.left, rectDest.bottom - rectDest.top);
+	Gdiplus::Status status = dcDst.DrawImage(&bm, (INT) rectDest.left, 
+		(INT) rectDest.top, (INT) (rectDest.right - rectDest.left), (INT) (rectDest.bottom - rectDest.top));
 
 	return status == Gdiplus::Ok;
 }

@@ -99,7 +99,7 @@ public:
 		_In_ const GUID& guidSchema,
 		_In_ bool bBind = true)
 	{
-		HRESULT hr = GetRowset(session, guidSchema, &this->m_spRowset);
+		HRESULT hr = this->GetRowset(session, guidSchema, &this->m_spRowset);
 		if ( SUCCEEDED(hr) && bBind )
 			hr = this->Bind();
 

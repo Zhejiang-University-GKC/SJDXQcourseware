@@ -723,9 +723,8 @@ inline BOOL QPDecode(
 				szBuf[0] = *pbSrcData++;
 				szBuf[1] = *pbSrcData++;
 				szBuf[2] = '\0';
-				char* tmp = '\0';
 				ATLENSURE(szDest < szDestEnd);
-				*szDest++ = (BYTE)strtoul(szBuf, &tmp, 16);
+				*szDest++ = (BYTE)strtoul(szBuf, nullptr, 16);
 				nWritten++;
 				nRead += 2;
 				continue;
@@ -1032,7 +1031,7 @@ inline int _AtlCopyNCRPair(
 	_Out_writes_z_(11) wchar_t *wszEsc) throw()
 {
 	wchar_t szHex[11];
-	int nRet = swprintf_s(szHex, _countof(szHex), L"&#x%06X;", dw);
+	int nRet = swprintf_s(szHex, _countof(szHex), L"&#x%06X;", static_cast<unsigned int>(dw));
 	Checked::memcpy_s(wszEsc, 11*sizeof(wchar_t), szHex, 10*sizeof(wchar_t));
 	return nRet;
 }

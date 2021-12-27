@@ -2808,6 +2808,7 @@ ATLPREFAST_UNSUPPRESS()
 			break;
 		default:
 			ATLTRACE( "IVALID HANDLING MODE!!!\n" );
+			break;
 		}
 #endif
 		DBBINDING* pCurrent = pBinding;
@@ -6035,9 +6036,10 @@ public:
 	__try																\
 	{																	\
 		/**/
+/* TRANSITION, LLVM-43779 */
 # define ATL_DBCLI_END_VBUF_GUARDED_REGION()							\
 	} /* try { */														\
-	__except(this->Except(GetExceptionInformation()))					\
+	__except(static_cast<int>(this->Except(GetExceptionInformation())))	\
 	{																	\
 		/*EMPTY*/														\
 	}																	\

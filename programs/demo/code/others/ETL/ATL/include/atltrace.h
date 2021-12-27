@@ -358,7 +358,7 @@ public:
 		_In_ DWORD_PTR dwCategory,
 		_In_ UINT nLevel)
 	{
-		return CTrace::m_nLevel != CTrace::DisableTracing && CTrace::m_nLevel <= nLevel && (CTrace::m_nCategory & dwCategory) != 0;
+		return CTrace::m_nLevel != CTrace::DisableTracing && CTrace::m_nLevel >= nLevel && (CTrace::m_nCategory & dwCategory) != 0;
 	}
 protected:
 	typedef struct {

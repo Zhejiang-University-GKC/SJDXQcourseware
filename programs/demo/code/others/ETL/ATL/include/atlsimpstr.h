@@ -924,10 +924,10 @@ public:
 	explicit CStrBufT(_In_ StringType& str) :
 		m_str( str ),
 		m_pszBuffer( NULL ),
-#ifdef _DEBUG
-		m_nBufferLength( str.GetLength() ),
-#endif
 		m_nLength( str.GetLength() )
+#ifdef _DEBUG
+		, m_nBufferLength( str.GetLength() )
+#endif
 	{
 		m_pszBuffer = m_str.GetBuffer();
 	}
@@ -938,10 +938,10 @@ public:
 			_In_ DWORD dwFlags = AUTO_LENGTH) :
 		m_str( str ),
 		m_pszBuffer( NULL ),
-#ifdef _DEBUG
-		m_nBufferLength( nMinLength ),
-#endif
 		m_nLength( (dwFlags&AUTO_LENGTH) ? -1 : nMinLength )
+#ifdef _DEBUG
+		, m_nBufferLength( nMinLength )
+#endif
 	{
 		if( dwFlags&SET_LENGTH )
 		{
