@@ -54,11 +54,11 @@ ENDMACRO(SET_POSTBUILD_COPY)
 
 # The path of ETL library
 MACRO(SET_ETL_PATH strRoot)
-	INCLUDE_DIRECTORIES("${strRoot}/ATL/include"
-						"${strRoot}/WTL/include"
+	INCLUDE_DIRECTORIES("${strRoot}/third/ATL/include"
+						"${strRoot}/third/WTL/Include"
 						"${strRoot}/include"
 						)
-	LINK_DIRECTORIES("${strRoot}/ATL/lib/x64")
+	LINK_DIRECTORIES("${strRoot}/third/ATL/lib/x64")
 ENDMACRO(SET_ETL_PATH)
 
 # Resource File: The .rc files can be added in source-file-list without pre-compiling headers.
