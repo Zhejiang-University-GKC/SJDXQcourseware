@@ -77,17 +77,13 @@
 
 \frame{\frametitle{桌面客户端框架}
 \begin{enumerate}
-\item<1-> 字符界面的程序
-\item<2-> 图形界面的程序
+\item<1-> 图形界面的软件
+\item<2-> 字符界面的软件
 \end{enumerate}
 }
 
 \frame{\frametitle{客户端线程模式}
 一般采用多线程同步IO的模式。线程之间同步则采用内核对象，或者异步消息/异步信号的机制。
-}
-
-\frame{\frametitle{字符界面模式}
-一般采用直接的调用函数/方法的方式。
 }
 
 \frame{\frametitle{图形界面模式}
@@ -389,17 +385,25 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \end{itemize}
 }
 
+\frame{\frametitle{框架的变体}
+\begin{itemize}
+\item<1-> MVVM模式适用于复杂交互、刷新不频繁的应用场景。
+\item<2-> 对于其他场景，可以根据需要对MVVM模式进行裁剪，形成变体。
+\item<3-> 对于简单的场景，也可以根据MVVM的解耦思想对MVC模式进行改进，形成变体。
+\end{itemize}
+}
+
 \frame{\frametitle{两类界面}
 \begin{itemize}
 \item<1-> 桌面程序具有持续存在的界面，每次交互往往只有部分区域需要更新。
-\item<2-> Web应用的页面往往只存在当前的交互中，和本次要更新的数据是一致的。
+\item<2-> 服务器/浏览器模式(B/S)下的Web应用的页面往往只存在当前的交互中，和本次要更新的数据是一致的。
 \end{itemize}
 }
 
 \frame{\frametitle{Web界面}
 Web应用，即动态网页，可以返回完整的html，也可以通过ajax技术返回部分页面内容，
 也可以只返回json数据。无论何种情况，对于服务端的应用程序而言，
-数据和界面是一一对应的。所以应用MVC模式就够了。
+数据和界面是一一对应的。所以不需要数据属性改变的通知机制，应用MVC模式的变体就够了。
 
 ~
 
@@ -407,7 +411,7 @@ Web应用，即动态网页，可以返回完整的html，也可以通过ajax技
 
 ~
 
-Web前端目前流行js开发，也正从MVC模式转向MVVM模式。
+Web前端存在频繁交互的需要，所以也正从MVC模式转向MVVM模式。目前流行用js开发。
 }
 
 \frame{\frametitle{Web应用}
@@ -448,7 +452,7 @@ Web前端目前流行js开发，也正从MVC模式转向MVVM模式。
 \begin{itemize}
 \item<1-> App层 (绑定Controller对象集合)
 \item<2-> Controller层 (提供Controller类和内部的Command对象集合)
-\item<3-> Model层（含Database层和session层）
+\item<3-> Model层 (含Database层和session层)
 \item<4-> View层
 \item<5-> Common层
 \item<6-> Controller对象或者Command对象绑定Model对象和View对象
@@ -470,6 +474,44 @@ Web前端目前流行js开发，也正从MVC模式转向MVVM模式。
 \item<3-> 类成员对象要注意多线程访问的处理。
 \item<4-> 尽量使用临时产生的对象并传递。
 \item<5-> 是流式处理，可使用lambda表达式描述多个处理过程，并用std::function绑定到每个层。
+\end{itemize}
+}
+
+\frame{\frametitle{视频游戏软件的模式}
+\begin{itemize}
+\item<1-> 在绘制线程中持续地绘制场景，所以不需要数据属性改变的通知机制。
+\item<2-> 交互主要改变界面的呈现，基本不修改各种底层数据。
+\item<3-> 在MVVM模式基础上，取消Model层，形成变体。
+\end{itemize}
+}
+
+\frame{\frametitle{视频游戏软件的模式}
+\begin{itemize}
+\item<1-> App层 (组装View和ViewModel，提供Command对象集合)
+\item<2-> View层 (负责场景的呈现，接受Command对象的绑定)
+\item<3-> ViewModel层 (加载和改变需要呈现的各种数据，提供Command对象集合，可按不同场景组织)
+\item<4-> Common层
+\item<5-> View层对象绑定来自ViewModel层或者App层的Command对象
+\item<6-> Command可考虑用std::function实现
+\end{itemize}
+}
+
+\frame{\frametitle{字符界面模式}
+\begin{itemize}
+\item<1-> 对于简单的软件，一般采用直接调用函数/方法的方式。
+\item<2-> 对于复杂的软件，由于整体还是流式处理，所以不需要数据属性改变的通知机制。
+\item<3-> 由于不需要视图层，也就不需要视图模型层，所以复杂软件上的开发采用MVC变体即可。
+\end{itemize}
+}
+
+\frame{\frametitle{字符界面模式}
+\begin{itemize}
+\item<1-> App层 (绑定Controller对象集合，处理命令行输入)
+\item<2-> Controller层 (提供Controller类和内部的Command对象集合，处理字符界面上的输入输出)
+\item<3-> Model层 (含Data层和算法层)
+\item<4-> Common层
+\item<5-> Controller对象或者Command对象绑定Model对象
+\item<6-> Command可考虑用std::function实现
 \end{itemize}
 }
 
