@@ -1,0 +1,21 @@
+////////////////////////////////////////////////////////////////////////////////
+#pragma once
+////////////////////////////////////////////////////////////////////////////////
+
+class ColorViewModel;
+
+class ModifyColorPointCommand : public ICommandBase
+{
+public:
+	ModifyColorPointCommand(ColorViewModel* p) noexcept;
+
+	virtual void SetParameter(const std::any& param);
+	virtual void Exec();
+
+private:
+	ColorViewModel* m_pVM;
+
+	std::tuple<size_t, int, int, int, int> m_colorPoint;
+};
+
+////////////////////////////////////////////////////////////////////////////////
