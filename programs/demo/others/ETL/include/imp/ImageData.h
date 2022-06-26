@@ -291,7 +291,7 @@ public:
 				double dR = (double)(*psR ++);
 				double dG = (double)(*psG ++);
 				double dB = (double)(*psB ++);
-				double v = 0.11 * dR + 0.59 * dG + 0.3 * dB;
+				double v = 0.3 * dR + 0.59 * dG + 0.11 * dB;
 				*pd ++ = (uchar)((v > 255.0) ? 255.0 : ((v < 0.0) ? 0.0 : v));
 			}
 		}

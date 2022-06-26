@@ -348,9 +348,16 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \frame{\frametitle{思考}
 \begin{itemize}
 \item<1-> Model持有数据；ViewModel和View可以持有数据，也可以依赖注入。
-\item<2-> View层可显示数据的改变，可以是View层持有的数据改变，也可以是ViewModel层持有的数据改变，或者Model层注入给ViewModel层的数据改变。
-\item<3-> View层可显示数据的改变，根据业务的需要，通过命令来调用ViewModel层的方法，并根据各层数据不同的持有情况来决定是否要携带改变后的数据参数。
-此时Model层或者ViewModel层不能再发出属性改变通知给发出命令的View对象。
+\item<2-> View层可显示数据的改变，可以是View层持有的数据改变，也可以是ViewModel层持有的数据改变，
+或者Model层注入给ViewModel层的数据改变。
+\item<3-> View层一般作为ViewModel层的观察者，其绑定的属性当作有const特性，
+通过命令携带要改变的数据参数来调用ViewModel层的方法，
+根据可显示数据的持有情况和业务的需要，Model层或者ViewModel层发出属性改变通知，
+View层对象接收通知并改变显示，形成闭环;
+或者Model层、ViewModel层不需要再发出属性改变通知。
+\item<4-> 如果各层要调用的第三方库不符合上述规范，View层绑定的属性可以设计为可变的，
+在界面交互时可直接改变，通过命令不携带参数来调用ViewModel层的方法，
+此时Model层或者ViewModel层不需要再发出属性改变通知给发出命令的View对象。
 \end{itemize}
 }
 
@@ -527,6 +534,7 @@ Web前端存在频繁交互的需要，所以也正从MVC模式转向MVVM模式�
 \item<1-> 请自行思考：在开发代码中使用Lambda表达式的合适场景是什么？
 \item<2-> 一个函数有输入参数、输出参数、输入/输出参数、返回值。
 使用Lambda表达式的捕获特性是否可以取代输出参数和输入/输出参数？
+\item<3-> 即时界面(IMGUI)是一种无状态的框架，它的优点和缺点是什么？
 \end{enumerate}
 }
 

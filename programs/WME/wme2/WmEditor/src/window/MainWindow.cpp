@@ -147,8 +147,8 @@ void MainWindow::config_cb(Fl_Widget*, void* v)
 void MainWindow::close_cb(Fl_Window* pW, void* pD)
 {
 	std::function<void()>& cf = *((std::function<void()>*)pD);
-	if( cf != nullptr )
-		cf();
+	assert( cf != nullptr );
+	cf();
 	default_callback(pW, pD);
 }
 
