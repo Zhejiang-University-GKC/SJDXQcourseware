@@ -257,6 +257,17 @@ C++语言目前出现了精英化发展的趋势，即它退出了那些可用�
 \frame{\frametitle{异常}
 {\CJKfamily{zhkai}
 \begin{itemize}
+\item<1-> Windows提供SEH结构化异常。
+\item<2-> Linux提供signal信号异常。
+\item<3-> C语言运行库中提供函数setjmp和longjmp可以处理异常。
+\item<4-> C++语言中提供try-catch语句处理异常。
+\end{itemize}
+}
+}
+
+\frame{\frametitle{异常}
+{\CJKfamily{zhkai}
+\begin{itemize}
 \item<1-> 异常类从一个自定义的基类派生，尽量不使用虚方法，各个方法体内不要再抛出异常。
 \item<2-> 析构方法不抛出异常。
 \item<3-> 构造方法可以抛出异常，但要注意内存泄漏问题。

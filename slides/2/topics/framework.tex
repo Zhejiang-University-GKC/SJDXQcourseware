@@ -66,6 +66,13 @@
 \end{itemize}
 }
 
+\frame{\frametitle{服务器程序框架}
+\begin{itemize}
+\item<1-> 服务程序在处理各种请求时，需要主动处理异常。
+\item<2-> 服务程序要优雅地处理退出，释放各种资源。
+\end{itemize}
+}
+
 \frame{\frametitle{浏览器框架}
 \begin{itemize}
 \item<1-> IE, chrome, FireFox, …
@@ -350,22 +357,22 @@ ViewModel中的属性命令也可以绑定到不同的View。
 \item<1-> Model持有数据；ViewModel和View可以持有数据，也可以依赖注入。
 \item<2-> View层可显示数据的改变，可以是View层持有的数据改变，也可以是ViewModel层持有的数据改变，
 或者Model层注入给ViewModel层的数据改变。
-\item<3-> View层一般作为ViewModel层的观察者，其绑定的属性当作有const特性，
-通过命令携带要改变的数据参数来调用ViewModel层的方法，
-根据可显示数据的持有情况和业务的需要，Model层或者ViewModel层发出属性改变通知，
-View层对象接收通知并改变显示，形成闭环;
-或者Model层、ViewModel层不需要再发出属性改变通知。
-\item<4-> 如果各层要调用的第三方库不符合上述规范，View层绑定的属性可以设计为可变的，
-在界面交互时可直接改变，通过命令不携带参数来调用ViewModel层的方法，
-此时Model层或者ViewModel层不需要再发出属性改变通知给发出命令的View对象。
+\item<3-> ViewModel是Model和View之间解开耦合的中间层。
+\item<4-> ViewModel是一个或多个Model的中介者，提供针对Model的事件接收器，可调用一个或多个Model的方法。
+\item<5-> 根据数据在内存中的各层对象占用情况，以及运行时的使用情况，动态地释放ViewModel和Model里的属性数据。
 \end{itemize}
 }
 
 \frame{\frametitle{思考}
 \begin{itemize}
-\item<1-> ViewModel是一个或多个Model的中介者，提供针对Model的事件接收器，调用一个或多个Model的方法。
-\item<2-> ViewModel是Model和View之间解开耦合的中间层。
-\item<3-> 根据数据在内存中的各层对象占用情况，以及运行时的使用情况，动态地释放ViewModel和Model里的属性数据。
+\item<1-> View层作为ViewModel层的观察者，其绑定的属性当作有constant特性，
+通过命令携带要改变的数据参数来调用ViewModel层的方法，
+再根据可显示数据的持有情况和业务的需要，或者Model层、ViewModel层发出属性改变通知，
+View层对象接收通知并改变显示，形成闭环;
+或者Model层、ViewModel层不需要再发出属性改变通知。
+\item<2-> 如果各层要调用的第三方库不符合上述规范，View层绑定的属性可以设计为可变的，
+在界面交互时可直接改变，通过命令不携带参数的方式来调用ViewModel层的方法，
+此时Model层或者ViewModel层不需要再发出属性改变通知给发出命令的View对象。
 \end{itemize}
 }
 
