@@ -49,9 +49,11 @@
 \rowcolor[rgb]{0.0, 0.8, 0.8}
 静态分析 & cppcheck\\
 \hline
-复杂度分析 & cppncss\\
+动态分析 & valgrind\\
 \hline
 \rowcolor[rgb]{0.0, 0.8, 0.8}
+复杂度分析 & cppncss\\
+\hline
 单元测试覆盖率 & OpenCppCoverage, gcov\\
 \hline
 \end{tabular}
@@ -166,24 +168,26 @@ fossil flow:
 \textbf{内容} & \textbf{格式}\\
 \hline
 \rowcolor[rgb]{0.0, 0.9, 0.8}
-需求分析 & Markdown(可以在线协作)\\
+需求分析 & Markdown(可以在线协作) 或 asciidoc\\
 \hline
-技术分析 & Markdown(可以在线协作)\\
-\hline
-\rowcolor[rgb]{0.0, 0.9, 0.8}
-规划分析(思维导图，规划系统和行动全景图) & Markdown\\
-\hline
-测试计划 & Markdown(可以在线协作)\\
+技术分析 & Markdown(可以在线协作) 或 asciidoc\\
 \hline
 \rowcolor[rgb]{0.0, 0.9, 0.8}
-甘特图/燃尽图 & LaTex\\
+规划分析(思维导图，规划系统和行动全景图) & Markdown 或 asciidoc\\
 \hline
-用例图 & LaTex \\
+测试计划 & Markdown(可以在线协作) 或 asciidoc\\
 \hline
 \rowcolor[rgb]{0.0, 0.9, 0.8}
-类图 & LaTex\\
+甘特图/燃尽图 & LaTex/Markdown/asciidoc\\
 \hline
-顺序协作图 & LaTex\\
+用例图 & LaTex/Markdown/asciidoc\\
+\hline
+\rowcolor[rgb]{0.0, 0.9, 0.8}
+类图 & LaTex/Markdown/asciidoc\\
+\hline
+顺序协作图 & LaTex/Markdown/asciidoc\\
+\hline
+其他图(如状态机，数据流，流程等) & LaTex/Markdown/asciidoc\\
 \hline
 \end{tabular}
 \end{table}
